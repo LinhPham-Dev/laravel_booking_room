@@ -34,7 +34,7 @@
             </li>
             <!-- Dashboard -->
             <li class="sidebar-item active">
-                <a data-bs-target="#dashboards" class="sidebar-link">
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
                     <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Dashboards</span>
                 </a>
             </li>

@@ -43,8 +43,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="image-show w-75 mt-4">
-                                <img class="w-50" src="{{ asset('uploads/rooms/room_avatar/'. $room_edit->image) }}"
+                            <div class="w-75 mt-4">
+                                <img id="image-show" class="w-50"
+                                    src="{{ asset('uploads/rooms/room_avatar/'. $room_edit->image) }}"
                                     alt="{{ $room_edit->name }}">
                             </div>
                             {{-- Bed --}}
@@ -110,13 +111,14 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="image-show d-md-flex my-4">
-                                @foreach ($room_edit->roomImages as $image)
-                                <div class="image-item">
-                                    <img class="w-100 px-2 py-3"
+                            <div class="my-4">
+                                <div class="image-show-detail">
+                                    @foreach ($room_edit->roomImages as $image)
+                                    <img class="image-item-{{ $loop->iteration }} px-1 py-3 d-inline-block"
+                                        width="135px" height="120px"
                                         src="{{ asset('uploads/rooms/room_details/'. $image->image_name) }}">
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
                             {{-- Category --}}
                             <div class="form-group">
@@ -159,13 +161,5 @@
 @section('script-option')
 <!-- Compiled Slug -->
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
-<!-- Summernote -->
-<script>
-    $('#summernote').summernote({
-        placeholder: "Describe your room...",
-        height: 150,
-        minHeight: 100,
-        maxHeight: 300,
-    });
-</script>
+@includeIf('backend.layouts.preview-input-selected')
 @stop

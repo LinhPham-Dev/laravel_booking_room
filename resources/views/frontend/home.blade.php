@@ -14,8 +14,12 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <div class="input-wrap">
-                                <input type="text" placeholder="Location" id="location">
-                                <i class="far fa-search"></i>
+                                <select name="room" id="room">
+                                    <option>Room</option>
+                                    <option value="Luxery Room">Luxery Room</option>
+                                    <option value="Classic Room">Classic Room</option>
+                                    <option value="Meeting Room">Meeting Room</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -147,7 +151,7 @@
                 <div class="col-lg-3">
                     <!-- Section Title -->
                     <div class="section-title">
-                        <span class="title-top with-border">Latest Product</span>
+                        <span class="title-top with-border">Latest Room</span>
                         <h1>Modern Hotel & Room For Luxury Living</h1>
                         <p>Ullam corporis suscipit laboriosam nisi ut aliqucoe modi consequatur Quis autem vel eum
                             iure repreh nderitqui in ea voluptate velit esse quam nihil molestiae </p>
@@ -159,168 +163,34 @@
                 </div>
                 <div class="col-lg-8 offset-lg-1">
                     <div class="row latest-room-slider" id="roomSliderActive">
+                        @foreach ($rooms as $room)
                         <div class="col-lg-4">
                             <!-- Single Room -->
                             <div class="single-room">
                                 <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/01.jpg" alt="Room">
+                                    <img src="{{ asset('uploads/rooms/room_avatar') }}/{{ $room->image }}" alt="Room">
                                 </div>
                                 <div class="room-desc">
                                     <div class="room-cat">
-                                        <p>Guest House</p>
+                                        <p>{{ $room->category->name }}</p>
                                     </div>
-                                    <h4><a href="single-room.html">Modern Guest Rooms</a></h4>
+                                    <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a></h4>
                                     <p>
-                                        Avoids pleasure itself, because pleasure,
-                                        but because those who do not know how
-                                        to pursue pleasure rationally encounter
+                                        {!! $room->description !!}
                                     </p>
                                     <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
+                                        <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
+                                        <li><i class="far fa-bath"></i>{{ $room->bath }} Baths</li>
+                                        <li><i class="far fa-ruler-triangle"></i>{{ $room->area }} m<sup>2</sup></li>
                                     </ul>
                                     <div class="room-price">
-                                        <p>$180.00</p>
+                                        <p>${{ $room->sale_price }}<del
+                                                class="ml-2 text-secondary">${{ $room->price }}</del></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <!-- Single Room -->
-                            <div class="single-room">
-                                <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/02.jpg" alt="Room">
-                                </div>
-                                <div class="room-desc">
-                                    <div class="room-cat">
-                                        <p>Meeting Room</p>
-                                    </div>
-                                    <h4><a href="single-room.html">Conference Room</a></h4>
-                                    <p>
-                                        Great explorer of the truth, the master-
-                                        builder of human happiness one rejects,
-                                        dislikes avoids pleasure because
-                                    </p>
-                                    <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
-                                    </ul>
-                                    <div class="room-price">
-                                        <p>$205.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Room -->
-                            <div class="single-room">
-                                <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/03.jpg" alt="Room">
-                                </div>
-                                <div class="room-desc">
-                                    <div class="room-cat">
-                                        <p>Guest Room</p>
-                                    </div>
-                                    <h4><a href="single-room.html">Deluxe Couple Room</a></h4>
-                                    <p>
-                                        Provident, similique sunt in culpa qui
-                                        officia deserunt mollitia animi laborum
-                                        dolorum fuga. Et harum quidem
-                                    </p>
-                                    <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
-                                    </ul>
-                                    <div class="room-price">
-                                        <p>$199.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Room -->
-                            <div class="single-room">
-                                <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/01.jpg" alt="Room">
-                                </div>
-                                <div class="room-desc">
-                                    <div class="room-cat">
-                                        <p>Guest House</p>
-                                    </div>
-                                    <h4><a href="single-room.html">Modern Guest Rooms</a></h4>
-                                    <p>
-                                        Avoids pleasure itself, because pleasure,
-                                        but because those who do not know how
-                                        to pursue pleasure rationally encounter
-                                    </p>
-                                    <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
-                                    </ul>
-                                    <div class="room-price">
-                                        <p>$180.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Room -->
-                            <div class="single-room">
-                                <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/02.jpg" alt="Room">
-                                </div>
-                                <div class="room-desc">
-                                    <div class="room-cat">
-                                        <p>Meeting Room</p>
-                                    </div>
-                                    <h4><a href="single-room.html">Conference Room</a></h4>
-                                    <p>
-                                        Great explorer of the truth, the master-
-                                        builder of human happiness one rejects,
-                                        dislikes avoids pleasure because
-                                    </p>
-                                    <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
-                                    </ul>
-                                    <div class="room-price">
-                                        <p>$205.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Room -->
-                            <div class="single-room">
-                                <div class="room-thumb">
-                                    <img src="{{ asset('assets/frontend') }}/img/rooms/03.jpg" alt="Room">
-                                </div>
-                                <div class="room-desc">
-                                    <div class="room-cat">
-                                        <p>Guest Room</p>
-                                    </div>
-                                    <h4><a href="single-room.html">Deluxe Couple Room</a></h4>
-                                    <p>
-                                        Provident, similique sunt in culpa qui
-                                        officia deserunt mollitia animi laborum
-                                        dolorum fuga. Et harum quidem
-                                    </p>
-                                    <ul class="room-info list-inline">
-                                        <li><i class="far fa-bed"></i>3 Bed</li>
-                                        <li><i class="far fa-bath"></i>2 Baths</li>
-                                        <li><i class="far fa-ruler-triangle"></i>72 m</li>
-                                    </ul>
-                                    <div class="room-price">
-                                        <p>$199.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -345,7 +215,8 @@
                         <span class="service-counter">01</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/01.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/01-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/01-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>Rooms & Appartment</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -359,7 +230,8 @@
                         <span class="service-counter">02</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/02.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/02-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/02-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>Food & Restaurant</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -373,7 +245,8 @@
                         <span class="service-counter">03</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/03.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/03-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/03-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>Spa & Fitness</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -387,7 +260,8 @@
                         <span class="service-counter">03</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/04.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/04-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/04-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>Sports & Gaming</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -401,7 +275,8 @@
                         <span class="service-counter">03</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/05.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/05-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/05-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>Event & Party</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -415,7 +290,8 @@
                         <span class="service-counter">03</span>
                         <div class="service-icon">
                             <img src="{{ asset('assets/frontend') }}/img/icons/06.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/06-hover.png" alt="Hover Icon" class="second-icon">
+                            <img src="{{ asset('assets/frontend') }}/img/icons/06-hover.png" alt="Hover Icon"
+                                class="second-icon">
                         </div>
                         <h4>GYM & Yoga</h4>
                         <p>Great explorer of the truth the ter-blde human happiness one reject</p>
@@ -427,14 +303,16 @@
     </section>
     <!-- Service Section End -->
     <!-- Call TO action start -->
-    <section class="cta-section bg-img-center" style="background-image: url({{ asset('assets/frontend') }}/img/bg/cta-01.jpg);">
+    <section class="cta-section bg-img-center"
+        style="background-image: url({{ asset('assets/frontend') }}/img/bg/cta-01.jpg);">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-10">
                     <div class="cta-left-content">
                         <span>Looking For Luxury Hotel</span>
                         <h1>Booking Now</h1>
-                        <a href="#" class="btn filled-btn">Booking now <i class="far fa-long-arrow-right"></i></a>
+                        <a href="{{ route('home') }}" class="btn filled-btn">Booking now <i
+                                class="far fa-long-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -461,7 +339,8 @@
                 <div class="col-lg-6">
                     <!-- SingleBox -->
                     <div class="gallery-box bg-img-center big wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="0ms" style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/01.jpg);">
+                        data-wow-delay="0ms"
+                        style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/01.jpg);">
                         <div class="gallery-box-content">
                             <a href="#" class="view-more">
                                 <i class="far fa-plus"></i>
@@ -490,7 +369,8 @@
                         <div class="col-lg-4 col-md-6">
                             <!-- SingleBox -->
                             <div class="gallery-box bg-img-center small wow fadeIn animated" data-wow-duration="1500ms"
-                                data-wow-delay="800ms" style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/03.jpg);">
+                                data-wow-delay="800ms"
+                                style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/03.jpg);">
                                 <div class="gallery-box-content">
                                     <a href="#" class="view-more">
                                         <i class="far fa-plus"></i>
@@ -503,7 +383,8 @@
                         <div class="col-lg-6 col-md-6">
                             <!-- SingleBox -->
                             <div class="gallery-box bg-img-center medium wow fadeIn animated" data-wow-duration="1500ms"
-                                data-wow-delay="1200ms" style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/04.jpg);">
+                                data-wow-delay="1200ms"
+                                style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/04.jpg);">
                                 <div class="gallery-box-content">
                                     <a href="#" class="view-more">
                                         <i class="far fa-plus"></i>
@@ -516,7 +397,8 @@
                         <div class="col-lg-6 col-md-6">
                             <!-- SingleBox -->
                             <div class="gallery-box bg-img-center medium wow fadeIn animated" data-wow-duration="1500ms"
-                                data-wow-delay="1600ms" style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/05.jpg);">
+                                data-wow-delay="1600ms"
+                                style="background-image: url({{ asset('assets/frontend') }}/img/home-gallery/05.jpg);">
                                 <div class="gallery-box-content">
                                     <a href="#" class="view-more">
                                         <i class="far fa-plus"></i>
@@ -702,75 +584,9 @@
             </div>
         </div>
     </section>
-    <!-- Contact Section End -->
-    <!-- Brands section start -->
-    <section class="brands-section section-bg">
-        <div class="container">
-            <div id="brandsSlideActive" class="row">
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/01.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/02.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/03.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/04.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/05.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/06.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/01.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/02.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/03.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/04.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/05.png" alt="Brands">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="brand-item text-center">
-                        <img src="{{ asset('assets/frontend') }}/img/brands/06.png" alt="Brands">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Brands section End -->
+    <!-- Brands section Start -->
+    @includeIf('frontend.layouts.brand')
+    <!-- ./ Brands section End -->
 </main>
 
 @endsection

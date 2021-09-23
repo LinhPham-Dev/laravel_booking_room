@@ -1,4 +1,5 @@
 $("input#name").keyup(function (event) {
+
     var name, slug;
 
     // Get name from input

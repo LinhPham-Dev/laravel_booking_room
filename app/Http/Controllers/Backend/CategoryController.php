@@ -30,9 +30,11 @@ class CategoryController extends Controller
         $page = 'Categories Management';
 
         $params = $request->all();
-        $categories = Category::filter($params)->paginate(3);
+        $categories = Category::latest()->filter($params)->paginate(3);
 
-        return view('backend.categories.index', compact('page', 'categories'));
+        $select_category = Category::all();
+
+        return view('backend.categories.index', compact('page', 'categories', 'select_category'));
     }
 
     /**
@@ -52,7 +54,6 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-
         if ($request->hasFile('category_image')) {
             $category_name = $request->name;
 
@@ -88,14 +89,19 @@ class CategoryController extends Controller
      * @param  \App\Models\Backend\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $page = 'Edit Category';
-        $categoryUpdate = Category::find($id);
 
-        $categories = Category::latest()->search()->paginate(3);
+        $category_update = Category::find($id);
 
-        return view('backend.categories.edit', compact('page', 'categoryUpdate', 'categories'));
+        $params = $request->all();
+
+        $categories = Category::latest()->filter($params)->paginate(3);
+
+        $select_category = Category::all();
+
+        return view('backend.categories.edit', compact('page', 'category_update', 'categories', 'select_category'));
     }
 
     /**
@@ -146,6 +152,9 @@ class CategoryController extends Controller
 
         if ($category->roomOfCategories()->get()->count() > 0) {
             $message = 'Can\'t move record to trash! Because it belongs to a certain room !';
+            return redirect()->back()->with('error', $message);
+        } else if ($category->childrenCategories()->get()->count() > 0) {
+            $message = 'Can\'t move record to trash! Because it belongs to a child category !';
             return redirect()->back()->with('error', $message);
         };
 

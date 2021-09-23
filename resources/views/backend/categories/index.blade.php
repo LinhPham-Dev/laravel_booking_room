@@ -14,17 +14,19 @@
                 <div class="card px-3 pt-3">
                     <form method="GET">
                         <div class="row my-3">
+                            <div class="form-group col-md-3">
+                                <select name="status" class="form-control">
+                                    <option {{ request()->status == 1 ? 'selected' : '' }} value="1">
+                                        Show</option>
+                                    <option {{ request()->status == 0 ? 'selected' : '' }} value="0">
+                                        Hide</option>
+                                </select>
+                            </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
                                         placeholder="Enter category name ..." value="{{ request()->name }}">
                                 </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <select name="status" class="form-control">
-                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
-                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
-                                </select>
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-info">Search</button>
@@ -35,12 +37,18 @@
             </div>
             <div class="col-lg-4">
                 <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title d-inline-block">Add new Category</h3>
+                    <div class="px-4 py-2 bg-light border">
+                        <h3 class="card-title my-2">Add new Category</h3>
                     </div>
                     <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             @csrf
+                            <div class="form-group">
+                                <label for="parent_id">Parent: </label>
+                                <select class="form-control" name="parent_id" id="parent_id">
+                                    {{ showCategories($select_category, null) }}
+                                </select>
+                            </div>
                             {{-- Name --}}
                             <div class="form-group">
                                 <label for="name">Name :</label>
@@ -54,7 +62,7 @@
                             <div class="form-group">
                                 <label for="slug">Url :</label>
                                 <input class="form-control @error('slug') is-invalid @enderror" type="text" id="slug"
-                                    name="slug" value="{{ old('slug') }}" autofocus>
+                                    name="slug" value="{{ old('slug') }}">
                                 @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -86,8 +94,8 @@
                 <section class="content-page">
                     @includeIf('backend.layouts.alert')
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">DataTable Categoris</h3>
+                        <div class="px-4 py-2 bg-light border">
+                            <h3 class="card-title my-2">DataTable Categories</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -104,28 +112,29 @@
                                 </thead>
                                 <tbody>
                                     @if(count($categories) == 0)
-                                    <div class=" alert alert-warning alert-dismissible fade show" role="alert">
-                                        <span>No any categories here !</span>
+                                    <div class="alert alert-warning p-3" role="alert">No any categories here !
                                     </div>
                                     @else
                                     @foreach ($categories as $category)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
                                         <td>
-                                            <p>{{ Str::limit($category->name, 15, '...') }}</p>
+                                            <p>{{ Str::limit($category->name, 25, '...') }}</p>
                                         </td>
-                                        <td>{{ Str::limit($category->slug, 15, '...') }}</td>
+                                        <td>
+                                            <p>{{ Str::limit($category->slug, 25, '...') }}</p>
+                                        </td>
                                         <td><img class="w-100"
                                                 src="{{ asset('uploads/categories') . '/' . $category->image  }}"
                                                 alt="{{ $category->name }}"></td>
                                         <td>
                                             @if($category->status == 1)
-                                            <span class="badge badge-success">Show</span>
+                                            <span class="badge bg-success">Show</span>
                                             @else
-                                            <span class="badge badge-secondary">Hide</span>
+                                            <span class="badge bg-secondary">Hide</span>
                                             @endif
                                         <td>
-                                            <a class="btn btn-info" href="categories/{{ $category->id }}/edit"
+                                            <a class="btn btn-info" href="{{ route('categories.edit', $category->id) }}"
                                                 role="button"><i class="fas fa-pen"></i></a>
                                             <form class="d-inline-block"
                                                 action="{{ route('categories.destroy', $category->id ) }}"
@@ -134,7 +143,8 @@
                                                 @method('delete')
                                                 <button onclick="return confirm('Are you sure to take this action ?')"
                                                     class="btn btn-danger" type="submit">
-                                                    <i class="fas fa-trash"></i></button>
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -142,19 +152,19 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <!-- Pagination -->
-                            <div class="dataTables_info my-2">
-                                <p>Showing {{ $categories->firstItem() }} to
-                                    {{ $categories->lastItem() }} of
-                                    {{$categories->total()}} entries</p>
+                            <div class="col-md-12 my-3">
+                                <!-- Pagination -->
+                                <div class="dataTables_info d-inline-block my-2">
+                                    <p>Showing {{ $categories->firstItem() }} to
+                                        {{ $categories->lastItem() }} of
+                                        {{$categories->total()}} entries</p>
+                                </div>
+                                <div class="float-end">
+                                    {{ $categories->withQueryString()->links() }}
+                                </div>
                             </div>
+                            <!-- /.card-body -->
                         </div>
-                        <div class="col-sm-12 col-md-7">
-                            <div class="float-right">
-                                {{ $categories->withQueryString()->links() }}
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                 </section>
@@ -165,6 +175,13 @@
 </main>
 
 @endsection
+
+<script>
+    $('#name').change(function (e) {
+        e.preventDefault();
+        alert('afwaf');
+    });
+</script>
 
 @section('script-option')
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>

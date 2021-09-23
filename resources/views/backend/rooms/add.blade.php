@@ -41,6 +41,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="w-75 mt-4">
+                                <img id="image-show" class="w-50" style="display: none">
+                            </div>
                             {{-- Bed --}}
                             <div class="my-3">
                                 <div class="form-group">
@@ -100,6 +103,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="my-4">
+                                <div class="image-show-detail d-md-flex"></div>
+                            </div>
                             {{-- Category --}}
                             <div class="form-group">
                                 <label for="category">Category: </label>
@@ -139,13 +145,5 @@
 @section('script-option')
 <!-- Compiled Slug -->
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
-<!-- Summernote -->
-<script>
-    $('#summernote').summernote({
-        placeholder: "Describe your room...",
-        height: 150,
-        minHeight: 100,
-        maxHeight: 300,
-    });
-</script>
+@includeIf('backend.layouts.preview-input-selected')
 @stop

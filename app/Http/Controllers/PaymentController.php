@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoomImage;
+use App\Models\Backend\Payment;
 use Illuminate\Http\Request;
 
-class RoomImageController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RoomImageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\RoomImage  $roomImage
+     * @param  \App\Models\Backend\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(RoomImage $roomImage)
+    public function show(Payment $payment)
     {
         //
     }
@@ -52,10 +52,10 @@ class RoomImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\RoomImage  $roomImage
+     * @param  \App\Models\Backend\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function edit(RoomImage $roomImage)
+    public function edit(Payment $payment)
     {
         //
     }
@@ -64,10 +64,10 @@ class RoomImageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RoomImage  $roomImage
+     * @param  \App\Models\Backend\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RoomImage $roomImage)
+    public function update(Request $request, Payment $payment)
     {
         //
     }
@@ -75,10 +75,10 @@ class RoomImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\RoomImage  $roomImage
+     * @param  \App\Models\Backend\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RoomImage $roomImage)
+    public function destroy(Payment $payment)
     {
         //
     }

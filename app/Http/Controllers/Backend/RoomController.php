@@ -268,4 +268,5 @@ class RoomController extends Controller
             return redirect()->back()->with('success', 'Delete record successfully !');
         }
     }
+
 }

@@ -37,8 +37,8 @@
             </div>
             @if(count($categories_trash) == 0)
             <div class="alert alert-info alert-dismissible fade show mx-3" role="alert">
-                <span>No categorys have been deleted yet !</span>
-                <a class="ml-3" href="{{ route('categories.index') }}">All categorys !</a>
+                <span>No categories have been deleted yet !</span>
+                <a class="ml-3" href="{{ route('categories.index') }}">All categories !</a>
             </div>
             @else
             <div class="soft-delete bg-light text-center mb-5 pb-2">

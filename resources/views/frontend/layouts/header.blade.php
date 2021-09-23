@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-xl-9 col-lg-9 col-md-8 col-5">
                     <div class="menu-right-area text-right">
-                        <div class="lag-select">
+                        {{-- <div class="lag-select">
                             <div class="lag-img">
                                 <img id="flag-country" src="{{ asset('assets/frontend') }}/img/icons/flag-en.png"
                                     alt="Flag">
@@ -55,14 +55,14 @@
                                     <option class="lang" value="vi">VietNam</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <nav class="main-menu">
                             <ul class="list-inline">
                                 <li class="active-page">
                                     <a href="/">Home</a>
                                 </li>
                                 <li class="have-submenu">
-                                    <a href="room.html">Rooms</a>
+                                    <a href="{{ route('user.category') }}">Rooms</a>
                                     <ul class="submenu">
                                         <li><a href="#">Room Classic</a></li>
                                         <li><a href="#">Room Modern</a></li>
@@ -76,7 +76,7 @@
                                 <li class="submenu">
                                 <li><a href="about.html">About Us</a></li>
                                 </li>
-                                <li><a href="gallery.html">Gallery</a></li>
+                                <li><a href="{{ route('cart.show') }}">Cart</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </nav>
