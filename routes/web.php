@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\CartController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\LoginAdminController;
+use App\Http\Controllers\Backend\OrderBackendController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -57,6 +58,16 @@ Route::prefix('admin')->group(function () {
         // Rooms Trash
         Route::get('trash/rooms', [RoomController::class, 'trash'])->name('rooms.trash')->where(['room', '[a-z]+']);
         Route::post('trash/rooms', [RoomController::class, 'trashAction'])->name('rooms.action');
+
+        // Order
+        Route::prefix('orders')->group(function () {
+
+            Route::get('/show', [OrderBackendController::class, 'show'])->name('backend.order.show');
+
+            Route::get('/detail/{id}', [OrderBackendController::class, 'detail'])->name('backend.order.detail');
+
+            Route::put('/update/{id}', [OrderBackendController::class, 'update'])->name('backend.order.update');
+        });
     });
 });
 
@@ -107,11 +118,14 @@ Route::prefix('cart')->group(function () {
     Route::get('destroy', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
-Route::get('checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.show');
 
-Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout.handle');
+    Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout.handle');
 
-Route::get('checkout-complete', [OrderController::class, 'complete'])->name('checkout.complete');
+    Route::get('checkout-complete', [OrderController::class, 'complete'])->name('checkout.complete');
+});
+
 
 
 // Route 404

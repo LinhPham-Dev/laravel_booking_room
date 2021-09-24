@@ -36,6 +36,11 @@ class OrderController extends Controller
             // Send mail success.
             Mail::to($request->email)->send(new OrderComplete($new_order));
 
+            if ($request->payment_id == 2) {
+                $route_redirect = route('checkout.complete');
+
+                return response()->json(['success' => $route_redirect]);
+            }
             return redirect()->route('checkout.complete');
         } else {
             return redirect()->back()->with('error', 'Checkout failed !');

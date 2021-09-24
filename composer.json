@@ -31,7 +31,9 @@
         },
         "files": [
             "app/Helper/AlertHelper.php",
-            "app/Helper/CategoryHelper.php"
+            "app/Helper/CategoryHelper.php",
+            "app/Helper/MoneyHelper.php",
+            "app/Helper/DateHelper.php"
         ]
     },
     "autoload-dev": {

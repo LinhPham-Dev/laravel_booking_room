@@ -126,7 +126,6 @@
                     <li class="sidebar-item"><a class="sidebar-link" href="">Blogs trash</a></li>
                 </ul>
             </li>
-
             <!-- Faq -->
             <li class="sidebar-item">
                 <a data-bs-target="#faq" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -141,7 +140,7 @@
 
             <!-- Order -->
             <li class="sidebar-item">
-                <a class="sidebar-link collapsed">
+                <a href="{{ route('backend.order.show') }}" class="sidebar-link collapsed">
                     <i class="fas fa-file-invoice"></i> <span class="align-middle">Orders</span>
                 </a>
             </li>

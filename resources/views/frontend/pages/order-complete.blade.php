@@ -24,14 +24,20 @@
                                     <div class="order-info">{{ $order->created_at }}</div>
                                 </div>
                                 <div class="order-details text-center">
-                                    <div class="order-title"><b>Service time</b></div>
+                                    <div class="order-title"><b>Arrive Date</b></div>
                                     <div class="order-info">
-                                        <b>From:</b>{{ $order->arrive_date }}<b>To:</b>{{ $order->depart_date }}
+                                        {{date("Y-m-d g:i A", strtotime($order->arrive_date)) }}
+                                    </div>
+                                </div>
+                                <div class="order-details text-center">
+                                    <div class="order-title"><b>Depart Date</b></div>
+                                    <div class="order-info">
+                                        {{date("Y-m-d g:i A", strtotime($order->depart_date)) }}
                                     </div>
                                 </div>
                                 <div class="order-details text-center">
                                     <div class="order-title"><b>Amount Paid</b></div>
-                                    <div class="order-info">${{ $order->total_amount }}</div>
+                                    <div class="order-info">${{ moneyFormat($order->total_amount) }}</div>
                                 </div>
                                 <div class="order-details text-center">
                                     <div class="order-title"><b>Payment Method</b></div>

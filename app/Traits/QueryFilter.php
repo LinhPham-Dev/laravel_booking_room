@@ -27,7 +27,7 @@ trait QueryFilter
             if (method_exists($this, $method)) {
                 session()->put("filter.$this->table.$field", $value);
                 $this->{$method}($query, $value);
-            }
+            }   
 
             if (empty($this->filterable) || !is_array($this->filterable)) {
                 continue;

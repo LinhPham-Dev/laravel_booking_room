@@ -4,14 +4,17 @@ namespace App\Models\Frontend;
 
 use App\Helper\CartHelper;
 use App\Models\Backend\Payment;
+use App\Models\User;
+use App\Traits\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryFilter;
 
     protected $fillable = [
         'user_id',
@@ -29,9 +32,15 @@ class Order extends Model
     {
         $cart = new CartHelper;
 
-        $arrive_date = date("Y-m-d H-i-s", strtotime($request->arrive_date));
+        $depart_date = Carbon::create($request->depart_date);
 
-        $depart_date = date("Y-m-d H-i-s", strtotime($request->depart_date));
+        $arrive_date = Carbon::create($request->arrive_date);
+
+        $depart_date->toDateTimeString();
+
+        $arrive_date->toDateTimeString();
+
+        $hours = $arrive_date->diffInHours($depart_date);
 
         $order = Order::create([
             'user_id' => Auth::user()->id,
@@ -40,7 +49,7 @@ class Order extends Model
             'depart_date' => $depart_date,
             'coupon_id' => $request->coupon_id,
             'note' => $request->note,
-            'total_amount' => $cart->getTotalAmount(),
+            'total_amount' => $cart->getTotalAmount() * $hours,
         ]);
 
         return $order;
@@ -69,5 +78,28 @@ class Order extends Model
     public function payment()
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function scopeFilterByDate($query)
+    {
+
+        $depart_date = request()->depart_date;
+
+        $arrive_date = request()->arrive_date;
+
+        if ($depart_date && $arrive_date) {
+
+            $depart_date = Carbon::create($depart_date);
+
+            $arrive_date = Carbon::create($arrive_date);
+
+            $depart_date->toDateTimeString();
+
+            $arrive_date->toDateTimeString();
+
+            $query->where('depart_date', '>=', $depart_date)->where('arrive_date', '<=', $arrive_date);
+        }
+
+        return $query;
     }
 }
