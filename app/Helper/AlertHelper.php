@@ -1,18 +1,25 @@
 <?php
 
-// get id colors and sizes exits
-if (!function_exists('getItemExits')) {
-    function getItemExits($items)
+// Class order status
+if (!function_exists('orderStatusClass')) {
+    function orderStatusClass($status)
     {
-        $items_exits = [];
+        switch ($status) {
+                // Unpaid
+            case 0:
+                return 'form-control bg-secondary';
+                break;
 
-        if ($items) {
-            foreach ($items as $item) {
-                $items_exits[] = $item->id;
-            };
+                // Paid
+            case 1:
+                return 'form-control bg-success';
+                break;
+
+                // Cancelled
+            case 2:
+                return 'form-control bg-danger';
+                break;
         }
-
-        return $items_exits;
     }
 }
 

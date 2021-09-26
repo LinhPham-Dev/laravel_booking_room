@@ -38,10 +38,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="d-inline-block my-0" style="line-height: 35px">DataTable Rooms</h5>
-                        <a href="{{ route('rooms.trash') }}" class="btn btn-outline-danger float-right"><i
-                                class="fa fa-trash m-1"></i>Trash</a>
-                        <a href="{{ route('rooms.create') }}" class="btn btn-outline-success float-right mx-3"><i
-                                class="fas fa-plus mr-2"></i>Add New</a>
+                        <div class="action float-end">
+                            <a href="{{ route('rooms.trash') }}" class="btn btn-outline-danger"><i
+                                    class="fa fa-trash m-1"></i>Trash</a>
+                            <a href="{{ route('rooms.create') }}" class="btn btn-outline-success mx-3"><i
+                                    class="fas fa-plus mr-2"></i>Add New</a>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -61,8 +63,9 @@
                                             <th>Information</th>
                                             <th>Image</th>
                                             <th>Price</th>
+                                            <th>Quantity</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th width="18%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,11 +97,12 @@
                                                 <p>{{ number_format($room->price, 2, ',') }}$</p>
                                                 @endif
                                             </td>
+                                            <td>{{$room->quantity}}</td>
                                             <td>
                                                 @if($room->status == 1)
-                                                <span class="badge badge-success">Show</span>
+                                                <span class="badge bg-success">Show</span>
                                                 @else
-                                                <span class="badge badge-secondary">Hide</span>
+                                                <span class="badge bg-secondary">Hide</span>
                                                 @endif
                                             </td>
                                             <td width="15%">
@@ -129,7 +133,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-7">
-                                        <div class="float-right">
+                                        <div class="float-end">
                                             {{ $rooms->withQueryString()->links() }}
                                         </div>
                                     </div>

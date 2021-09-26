@@ -70,40 +70,6 @@ $(function () {
         $(".chat-popup").toggle();
     });
 
-    // Add to cart
-    function addItemToCart() {
-        const child = $("#child").val();
-        const adult = $("#adult").val();
-        const room_id = $("#room_id").val();
-        const quantity = $("#quantity").val();
-        const _token = $('meta[name="csrf-token"]').attr("content");
-
-        $.ajax({
-            type: "POST",
-            url: `{{ route('cart.add') }}`,
-            data: {
-                room_id: room_id,
-                child: child,
-                adult: adult,
-                quantity: quantity,
-                _token: _token,
-            },
-            success: function (res) {
-                const check = confirm(
-                    "Add room to your cart successfully! Do you want to go to cart page?"
-                );
-                if (check) {
-                    window.location.replace(`{{ route('cart.show') }}`);
-                } else {
-                    alert("oki !");
-                }
-            },
-            error: function (res) {
-                console.log(res);
-            },
-        });
-    }
-
     // Count quantity cart
     $(".count-down").click(function () {
         // position : 1, 2, 3
@@ -136,18 +102,6 @@ $(function () {
         const value = $(`#count-${position}`).val();
 
         $(`#count-${position}`).val(parseInt(value) + 1);
-    });
-
-    // Date Picker
-    $(function () {
-        $("#date-picker").daterangepicker({
-            timePicker: true,
-            startDate: moment().startOf("hour"),
-            endDate: moment().startOf("hour").add(32, "hour"),
-            locale: {
-                format: "M/DD hh:mm A",
-            },
-        });
     });
 
     // Contact GG Map

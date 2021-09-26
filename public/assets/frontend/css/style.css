@@ -3687,7 +3687,6 @@ a.read-more:hover {
     padding: 15px 15px;
     width: 75%;
     font-weight: 500;
-    text-transform: uppercase;
     border-bottom: 1px solid #e0e0e0;
 }
 .checkout-page .orders-table .col.second {

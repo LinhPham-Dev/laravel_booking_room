@@ -26,13 +26,19 @@
                                 <div class="order-details text-center">
                                     <div class="order-title"><b>Arrive Date</b></div>
                                     <div class="order-info">
-                                        {{date("Y-m-d g:i A", strtotime($order->arrive_date)) }}
+                                        {{ date('Y-m-d g:i A', strtotime($order->arrive_date)) }}
                                     </div>
                                 </div>
                                 <div class="order-details text-center">
                                     <div class="order-title"><b>Depart Date</b></div>
                                     <div class="order-info">
-                                        {{date("Y-m-d g:i A", strtotime($order->depart_date)) }}
+                                        {{ date('Y-m-d g:i A', strtotime($order->depart_date)) }}
+                                    </div>
+                                </div>
+                                <div class="order-details text-center">
+                                    <div class="order-title"><b>Hours</b></div>
+                                    <div class="order-info">
+                                        {{ $hours }} Hours
                                     </div>
                                 </div>
                                 <div class="order-details text-center">
@@ -60,22 +66,24 @@
                                 <div class="order-details text-center">
                                     <div class="product-img d-flex align-items-center">
                                         <img width="150px" class="img-fluid p-2"
-                                            src="{{ asset('uploads/rooms/room_avatar/').'/'. $order_detail->room->image }}"
+                                            src="{{ asset('uploads/rooms/room_avatar/') . '/' . $order_detail->room->image }}"
                                             alt="Card image cap">
                                     </div>
                                 </div>
                                 <div class="order-details">
-                                    <h6 class="my-0">{{ $order_detail->room->name }} x {{ $order_detail->quantity }}
+                                    <h6 class="my-0">{{ $order_detail->room->name }} x
+                                        {{ $order_detail->quantity }}
                                     </h6>
                                 </div>
                                 <div class="order-info">
                                     <h6 class="my-0">
-                                        <b>Price: </b>{{ $order_detail->price }}<b class="ml-3">Adult: </b>
-                                        {{ $order_detail->adult }}<b class="ml-3">Child: </b> {{ $order_detail->child }}
+                                        <b>Price: </b>
+                                        ${{ moneyFormat($order_detail->price) }}
                                     </h6>
                                 </div>
                                 <div class="order-details">
-                                    <h6 class="my-0">Total : ${{ $order_detail->price * $order_detail->quantity }}</h6>
+                                    <h6 class="my-0">Total :
+                                        ${{ moneyFormat($order_detail->price * $order_detail->quantity) }}</h6>
                                 </div>
                             </div>
                         </div>

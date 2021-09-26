@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Helper\CartHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\CheckoutRequest;
 use App\Mail\OrderComplete;
 use App\Models\Backend\Payment;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\OrderDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -18,17 +20,53 @@ class OrderController extends Controller
     {
         $payments = Payment::all();
 
-        return view('frontend.pages.checkout', compact('payments', 'cart'));
+        $hours = 0;
+
+        if (session('depart_date') && session('arrive_date')) {
+            $depart_date = Carbon::create(session('depart_date')[0]);
+
+            $arrive_date = Carbon::create(session('arrive_date')[0]);
+
+            $depart_date->toDateTimeString();
+
+            $arrive_date->toDateTimeString();
+
+            $hours = $arrive_date->diffInHours($depart_date);
+        }
+
+        return view('frontend.pages.checkout', compact('payments', 'cart'))->with('hours', $hours);
     }
 
-    public function checkout(Request $request)
+
+    public function changeDate(Request $request)
+    {
+        $depart_date = $request->depart_date;
+
+        $arrive_date = $request->arrive_date;
+
+        if ($arrive_date && $depart_date) {
+            $depart_date = Carbon::create($depart_date);
+
+            $arrive_date = Carbon::create($arrive_date);
+
+            $depart_date->toDateTimeString();
+
+            $arrive_date->toDateTimeString();
+
+            $hours = $arrive_date->diffInHours($depart_date);
+
+            return response()->json(['hours' => $hours]);
+        }
+    }
+
+    public function checkout(CheckoutRequest $request)
     {
         $order = Order::addOrder($request);
 
         if ($order) {
 
             // Insert order detail
-            $order_detail = OrderDetail::addOrderDetail($order->id);
+            OrderDetail::addOrderDetail($order->id);
 
             // new Order
             $new_order = Order::findOrFail($order->id);
@@ -53,6 +91,22 @@ class OrderController extends Controller
 
         $order = Order::where('user_id', $user_id)->latest()->first();
 
-        return view('frontend.pages.order-complete', compact('order'));
+        $depart_date = $order->depart_date;
+
+        $arrive_date = $order->arrive_date;
+
+        if ($arrive_date && $depart_date) {
+            $depart_date = Carbon::create($depart_date);
+
+            $arrive_date = Carbon::create($arrive_date);
+
+            $depart_date->toDateTimeString();
+
+            $arrive_date->toDateTimeString();
+
+            $hours = $arrive_date->diffInHours($depart_date);
+        }
+
+        return view('frontend.pages.order-complete', compact('order', 'hours'));
     }
 }

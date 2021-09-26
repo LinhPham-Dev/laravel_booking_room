@@ -37,18 +37,24 @@
                                     </button>
                                 </div>
                                 @endif
-                                @if (count($cart->content()) > 0)
+                                @if (!count($cart->content()) > 0)
+                                <div class="cart-empty text-center">
+                                    <h3>Your cart is empty !</h3>
+                                    <a href="{{ route('user.category') }}" class="btn btn-primary p-2 my-3"><i
+                                            class="fas fa-arrow-left"></i> Booking
+                                        now
+                                    </a>
+                                </div>
+                                @else
                                 <div class="table-cart">
                                     <table class="table table-borderless mb-0">
                                         <thead>
                                             <tr class="text-center">
-                                                <th width="15%">Image</th>
+                                                <th width="20%">Image</th>
                                                 <th width="20%">Name</th>
-                                                <th width="10%">Information</th>
-                                                <th width="10%">Adult</th>
-                                                <th width="10%">Children</th>
+                                                <th width="20%">Information</th>
                                                 <th width="15%">Room</th>
-                                                <th width="10%">Total</th>
+                                                <th width="15%">Total</th>
                                                 <th width="10%">Action</th>
                                             </tr>
                                         </thead>
@@ -86,22 +92,6 @@
                                                         <div class="room-size"><strong>Area: </strong>
                                                             {{ $item['room']->area }}m<sup>2</sup>
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <select name="adult" class="option-number" id="adult">
-                                                            @foreach (range(0,15) as $number)
-                                                            <option {{ $item['adult'] == $number ? 'selected': '' }} }}
-                                                                value="{{ $number }}">{{ $number }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="child" class="option-number" id="child">
-                                                            @foreach (range(0,15) as $number)
-                                                            <option {{ $item['child'] == $number ? 'selected': '' }} }}
-                                                                value="{{ $number }}">{{ $number }}</option>
-                                                            @endforeach
-                                                        </select>
                                                     </td>
                                                     <td>
                                                         <div class="input-group bootstrap-touchspin">
@@ -144,14 +134,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                @else
-                                <div class="cart-empty text-center">
-                                    <h3>Your cart is empty !</h3>
-                                    <a href="{{ route('user.category') }}" class="btn btn-primary p-2 my-3"><i
-                                            class="fas fa-arrow-left"></i> Booking now
-                                    </a>
-                                </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -221,95 +203,8 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <!-- End Container -->
-                <!-- Chat popup -->
-                {{-- <div class="chat-popup">
-                    <div class="page-content page-container" id="page-content">
-
-                        <div class="box box-warning direct-chat direct-chat-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Chat Messages</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool remove-popup" data-close="remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="box-body">
-                                <div class="direct-chat-messages">
-                                    <div class="direct-chat-msg">
-                                        <div class="direct-chat-info clearfix">
-                                            <span class="direct-chat-name pull-left">Alexander</span> <span
-                                                class="direct-chat-timestamp pull-right">23 Jan
-                                                2:00
-                                                pm</span>
-                                        </div> <img class="direct-chat-img"
-                                            src="https://img.icons8.com/color/36/000000/administrator-male.png"
-                                            alt="message user image">
-                                        <div class="direct-chat-text"> For what reason would it be advisable for me
-                                            to think
-                                            about business content? </div>
-                                    </div>
-                                    <div class="direct-chat-msg right">
-                                        <div class="direct-chat-info clearfix"> <span
-                                                class="direct-chat-name pull-right">Sarah
-                                                Bullock</span>
-                                            <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                                        </div> <img class="direct-chat-img"
-                                            src="https://img.icons8.com/office/36/000000/person-female.png"
-                                            alt="message user image">
-                                        <div class="direct-chat-text"> Thank you for your believe in our supports
-                                        </div>
-                                    </div>
-                                    <div class="direct-chat-msg">
-                                        <div class="direct-chat-info clearfix"> <span
-                                                class="direct-chat-name pull-left">Timona
-                                                Siera</span> <span class="direct-chat-timestamp pull-right">23 Jan
-                                                5:37
-                                                pm</span> </div> <img class="direct-chat-img"
-                                            src="https://img.icons8.com/color/36/000000/administrator-male.png"
-                                            alt="message user image">
-                                        <div class="direct-chat-text"> For what reason would it be advisable for me
-                                            to think
-                                            about business content? </div>
-                                    </div>
-                                    <div class="direct-chat-msg right">
-                                        <div class="direct-chat-info clearfix"> <span
-                                                class="direct-chat-name pull-right">Sarah
-                                                Bullock</span> <span class="direct-chat-timestamp pull-left">23 Jan
-                                                6:10
-                                                pm</span> </div> <img class="direct-chat-img"
-                                            src="https://img.icons8.com/office/36/000000/person-female.png"
-                                            alt="message user image">
-                                        <div class="direct-chat-text"> I would love to. </div>
-                                    </div>
-
-                                    <div class="direct-chat-msg right">
-                                        <div class="direct-chat-info clearfix"> <span
-                                                class="direct-chat-name pull-right">Sarah
-                                                Bullock</span> <span class="direct-chat-timestamp pull-left">23 Jan
-                                                6:10
-                                                pm</span> </div> <img class="direct-chat-img"
-                                            src="https://img.icons8.com/office/36/000000/person-female.png"
-                                            alt="message user image">
-                                        <div class="direct-chat-text"> Thanks a lot. </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-footer my-2">
-                                <form action="#" method="post">
-                                    <div class="input-group">
-                                        <input type="text" name="message" placeholder="Type Message ..."
-                                            class="form-control">
-                                        <span class="input-group-btn">
-                                            <button type="submit" class="btn filled-btn px-2 py-1 ml-3">Send</button>
-                                        </span>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </section>

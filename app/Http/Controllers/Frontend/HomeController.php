@@ -13,7 +13,9 @@ class HomeController extends Controller
     {
         $rooms = Room::latest()->take(6)->get();
 
-        return view('frontend.home', compact('rooms'));
+        $all_rooms = Room::all();
+
+        return view('frontend.home', compact('rooms', 'all_rooms'));
     }
 
     public function category(Request $request, $slug = null)

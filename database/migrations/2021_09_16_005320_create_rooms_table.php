@@ -24,6 +24,7 @@ class CreateRoomsTable extends Migration
             $table->tinyInteger('status')->default(1);
             $table->integer('bed');
             $table->integer('bath');
+            $table->integer('quantity');
             $table->float('area');
             $table->text('description');
             $table->timestamps();

@@ -11,7 +11,7 @@ class OrderDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'room_id', 'adult', 'child', 'quantity', 'price'];
+    protected $fillable = ['order_id', 'room_id', 'quantity', 'price'];
 
     public function scopeAddOrderDetail($query, $order_id)
     {
@@ -21,8 +21,6 @@ class OrderDetail extends Model
             OrderDetail::create([
                 'order_id' => $order_id,
                 'room_id' => $item['room_id'],
-                'adult' => $item['adult'],
-                'child' => $item['child'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);

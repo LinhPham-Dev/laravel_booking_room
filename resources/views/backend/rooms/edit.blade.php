@@ -37,15 +37,14 @@
                             </div>
                             {{-- Image --}}
                             <div class="form-group">
-                                <label for="room_avatar">Choose Image :</label>
-                                <input class="form-control-file" type="file" id="room_avatar" name="room_avatar">
+                                <label class="d-block" for="room_avatar">Choose Image :</label>
+                                <input class="form-control-file d-block" type="file" id="room_avatar" name="room_avatar">
                                 @error('room_avatar')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="w-75 mt-4">
-                                <img id="image-show" class="w-50"
-                                    src="{{ asset('uploads/rooms/room_avatar/'. $room_edit->image) }}"
+                            <div class="my-4">
+                            <img id="image-show" style="padding: 18px 10px 10px 0;" width="70%" src="{{ asset('uploads/rooms/room_avatar/'. $room_edit->image) }}"
                                     alt="{{ $room_edit->name }}">
                             </div>
                             {{-- Bed --}}
@@ -104,21 +103,35 @@
                             </div>
                             {{-- Image Detail --}}
                             <div class="form-group">
-                                <label for="image_details">Choose Image Detail :</label>
+                                <label class="d-block" for="image_details">Choose Image Detail :</label>
                                 <input class="form-control-file" type="file" id="image_details" name="image_details[]"
                                     multiple>
                                 @error('image_details')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="my-4">
-                                <div class="image-show-detail">
+                            <div class="mt-4">
+                                <div class="image-show-detail" style="
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    align-content: center;
+                                    justify-content: space-evenly;
+                                ">
                                     @foreach ($room_edit->roomImages as $image)
-                                    <img class="image-item-{{ $loop->iteration }} px-1 py-3 d-inline-block"
+                                    <img class="image-item-{{ $loop->iteration }} px-2 py-3"
                                         width="135px" height="120px"
                                         src="{{ asset('uploads/rooms/room_details/'. $image->image_name) }}">
                                     @endforeach
                                 </div>
+                            </div>
+                            {{-- Quantity --}}
+                            <div class="form-group">
+                                <label for="quantity">Quantity :</label>
+                                <input class="form-control @error('quantity') is-invalid @enderror" type="number" id="quantity"
+                                    name="quantity" value="{{ old('quantity') ?? $room_edit->quantity }}">
+                                @error('quantity')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             {{-- Category --}}
                             <div class="form-group">
@@ -162,4 +175,4 @@
 <!-- Compiled Slug -->
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
 @includeIf('backend.layouts.preview-input-selected')
-@stop
+@endsection

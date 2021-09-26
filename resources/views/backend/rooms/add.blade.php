@@ -36,44 +36,38 @@
                             {{-- Image --}}
                             <div class="form-group">
                                 <label for="room_avatar">Choose Image :</label>
-                                <input class="form-control-file" type="file" id="room_avatar" name="room_avatar">
+                                <input class="form-control-file d-block" type="file" id="room_avatar" name="room_avatar">
                                 @error('room_avatar')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="w-75 mt-4">
-                                <img id="image-show" class="w-50" style="display: none">
+                            <div class="my-4">
+                                <img id="image-show" style="padding: 18px 10px 10px 0;" width="70%" style="display: none">
                             </div>
                             {{-- Bed --}}
-                            <div class="my-3">
                                 <div class="form-group">
                                     <label for="bed">Bed :</label>
                                     <input type="number" id="bed" name="bed" class="form-control">
-                                </div>
                                 @error('bed')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                                </div>
                             {{-- Bath --}}
-                            <div class="my-3">
                                 <div class="form-group">
                                     <label for="bath">Bath :</label>
                                     <input type="number" id="bath" name="bath" class="form-control">
-                                </div>
                                 @error('bath')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                                </div>
                             {{-- Area --}}
-                            <div class="my-3">
                                 <div class="form-group">
                                     <label for="bath">Area :</label>
                                     <input type="number" id="area" name="area" class="form-control">
-                                </div>
                                 @error('area')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                                </div>
                         </div>
                         <div class="col-lg-6 px-3">
                             {{-- Price --}}
@@ -97,14 +91,28 @@
                             {{-- Image Detail --}}
                             <div class="form-group">
                                 <label for="image_details">Choose Image Detail :</label>
-                                <input class="form-control-file" type="file" id="image_details" name="image_details[]"
+                                <input class="form-control-file d-block" type="file" id="image_details" name="image_details[]"
                                     multiple>
                                 @error('image_details')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="my-4">
-                                <div class="image-show-detail d-md-flex"></div>
+                            <div class="mt-4">
+                                <div class="image-show-detail" style="
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    align-content: center;
+                                    justify-content: space-evenly;
+                                "></div>
+                            </div>
+                            {{-- Quantity --}}
+                            <div class="form-group">
+                                <label for="quantity">Quantity :</label>
+                                <input class="form-control @error('quantity') is-invalid @enderror" type="number" id="quantity"
+                                    name="quantity" value="{{ old('quantity') }}">
+                                @error('quantity')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             {{-- Category --}}
                             <div class="form-group">
@@ -128,6 +136,9 @@
                             <label for="summernote">Description: </label>
                             <textarea class="form-control" name="description" id="summernote">
                             </textarea>
+                              @error('description')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                         </div>
                     </div>
                 </div>
@@ -146,4 +157,4 @@
 <!-- Compiled Slug -->
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
 @includeIf('backend.layouts.preview-input-selected')
-@stop
+@endsection

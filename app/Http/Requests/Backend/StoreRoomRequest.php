@@ -35,6 +35,7 @@ class StoreRoomRequest extends FormRequest
             'bed' => 'required|numeric',
             'bath' => 'required|numeric',
             'area' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'status' => 'required',
             'description' => 'required',
         ];

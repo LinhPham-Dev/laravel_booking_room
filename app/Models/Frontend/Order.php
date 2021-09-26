@@ -23,6 +23,8 @@ class Order extends Model
         'note',
         'arrive_date',
         'depart_date',
+        'adult',
+        'children',
         'status',
         'total_amount'
     ];
@@ -40,16 +42,18 @@ class Order extends Model
 
         $arrive_date->toDateTimeString();
 
-        $hours = $arrive_date->diffInHours($depart_date);
+        $hours = $request->hours;
 
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'payment_id' => $request->payment_id,
             'arrive_date' => $arrive_date,
             'depart_date' => $depart_date,
+            'adult' => $request->adult,
+            'children' => $request->children,
             'coupon_id' => $request->coupon_id,
             'note' => $request->note,
-            'total_amount' => $cart->getTotalAmount() * $hours,
+            'total_amount' => number_format($cart->getTotalAmount() * $hours, 2, '.'),
         ]);
 
         return $order;

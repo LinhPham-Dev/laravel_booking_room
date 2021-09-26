@@ -66,7 +66,7 @@ Route::prefix('admin')->group(function () {
 
             Route::get('/detail/{id}', [OrderBackendController::class, 'detail'])->name('backend.order.detail');
 
-            Route::put('/update/{id}', [OrderBackendController::class, 'update'])->name('backend.order.update');
+            Route::put('/update/{id}', [OrderBackendController::class, 'update'])->name('backend.order.update_status');
         });
     });
 });
@@ -124,9 +124,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout.handle');
 
     Route::get('checkout-complete', [OrderController::class, 'complete'])->name('checkout.complete');
+
+    Route::post('checkout-change-date', [OrderController::class, 'changeDate'])->name('checkout.change_date');
 });
-
-
 
 // Route 404
 Route::fallback(function () {

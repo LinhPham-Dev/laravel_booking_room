@@ -80,9 +80,8 @@ class RoomController extends Controller
             $request->merge(['image' => $imageName]);
         }
 
-
         // Insert rooms into the database
-        $returned_room = Room::create($request->only(['name', 'image', 'category_id', 'slug', 'price', 'sale_price', 'status', 'bed', 'bath', 'area', 'description']));
+        $returned_room = Room::create($request->only(['name', 'image', 'category_id', 'slug', 'price', 'sale_price', 'status', 'bed', 'bath', 'area', 'quantity', 'description']));
 
         // Upload room image detail & Insert into database
         if ($request->hasFile('image_details')) {
@@ -268,5 +267,4 @@ class RoomController extends Controller
             return redirect()->back()->with('success', 'Delete record successfully !');
         }
     }
-
 }

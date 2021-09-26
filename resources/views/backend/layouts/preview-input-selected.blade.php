@@ -6,6 +6,18 @@
         maxHeight: 300,
     });
 
+    $('#category_image').change(function (e) {
+        var file = e.originalEvent.srcElement.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#image-show').css('display', 'block');
+            $('#image-show').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    });
+
     $('#room_avatar').change(function (e) {
         var file = e.originalEvent.srcElement.files[0];
         const reader = new FileReader();

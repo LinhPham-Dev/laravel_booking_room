@@ -11,7 +11,7 @@ class Room extends Model
 {
     use HasFactory, SoftDeletes, QueryFilter;
 
-    protected $fillable = ['name', 'image', 'category_id', 'slug', 'price', 'sale_price', 'status', 'bed', 'bath', 'area', 'description'];
+    protected $fillable = ['name', 'image', 'category_id', 'slug', 'price', 'sale_price', 'status', 'bed', 'bath', 'area', 'quantity', 'description'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 

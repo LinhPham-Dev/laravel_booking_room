@@ -37,17 +37,19 @@ class OrderBackendController extends Controller
         $order_update = Order::find($id);
 
         if ($status < $order_update->status) {
-            return response()->status(500);
+            return response()->json(['message' => "Status is not valid!"]);
+        } else if ($status == $order_update->status) {
+            return;
+        } else {
+            $result = $order_update->update(['status' => $status]);
         }
 
-        $result = $order_update->update(['status' => $status]);
-
         if ($result) {
-            // Send status class
-            $status = orderStatusClassAdmin($status);
+            // Class status
+            $class = orderStatusClass($status);
 
             // Response data
-            return response()->json(['status' => $status, 'order_id' => $id, 'message' => "Update status order number $id success !"]);
+            return response()->json(['order_id' => $id, 'message' => "Update status order number $id success !", 'class' => $class]);
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helper\CartHelper;
 use App\Models\Backend\Room;
+use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
 {
@@ -31,28 +32,35 @@ class CartController extends Controller
     {
         $room = Room::find($request->room_id);
 
-        $child = $request->child;
+        $quantity = $request->quantity ? $request->quantity : 1;
 
-        $adult = $request->adult;
+        $cart->add($room, $quantity);
 
-        $quantity = $request->quantity;
+        if ($request->home) {
 
-        $cart->add($room, $child, $adult, $quantity);
+            // Remove old session
+            $request->session()->forget(['depart_date', 'arrive_date', 'child', 'adult']);
 
-        return redirect()->route('cart.show')->with('success', 'The room has been added to cart !');
+            // Put new session
+            $request->session()->push('depart_date', $request->depart_date);
+            $request->session()->push('arrive_date', $request->arrive_date);
+            $request->session()->push('children', $request->children);
+            $request->session()->push('adult', $request->adult);
 
-        // return response()->json(['success' => true]);
+            return redirect()->route('checkout.show');
+        }
+
+
+        return response()->json(['success' => true]);
     }
 
     public function update($rowId, Request $request, CartHelper $cart)
     {
 
-        $adult    = $request->adult;
-        $child    = $request->child;
         $quantity = $request->quantity;
 
         // Call method update
-        $cart->update($rowId, $child, $adult, $quantity);
+        $cart->update($rowId, $quantity);
 
         return redirect()->back()->with('success', 'The room has been updated !');
     }

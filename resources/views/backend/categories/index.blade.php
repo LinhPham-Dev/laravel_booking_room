@@ -75,6 +75,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            <div class="my-2">
+                                <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%" style="display: none">
+                            </div>
                             <label for="status">Status: </label>
                             <select class="form-control" name="status" id="status">
                                 <option value="1">Show</option>
@@ -176,13 +179,7 @@
 
 @endsection
 
-<script>
-    $('#name').change(function (e) {
-        e.preventDefault();
-        alert('afwaf');
-    });
-</script>
-
 @section('script-option')
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
+@includeIf('backend.layouts.preview-input-selected')
 @endsection

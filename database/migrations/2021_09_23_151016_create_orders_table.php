@@ -24,6 +24,9 @@ class CreateOrdersTable extends Migration
             $table->text('note')->nullable();
             $table->dateTime('arrive_date');
             $table->dateTime('depart_date');
+            $table->integer('adult');
+            $table->integer('child');
+            $table->tinyInteger('status')->default(0);
             $table->float('total_amount');
             $table->timestamps();
             $table->softDeletes();

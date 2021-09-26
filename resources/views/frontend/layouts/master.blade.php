@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/style.css" />
     <!-- Responsive Css -->
     <link rel="stylesheet" href="{{ asset('assets/frontend') }}/css/responsive.css" />
+
+    @yield('css-option')
 </head>
 
 <body>
@@ -84,6 +86,10 @@
     <script src="{{ asset('assets/frontend') }}/js/jquery-ui.min.js"></script>
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ"></script>
+    <!-- DateRangePicker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Main JS file -->
     <script src="{{ asset('assets/frontend') }}/js/main.js"></script>
 

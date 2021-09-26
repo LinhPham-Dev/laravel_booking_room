@@ -55,8 +55,9 @@
                                     </div>
                                 </div>
                                 <div class="price-tag">
-                                    <p>${{ $room->sale_price }}<del
-                                            class="ml-2 text-secondary">${{ $room->price }}</del></p>
+                                    <p>${{ moneyFormat($room->sale_price) }}
+                                        <del class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                                    </p>
                                 </div>
                             </div>
                             <div class="room-cat">
@@ -343,37 +344,22 @@
                     <!-- Sidebars Area -->
                     <div class="sidebar-wrap">
                         <div class="widget booking-widget">
-                            <h4 class="widget-title">${{ $room->sale_price }} / <span>House</span></h4>
+                            <h4 class="widget-title">${{ moneyFormat($room->sale_price) }} / <span>House</span>
+                            </h4>
                             <form action="{{ route('cart.add') }}" method="POST">
                                 @csrf
                                 <input type="hidden" value="{{ $room->id }}" name="room_id" id="room_id">
                                 <div class="input-wrap">
                                     <select id="quantity" name="quantity">
                                         <option value="">Quantity</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                        @foreach (range(1, 10) as $quantity)
+                                        <option value="{{ $quantity }}">{{ $quantity }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="input-wrap">
-                                    <select id="child" name="child">
-                                        <option value="children">Children</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <div class="input-wrap">
-                                    <select id="adult" name="adult">
-                                        <option value="adult">Adult</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <div class="input-wrap">
-                                    {{-- onclick="addItemToCart()" --}}
-                                    <button type="submit" class="btn filled-btn btn-block" id="add-to-cart">
+                                    <button onclick="addItemToCart()" type="button" class="btn filled-btn btn-block"
+                                        id="add-to-cart">
                                         Book now <i class="far fa-long-arrow-right"></i>
                                     </button>
                                 </div>
@@ -507,5 +493,41 @@
     @includeIf('frontend.layouts.brand')
     <!-- ./ Brands section End -->
 </main>
+
+@endsection
+
+@section('script-option')
+
+<script>
+    // Add to cart
+        function addItemToCart() {
+            const child = $("#child").val();
+            const adult = $("#adult").val();
+            const room_id = $("#room_id").val();
+            const quantity = $("#quantity").val();
+            const _token = $('meta[name="csrf-token"]').attr("content");
+
+            $.ajax({
+                type: "POST",
+                url: `{{ route('cart.add') }}`,
+                data: {
+                    room_id: room_id,
+                    quantity: quantity,
+                    _token: _token,
+                },
+                success: function(res) {
+                    const check = confirm(
+                        "Add room to your cart successfully! Do you want to go to cart page?"
+                    );
+                    if (check) {
+                        window.location.replace(`{{ route('cart.show') }}`);
+                    }
+                },
+                error: function(res) {
+                    console.log(res);
+                },
+            });
+        }
+</script>
 
 @endsection

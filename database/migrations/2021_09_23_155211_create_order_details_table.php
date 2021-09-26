@@ -19,8 +19,6 @@ class CreateOrderDetailsTable extends Migration
             $table->foreign('order_id')->references('id')->on('orders');
             $table->bigInteger('room_id')->unsigned();
             $table->foreign('room_id')->references('id')->on('rooms');
-            $table->tinyInteger('adult');
-            $table->tinyInteger('child');
             $table->integer('quantity');
             $table->float('price');
             $table->timestamps();

@@ -17,28 +17,17 @@ class CartHelper
         $this->total_amount = $this->totalAmount();
     }
 
-    public function checkItemExists($room_id, $child, $adult)
+    public function checkItemExists($room_id)
     {
         foreach ($this->cart as $key => $item) {
-            if ($room_id == $item['room_id'] && $child == $item['child'] && $adult == $item['adult']) {
+            if ($room_id == $item['room_id']) {
                 return $key;
             }
         }
         return false;
     }
 
-    public function checkUpdateItemExists($rowId, $room_id, $child, $adult)
-    {
-        foreach ($this->cart as $key => $item) {
-            if ($room_id == $item['room_id'] && $child == $item['child'] && $adult == $item['adult'] && $rowId != $key) {
-                return $key;
-            }
-        }
-        return false;
-    }
-
-
-    public function add($room, $child, $adult, $quantity)
+    public function add($room, $quantity)
     {
         if (!$quantity || $quantity < 1) {
             $quantity = 1;
@@ -52,14 +41,11 @@ class CartHelper
             'image' => $room->image,
             'price' => $room->sale_price > 0 ? $room->sale_price : $room->price,
             'quantity' => $quantity,
-            'child' => $child,
-            'adult' => $adult,
             'room' => $room
         ];
 
         // Check item status
-        $check = $this->checkItemExists($room->id, $child, $adult);
-
+        $check = $this->checkItemExists($room->id);
 
         if ($check) {
             $this->cart[$check]['quantity'] += $quantity;
@@ -71,29 +57,15 @@ class CartHelper
         session(['cart' => $this->cart]);
     }
 
-    public function update($rowId, $child, $adult, $quantity)
+    public function update($rowId, $quantity)
     {
         // Check quantity valid
         if ($quantity < 0 || !is_numeric($quantity)) {
             $quantity = $this->cart[$rowId]['quantity'];
         }
 
-        $id_room = $this->cart[$rowId]['room_id'];
-
-        $key_item_exists = $this->checkUpdateItemExists($rowId, $id_room, $child, $adult);
-
-        if ($key_item_exists) {
-            // Increment quantity to old room
-            $this->cart[$key_item_exists]['quantity'] += $this->cart[$rowId]['quantity'];
-
-            // Remove item in cart array
-            unset($this->cart[$rowId]);
-        } else {
-            // If the item doesn't match any element in cart array => update this item
-            $this->cart[$rowId]['adult']     = $adult;
-            $this->cart[$rowId]['child']    = $child;
-            $this->cart[$rowId]['quantity'] = $quantity;
-        }
+        // Increment quantity to old room
+        $this->cart[$rowId]['quantity'] = $quantity;
 
         session(['cart' => $this->cart]);
     }

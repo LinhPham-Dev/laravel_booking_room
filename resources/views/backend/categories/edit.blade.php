@@ -41,9 +41,9 @@
             </div>
             <div class="col-lg-4">
                 <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title line-height-40 d-inline-block">Edit Category</h3>
-                        <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary float-right"><i
+                    <div class="card-header bg-light">
+                        <h3 class="card-title line-height-40 d-inline-block" style="line-height: 30px;">Edit Category</h3>
+                        <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary float-end"><i
                                 class="fas fa-plus mr-2"></i>
                             Add New</a>
                     </div>
@@ -83,12 +83,10 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="show-image">
-                                <img class="w-50"
-                                    src="{{ asset('uploads/categories') . '/' . $category_update->image  }}"
+                              <div class="my-2">
+                                <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%" src="{{ asset('uploads/categories') . '/' . $category_update->image  }}"
                                     alt="{{ $category_update->name }}">
                             </div>
-                            <label for="status">Status: </label>
                             <label for="status">Status: </label>
                             <select class="form-control" name="status" id="status">
                                 <option {{ $category_update->status === 1 ? 'selected' : '' }} value="1">Show</option>
@@ -108,7 +106,7 @@
                 <section class="content-page">
                     @includeIf('backend.layouts.alert')
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-light">
                             <h3 class="card-title">DataTable Categories</h3>
                         </div>
                         <!-- /.card-header -->
@@ -171,7 +169,7 @@
                                         {{ $categories->lastItem() }} of
                                         {{$categories->total()}} entries</p>
                                 </div>
-                                <div class="float-right">
+                                <div class="float-end">
                                     {{ $categories->withQueryString()->links() }}
                                 </div>
                             </div>
@@ -189,4 +187,5 @@
 
 @section('script-option')
 <script src="{{ asset('assets/backend/js/slug.js') }}"></script>
+@includeIf('backend.layouts.preview-input-selected')
 @endsection
