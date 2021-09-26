@@ -53,7 +53,7 @@ class Order extends Model
             'children' => $request->children,
             'coupon_id' => $request->coupon_id,
             'note' => $request->note,
-            'total_amount' => number_format($cart->getTotalAmount() * $hours, 2, '.'),
+            'total_amount' => number_format($cart->getTotalAmount() * $hours, 2, '.', ''),
         ]);
 
         return $order;

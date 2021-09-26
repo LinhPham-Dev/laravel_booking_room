@@ -1,5 +1,9 @@
 @extends('frontend.layouts.master')
 
+@section('css-option')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+@endsection
+
 @section('content')
 
 <main>
@@ -180,7 +184,8 @@
                                                     <div class="col-4">
                                                         <div
                                                             class="count-num d-flex align-items-center justify-content-center">
-                                                            <p><span>6.8</span>Stars</p>
+                                                            <p>Total Rating<span class="my-3">{{ $total_ratings }}</span>
+                                                                Stars<span id="rating_avg">6.8</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="col-8">
@@ -228,58 +233,25 @@
                                             <div class="review-form">
                                                 <h5 class="tab-title">Write a Review</h5>
                                                 <div class="star-given-box">
-                                                    <ul class="list-inline">
-                                                        <li>
-                                                            <p class="st-title">Acaommodation</p>
-                                                            <p class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </p>
-                                                        </li>
-                                                        <li>
-                                                            <p class="st-title">Destination</p>
-                                                            <p class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </p>
-                                                        </li>
-                                                        <li>
-                                                            <p class="st-title">Transport</p>
-                                                            <p class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </p>
-                                                        </li>
-                                                        <li>
-                                                            <p class="st-title">Overall</p>
-                                                            <p class="rating-box">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                            </p>
-                                                        </li>
-                                                    </ul>
+                                                    <form action="{{ route('room_rating') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" value="{{ $room->id }}" name="room_id">
+                                                        <input type="hidden" value="{{ Auth::user()->id }}"
+                                                            name="user_id">
+                                                        <input type="hidden" id="star-number" name="star">
+                                                        <div class="rating-form mb-3">
+                                                            <div id="rateYo"></div>
+                                                        </div>
+                                                        <div class="input-wrap text-area">
+                                                            <textarea name="message"
+                                                                placeholder="Write Review"></textarea>
+                                                            <i class="far fa-pencil"></i>
+                                                        </div>
+                                                        <div class="input-wrap">
+                                                            <button type="submit" class="btn btn-block">Submit</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <form>
-                                                    <div class="input-wrap text-area">
-                                                        <textarea placeholder="Write Review"></textarea>
-                                                        <i class="far fa-pencil"></i>
-                                                    </div>
-                                                    <div class="input-wrap">
-                                                        <button type="submit" class="btn btn-block">Submit</button>
-                                                    </div>
-                                                </form>
                                             </div>
                                             <div class="comment-area">
                                                 <div class="reviews-head">
@@ -292,45 +264,29 @@
                                                     </div>
                                                 </div>
                                                 <ul class="comment-list">
+                                                    @foreach ($ratings as $rating)
                                                     <li>
                                                         <div class="comment-autor">
                                                             <img src="{{ asset('assets/frontend') }}/img/blog-details/04.jpg"
                                                                 alt="reviews">
                                                         </div>
                                                         <div class="comment-desc">
-                                                            <h6>Alexzeder Alex <span class="comment-date"> 25 Feb
-                                                                    2020</span>
+                                                            <h6>{{ $rating->user->name }}<span
+                                                                    class="comment-date mx-2">{{ date_format($rating->created_at, 'F d, Y \a\t g:i') }}</span>
                                                             </h6>
-                                                            <p>But I must explain to you how all this mistaken idea
-                                                                of denouncing pleasure.</p>
-
-                                                            <a class="reply-comment" data-toggle="collapse"
-                                                                href="#reply" role="button" aria-expanded="false"
-                                                                aria-controls="reply">
-                                                                Reply <i class="far fa-long-arrow-right"></i>
-                                                            </a>
-                                                            <div class="collapse" id="reply">
-                                                                <form action="" method="POST">
-                                                                    <input type="hidden" name="user_reply_id">
-                                                                    <div class="input-wrap text-area">
-                                                                        <textarea placeholder="Write Review"></textarea>
-                                                                        <i class="far fa-pencil"></i>
-                                                                    </div>
-                                                                    <div class="input-wrap">
-                                                                        <button type="submit"
-                                                                            class="btn btn-block btn-submit-reply">Submit</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                            <p>{{$rating->message}}</p>
                                                             <div class="autor-rating">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-alt"></i>
+                                                                <div class="ratings-full">
+                                                                    <span class="ratings"
+                                                                        style="width:{{ $rating->star / 5 * 100 }}%">
+                                                                    </span>
+                                                                    <span
+                                                                        class="tooltiptext tooltip-top">{{ $rating->star }}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
@@ -493,13 +449,36 @@
     @includeIf('frontend.layouts.brand')
     <!-- ./ Brands section End -->
 </main>
-
 @endsection
 
 @section('script-option')
+{{-- RateYo JS --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 
 <script>
-    // Add to cart
+    // Rating
+        $(function() {
+            $("#rateYo").rateYo({
+                rating: 3.5,
+                halfStar: true,
+                starWidth: "35px",
+                spacing: "5px",
+
+                multiColor: {
+                    "startColor": "#c0392b",
+                    "endColor": "#f1c40f"
+                },
+                onChange: function(rating, rateYoInstance) {
+                    $('#star-number').val(rating);
+                    $(this).next().text(rating);
+                }
+            });
+
+            // Avg Rating
+            $("#rating_avg").html("{{ $rating_avg }}");
+        });
+
+        // Add to cart
         function addItemToCart() {
             const child = $("#child").val();
             const adult = $("#adult").val();
@@ -529,5 +508,4 @@
             });
         }
 </script>
-
 @endsection

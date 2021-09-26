@@ -100,6 +100,10 @@ Route::get('categories-ajax', [HomeController::class, 'categoryAjax'])->name('us
 
 Route::get('rooms/{slug}', [HomeController::class, 'room'])->name('user.room');
 
+
+// Room Rating
+Route::post('/rooms/rating', [HomeController::class, 'rating'])->name('room_rating')->middleware('auth');
+
 // *** Route Cart *** \\
 Route::prefix('cart')->group(function () {
     // Show all item

@@ -194,28 +194,28 @@
             const check = confirm('Are you sure you want to change this order status ?');
 
             if(check) {
-// Get value select
-            const value = $(`#order-${order_id}`).val();
+                // Get value select
+                const value = $(`#order-${order_id}`).val();
 
-            // Call ajax change status
-            const url = "/admin/orders/update/" + order_id;
-            const _token = $('meta[name="csrf-token"]').attr('content');
+                // Call ajax change status
+                const url = "/admin/orders/update/" + order_id;
+                const _token = $('meta[name="csrf-token"]').attr('content');
 
-            $.ajax({
-                type: "PUT",
-                url: url,
-                data: {
-                    status: value,
-                    _token: _token
-                },
-                success: function(res) {
-                    alert(res.message);
-                    $(`#order-${order_id}`).attr('class', res.class);
-                },
-                error: function(res) {
-                    alert(res.message);
-                }
-            });
+                $.ajax({
+                    type: "PUT",
+                    url: url,
+                    data: {
+                        status: value,
+                        _token: _token
+                    },
+                    success: function(res) {
+                        alert(res.message);
+                        $(`#order-${order_id}`).attr('class', res.class);
+                    },
+                    error: function(res) {
+                        alert(res.message);
+                    }
+                });
             }
         }
     </script>

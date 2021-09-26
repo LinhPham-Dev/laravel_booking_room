@@ -11,6 +11,14 @@
                 </li>
             </ul>
             @else
+            @if (!count($cart->content()) > 0)
+            <div class="cart-empty text-center">
+                <h3>Your basket is empty! Please choose your room first.</h3>
+                <a href="{{ route('user.category') }}" class="btn btn-primary p-2 my-3"><i
+                        class="fas fa-arrow-left"></i> Choose Room
+                </a>
+            </div>
+            @else
             <form action="{{ route('checkout.handle') }}" method="POST">
                 @csrf
                 <div class="row">
@@ -43,7 +51,8 @@
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label>Phone <sup>*</sup>
                                             </label>
-                                            <input type="text" name="phone" class="form-control">
+                                            <input type="text" value="{{ old('phone') }}" name="phone"
+                                                class="form-control">
                                             @error('phone')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -51,7 +60,8 @@
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label>Address <sup>*</sup>
                                             </label>
-                                            <input type="text" name="address" class="form-control">
+                                            <input type="text" value="{{ old('address') }}" name="address"
+                                                class="form-control">
                                             @error('address')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -60,7 +70,8 @@
                                             <label>Depart Date <sup>*</sup>
                                             </label>
                                             <input type="text" name="depart_date" id="depart-date-picker"
-                                                class="form-control" value="{{ Session::get('depart_date')[0] ?? '' }}">
+                                                class="form-control"
+                                                value="{{ old('depart_date') ??  Session::get('depart_date')[0] ?? '' }}">
                                             @error('depart_date')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -69,7 +80,8 @@
                                             <label>Arrive Date <sup>*</sup>
                                             </label>
                                             <input type="text" name="arrive_date" id="arrive-date-picker"
-                                                class="form-control" value="{{ Session::get('arrive_date')[0] ?? '' }}">
+                                                class="form-control"
+                                                value="{{ old('arrive_date') ?? Session::get('arrive_date')[0] ?? '' }}">
                                             @error('arrive_date')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -80,7 +92,7 @@
                                                 <option value="children">Children</option>
                                                 @foreach (range(0, 10) as $item)
                                                 <option
-                                                    {{ Session::get('children')[0] ?? '' == $item ? 'selected' : '' }}
+                                                    {{ Session::get('children')[0] ?? old('children') == $item ? 'selected' : '' }}
                                                     value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </select>
@@ -93,7 +105,8 @@
                                             <select name="adult" id="adult" class="form-control">
                                                 <option value="adult">Adult</option>
                                                 @foreach (range(0, 10) as $item)
-                                                <option {{ Session::get('adult')[0] ?? '' == $item ? 'selected' : '' }}
+                                                <option
+                                                    {{ Session::get('adult')[0] ?? old('adult') == $item ? 'selected' : '' }}
                                                     value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </select>
@@ -177,10 +190,9 @@
                                         <strong>Order Total</strong>
                                     </div>
                                     <div class="col second">
-                                        <input type="hidden" name="total" id="total"
+                                        <input type="hidden" name="total_amount" id="total_amount"
                                             value="{{ $cart->getTotalAmount() * $hours }}">
-                                        <strong
-                                            id="total-amount">${{ moneyFormat($cart->getTotalAmount() * $hours) }}</strong>
+                                        <strong id="total">${{ moneyFormat($cart->getTotalAmount() * $hours) }}</strong>
                                     </div>
                                 </li>
                             </ul>
@@ -228,6 +240,7 @@
                     </div>
                 </div>
             </form>
+            @endif
             @endif
         </div>
     </div>
@@ -317,9 +330,9 @@
                     if (res.hours) {
                         $('#hours').val(res.hours);
                         $('.hours').html(res.hours + ' Hours');
-                        $('#total').val((parseFloat(res.hours * "{{ $cart->getTotalAmount() }}").toFixed(2)));
+                        $('#total_amount').val((parseFloat(res.hours * "{{ $cart->getTotalAmount() }}").toFixed(2)));
 
-                        $('#total-amount').html('$' + (parseFloat(res.hours *
+                        $('#total').html('$' + (parseFloat(res.hours *
                             "{{ $cart->getTotalAmount() }}").toFixed(2)));
                     }
 
@@ -350,7 +363,7 @@
 
                 // Get total amount
 
-                const total = $('#total').val();
+                const total = $('#total_amount').val();
 
                 return actions.payment.create({
                     transactions: [{
@@ -379,7 +392,7 @@
                     const status = 1;
                     const hours = $('#hours').val();
                     const coupon_id = $('input[name="coupon_id"]').val();
-                    const total_amount = $('#total').val();
+                    const total_amount = $('#total_amount').val();
                     const note = $('#note').val();
 
                     const url = "{{ route('checkout.handle') }}";
@@ -406,7 +419,8 @@
                             _token: _token
                         },
                         success: function(response) {
-                            alert(response.success);
+                            // Redirect route success
+                            window.location.replace(response.success);
                         }
                     });
                 });

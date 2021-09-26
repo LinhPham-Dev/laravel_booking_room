@@ -1611,7 +1611,7 @@ span.counter-number,
 }
 
 .option-number {
-   padding: 0 45px 0 20px;
+    padding: 0 45px 0 20px;
 }
 
 .action-cart {
@@ -3738,6 +3738,94 @@ a.read-more:hover {
     padding: 10px 15px;
     border: 1px solid #e0e0e0;
     border-radius: 3px;
+}
+
+/* Rating star */
+@font-face {
+    font-family: "riode";
+    src: url("../fonts/riode115b.eot?5gap68");
+    src: url("../fonts/riode115b.eot?5gap68#iefix") format("embedded-opentype"),
+        url("../fonts/riode115b.ttf?5gap68") format("truetype"),
+        url("../fonts/riode115b.woff?5gap68") format("woff"),
+        url("../fonts/riode115b.html?5gap68#riode") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.tooltiptext {
+    font-family: Poppins, sans-serif;
+    position: absolute;
+    padding: 5px 10px;
+    bottom: 150%;
+    left: 48%;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-50%);
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+.tooltip-top::after {
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.ratings-full {
+    cursor: pointer;
+}
+.ratings-full,
+.ratings {
+    position: relative;
+    font-family: "riode";
+}
+.ratings-full + .rating-reviews {
+    margin-left: 1rem;
+}
+.ratings-full::before {
+    content: "\e955 ""\e955 ""\e955 ""\e955 ""\e955";
+    color: rgba(0, 0, 0, 0.16);
+    font-family: "riode";
+}
+.ratings-full:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.ratings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.ratings::before {
+    content: "\e955 ""\e955 ""\e955 ""\e955 ""\e955";
+    color: #d26e4b;
+    font-family: "riode";
+}
+.rating-reviews {
+    margin: 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1rem;
+    color: #aaa;
+    letter-spacing: 0;
+    text-transform: capitalize;
+}
+.rating-reviews:hover {
+    color: #26c;
 }
 
 /* Chat Popup */
