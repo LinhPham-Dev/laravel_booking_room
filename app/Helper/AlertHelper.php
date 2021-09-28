@@ -1,21 +1,15 @@
 <?php
-
-// Class order status
-if (!function_exists('orderStatusClass')) {
-    function orderStatusClass($status)
+// Class status
+if (!function_exists('statusClass')) {
+    function statusClass($status)
     {
         switch ($status) {
-                // Unpaid
             case 0:
                 return 'form-control bg-secondary';
                 break;
-
-                // Paid
             case 1:
                 return 'form-control bg-success';
                 break;
-
-                // Cancelled
             case 2:
                 return 'form-control bg-danger';
                 break;
@@ -75,78 +69,6 @@ if (!function_exists('alertTrash')) {
         } else {
             $message = 'Can\'t move record to trash !';
             return redirect()->back()->with('error', $message);
-        }
-    }
-}
-
-// Order Status
-if (!function_exists('orderStatus')) {
-    function orderStatus($status)
-    {
-        switch ($status) {
-            case 0:
-                return 'Unconfirmed';
-                break;
-
-            case 1:
-                return 'Processing';
-                break;
-
-            case 2:
-                return 'Delivering';
-                break;
-
-            case 3:
-                return 'Successful delivery';
-                break;
-        }
-    }
-}
-
-if (!function_exists('orderStatusClass')) {
-    function orderStatusClass($status)
-    {
-        switch ($status) {
-                // Unconfirmed
-            case 0:
-                return 'badge-danger';
-                break;
-                // Processing
-            case 1:
-                return 'badge-secondary';
-                break;
-                // Delivering
-            case 2:
-                return 'badge-info';
-                break;
-                // Delivered
-            case 3:
-                return 'badge-success';
-                break;
-        }
-    }
-}
-
-if (!function_exists('orderStatusClassAdmin')) {
-    function orderStatusClassAdmin($status)
-    {
-        switch ($status) {
-                // Unconfirmed
-            case 0:
-                return 'form-control  bg-danger';
-                break;
-                // Processing
-            case 1:
-                return 'form-control bg-secondary';
-                break;
-                // Delivering
-            case 2:
-                return 'form-control  bg-info';
-                break;
-                // Delivered
-            case 3:
-                return 'form-control  bg-success';
-                break;
         }
     }
 }

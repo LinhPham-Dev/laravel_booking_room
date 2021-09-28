@@ -19,5 +19,10 @@ class PaymentSeeder extends Seeder
             'name' => 'Pay at the counter',
             'status' => 1
         ]);
+
+        Payment::create([
+            'name' => 'PayPal',
+            'status' => 1
+        ]);
     }
 }

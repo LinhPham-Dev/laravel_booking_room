@@ -28,4 +28,13 @@ class Rating extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeSort($query, $sort)
+    {
+        if ($sort == 'oldest') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
+    }
 }

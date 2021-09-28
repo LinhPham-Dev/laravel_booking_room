@@ -28,6 +28,7 @@
             </div>
         </div>
 
+        {{-- List menu --}}
         <ul class="sidebar-nav">
             <li class="sidebar-header">
                 Pages
@@ -79,18 +80,6 @@
                 </ul>
             </li>
 
-            <!-- Slide -->
-            <li class="sidebar-item">
-                <a data-bs-target="#slide" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fas fa-image"></i> <span class="align-middle">Slides</span>
-                </a>
-                <ul id="slide" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new banner</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit banner</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Banner trash</a></li>
-                </ul>
-            </li>
-
             <!-- Service -->
             <li class="sidebar-item">
                 <a data-bs-target="#service" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -117,15 +106,11 @@
 
             <!-- User -->
             <li class="sidebar-item">
-                <a data-bs-target="#user" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a href="{{ route('backend.user.show') }}" class="sidebar-link collapsed">
                     <i class="fas fa-user"></i> <span class="align-middle">Users</span>
                 </a>
-                <ul id="user" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new blog</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit blog</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Blogs trash</a></li>
-                </ul>
             </li>
+
             <!-- Faq -->
             <li class="sidebar-item">
                 <a data-bs-target="#faq" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -151,7 +136,6 @@
                     <i class="fas fa-sliders-h"></i> <span class="align-middle">Config</span>
                 </a>
             </li>
-
         </ul>
     </div>
 </nav>

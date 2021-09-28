@@ -14,18 +14,34 @@
                 <div class="card px-3 pt-3">
                     <form method="GET">
                         <div class="row my-3">
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter room name ..." value="{{ request()->name }}">
+                                        placeholder="Enter Room Name" value="{{ request()->name }}">
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <select name="status" class="form-control">
-                                    <option>Choose status</option>
-                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
-                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
-                                </select>
+                            <div class="col-lg-2">
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" name="price_from" id="price_from"
+                                        value="{{ request()->price_from }}" placeholder="Price From">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" name="price_to" id="price_to"
+                                        value="{{ request()->price_to }}" placeholder="Price To">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <select name="status" class="form-control">
+                                        <option>Status</option>
+                                        <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
+                                        <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-info">Search</button>
@@ -51,7 +67,7 @@
                             <div class="col-sm-12">
                                 @includeIf('backend.layouts.alert')
                                 @if(count($rooms) == 0)
-                                <div class=" alert alert-warning alert-dismissible fade show" role="alert">
+                                <div class="alert alert-warning alert-dismissible fade show p-3" role="alert">
                                     <span>No any rooms here !</span>
                                 </div>
                                 @else

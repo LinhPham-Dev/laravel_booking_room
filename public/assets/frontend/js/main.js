@@ -376,15 +376,21 @@ $(function () {
         );
     });
     // Price Range Slider
+
+    const price_from = $("#price_from").val();
+    const price_to = $("#price_to").val();
+
     $("#slider-range").slider({
         range: true,
         min: 0,
-        max: 1000,
-        values: [0, 1000],
+        max: 100,
+        values: [price_from, price_to],
         slide: function (event, ui) {
             $("#amount").val(
                 "Price : " + "$" + ui.values[0] + " - $" + ui.values[1]
             );
+            $("#price_from").val($("#slider-range").slider("values", 0));
+            $("#price_to").val($("#slider-range").slider("values", 1));
         },
     });
     $("#amount").val(
@@ -394,6 +400,7 @@ $(function () {
             " - $" +
             $("#slider-range").slider("values", 1)
     );
+
     // Room details Slider
     $(".main-slider").slick({
         dots: false,

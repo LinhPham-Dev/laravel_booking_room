@@ -29,6 +29,12 @@ class Order extends Model
         'total_amount'
     ];
 
+    protected $filterable = [
+        'payment_id',
+        'status',
+        'total_amount'
+    ];
+
 
     public function scopeAddOrder($query, $request)
     {
@@ -100,6 +106,8 @@ class Order extends Model
             $depart_date->toDateTimeString();
 
             $arrive_date->toDateTimeString();
+
+            // $query->whereBetween('reservation_from', [$from, $to])->get();
 
             $query->where('depart_date', '>=', $depart_date)->where('arrive_date', '<=', $arrive_date);
         }

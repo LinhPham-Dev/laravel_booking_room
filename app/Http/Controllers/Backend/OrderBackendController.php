@@ -21,7 +21,6 @@ class OrderBackendController extends Controller
 
     public function detail($id)
     {
-
         $page = 'Order Detail';
 
         $order = Order::find($id);
@@ -46,7 +45,7 @@ class OrderBackendController extends Controller
 
         if ($result) {
             // Class status
-            $class = orderStatusClass($status);
+            $class = statusClass($status);
 
             // Response data
             return response()->json(['order_id' => $id, 'message' => "Update status order number $id success !", 'class' => $class]);

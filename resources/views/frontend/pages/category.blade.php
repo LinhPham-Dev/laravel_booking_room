@@ -5,7 +5,7 @@
 <main>
     <!-- Breadcrumb section -->
     <section class="breadcrumb-area d-flex align-items-center position-relative bg-img-center"
-        style="background-image: url({{ asset('assets/frontend')}}/img/bg/breadcrumb-01.jpg)">
+        style="background-image: url({{ asset('assets/frontend') }}/img/bg/breadcrumb-01.jpg)">
         <div class="container">
             <div class="breadcrumb-content text-center">
                 <h1>Our Room</h1>
@@ -30,16 +30,6 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="input-wrap">
-                                    <select name="category" id="category">
-                                        <option value="">Choose Category</option>
-                                        @foreach ($categories as $category)
-                                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="input-wrap">
                                     <select name="sort" id="sort">
                                         <option value="default">Default Sorting</option>
                                         <option value="price-low-to-hight">Price Low To High</option>
@@ -49,6 +39,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-3"></div>
                             <div class="col-lg-6">
                                 <ul class="view-option">
                                     <li><a href="#" class="item-icon toggle-grid active"><i class="fas fa-th"></i></a>
@@ -61,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8 show-ajax">
-                    @if (!empty($rooms))
+                    @if (count($rooms) > 0)
                     <div class="item-list">
                         @foreach ($rooms as $room)
                         <!-- Single Room -->
@@ -78,11 +69,13 @@
                                         <div class="room-cat">
                                             <p>{{ $room->category->name }}</p>
                                         </div>
-                                        <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a></h4>
+                                        <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
+                                        </h4>
                                         <ul class="room-info list-inline">
                                             <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
                                             <li><i class="far fa-bath"></i>{{ $room->bath }} Bath</li>
-                                            <li><i class="far fa-ruler-triangle"></i>{{ $room->area }} m<sup>2</sup>
+                                            <li><i class="far fa-ruler-triangle"></i>{{ $room->area }}
+                                                m<sup>2</sup>
                                             </li>
                                         </ul>
                                         <div class="room-price">
@@ -112,12 +105,14 @@
                                         <div class="room-cat">
                                             <p>{{ $room->category->name }}</p>
                                         </div>
-                                        <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a></h4>
+                                        <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
+                                        </h4>
                                         <p>{!! $room->description !!}</p>
                                         <ul class="room-info list-inline">
                                             <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
                                             <li><i class="far fa-bath"></i>{{ $room->bath }} Bath</li>
-                                            <li><i class="far fa-ruler-triangle"></i>{{ $room->area }} m<sup>2</sup>
+                                            <li><i class="far fa-ruler-triangle"></i>{{ $room->area }}
+                                                m<sup>2</sup>
                                             </li>
                                         </ul>
                                         <div class="room-price">
@@ -172,25 +167,37 @@
                     <div class="sidebar-wrap">
                         <div class="widget fillter-widget">
                             <h4 class="widget-title">Your Selection</h4>
-                            <form>
+                            <form method="GET">
                                 <div class="input-wrap">
-                                    <input type="text" placeholder="Name" id="name">
-                                    <i class="far fa-search"></i>
-                                </div>
-                                <div class="input-wrap">
-                                    <select name="rooms" id="bed">
-                                        <option value="" disabled selected>Bed</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select name="category_id" id="category">
+                                        <option value="">Choose Category</option>
+                                        @foreach ($categories as $category)
+                                        <option {{ request()->category_id == $category->id ? 'selected' : '' }}
+                                            value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="input-wrap">
-                                    <select name="bath" id="bath">
-                                        <option value="" disabled selected>Bath</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <input type="text" placeholder="Name" name="name"
+                                        value="{{ request()->name ?? old('name') }}">
+                                    <i class="far fa-search"></i>
+                                </div>
+                                <div class="input-wrap">
+                                    <select name="bed">
+                                        <option value="" selected>Bed</option>
+                                        @foreach (range(1, 4) as $item)
+                                        <option {{ request()->bed == $item ? 'selected' : '' }} value="{{ $item }}">
+                                            {{ $item }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="input-wrap">
+                                    <select name="bath">
+                                        <option value="" selected>Bath</option>
+                                        @foreach (range(1, 4) as $item)
+                                        <option {{ request()->bath == $item ? 'selected' : '' }} value="{{ $item }}">
+                                            {{ $item }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="input-wrap">
@@ -199,8 +206,11 @@
                                             <div id="slider-range"></div>
                                         </div>
                                         <div class="price-ammount">
-                                            <input disabled type="text" id="amount" name="price"
-                                                placeholder="Add Your Price" />
+                                            <input disabled type="text" id="amount">
+                                            <input type="hidden" name="price_from" id="price_from"
+                                                value="{{ request()->price_from }}">
+                                            <input type="hidden" name="price_to" id="price_to"
+                                                value="{{ request()->price_to }}">
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +237,6 @@
 @section('script-option')
 <script>
     $('#category').change(function(e) {
-
             const slug = $('#category').val();
 
             const _token = $('meta[name="csrf-token"]').attr('content');
@@ -252,5 +261,4 @@
 
         });
 </script>
-
 @endsection

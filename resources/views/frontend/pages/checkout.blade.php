@@ -413,6 +413,7 @@
                             'adult': adult,
                             'hours': hours,
                             'note': note,
+                            'status': 1,
                             'coupon_id': coupon_id,
                             'payment_id': payment_id,
                             'total_amount': total_amount,

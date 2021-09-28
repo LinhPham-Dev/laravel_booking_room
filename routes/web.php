@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\LoginAdminController;
 use App\Http\Controllers\Backend\OrderBackendController;
 use App\Http\Controllers\Backend\RoomController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LoginUserController;
@@ -59,7 +60,7 @@ Route::prefix('admin')->group(function () {
         Route::get('trash/rooms', [RoomController::class, 'trash'])->name('rooms.trash')->where(['room', '[a-z]+']);
         Route::post('trash/rooms', [RoomController::class, 'trashAction'])->name('rooms.action');
 
-        // Order
+        // Orders
         Route::prefix('orders')->group(function () {
 
             Route::get('/show', [OrderBackendController::class, 'show'])->name('backend.order.show');
@@ -67,6 +68,13 @@ Route::prefix('admin')->group(function () {
             Route::get('/detail/{id}', [OrderBackendController::class, 'detail'])->name('backend.order.detail');
 
             Route::put('/update/{id}', [OrderBackendController::class, 'update'])->name('backend.order.update_status');
+        });
+
+        // Users
+        Route::prefix('users')->group(function () {
+            Route::get('show', [UserController::class, 'show'])->name('backend.user.show');
+
+            Route::put('update-status/{id}', [UserController::class, 'updateStatus'])->name('backend.user.update_status');
         });
     });
 });
@@ -100,9 +108,9 @@ Route::get('categories-ajax', [HomeController::class, 'categoryAjax'])->name('us
 
 Route::get('rooms/{slug}', [HomeController::class, 'room'])->name('user.room');
 
-
 // Room Rating
 Route::post('/rooms/rating', [HomeController::class, 'rating'])->name('room_rating')->middleware('auth');
+Route::get('sort-ratings', [HomeController::class, 'sortRating'])->name('sort_ratings');
 
 // *** Route Cart *** \\
 Route::prefix('cart')->group(function () {

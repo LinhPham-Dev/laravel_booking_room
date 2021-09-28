@@ -184,7 +184,8 @@
                                                     <div class="col-4">
                                                         <div
                                                             class="count-num d-flex align-items-center justify-content-center">
-                                                            <p>Total Rating<span class="my-3">{{ $total_ratings }}</span>
+                                                            <p>Total Rating<span
+                                                                    class="my-3">{{ $total_ratings }}</span>
                                                                 Stars<span id="rating_avg">6.8</span></p>
                                                         </div>
                                                     </div>
@@ -233,17 +234,23 @@
                                             <div class="review-form">
                                                 <h5 class="tab-title">Write a Review</h5>
                                                 <div class="star-given-box">
-                                                    <form action="{{ route('room_rating') }}" method="POST">
+                                                    <form id="form-rating" action="{{ route('room_rating') }}"
+                                                        method="POST">
                                                         @csrf
                                                         <input type="hidden" value="{{ $room->id }}" name="room_id">
+                                                        @if (Auth::check())
                                                         <input type="hidden" value="{{ Auth::user()->id }}"
                                                             name="user_id">
+                                                        @endif
                                                         <input type="hidden" id="star-number" name="star">
                                                         <div class="rating-form mb-3">
-                                                            <div id="rateYo"></div>
+                                                            <div class="rating-container">
+                                                                <div id="rateYo"></div>
+                                                                <div class="counter"></div>
+                                                            </div>
                                                         </div>
                                                         <div class="input-wrap text-area">
-                                                            <textarea name="message"
+                                                            <textarea name="message" id="message"
                                                                 placeholder="Write Review"></textarea>
                                                             <i class="far fa-pencil"></i>
                                                         </div>
@@ -253,13 +260,21 @@
                                                     </form>
                                                 </div>
                                             </div>
+                                            @if (!count($ratings) > 0)
+                                            <div class="reviews-head my-5">
+                                                <h4 class="tab-title comment-title">There are currently no reviews.
+                                                </h4>
+                                            </div>
+                                            @else
                                             <div class="comment-area">
                                                 <div class="reviews-head">
-                                                    <h4 class="tab-title comment-title">2.3K Reviews</h4>
+                                                    <h4 class="tab-title comment-title">{{ $total_ratings }}
+                                                        Reviews
+                                                    </h4>
                                                     <div class="select-filter">
-                                                        <select name="filter" id="filter-reviews">
-                                                            <option value="esc">Latest</option>
-                                                            <option value="desc">Oldest</option>
+                                                        <select name="order-ratings" id="sort_by">
+                                                            <option value="latest">Latest</option>
+                                                            <option value="oldest">Oldest</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -274,11 +289,11 @@
                                                             <h6>{{ $rating->user->name }}<span
                                                                     class="comment-date mx-2">{{ date_format($rating->created_at, 'F d, Y \a\t g:i') }}</span>
                                                             </h6>
-                                                            <p>{{$rating->message}}</p>
+                                                            <p>{{ $rating->message }}</p>
                                                             <div class="autor-rating">
                                                                 <div class="ratings-full">
                                                                     <span class="ratings"
-                                                                        style="width:{{ $rating->star / 5 * 100 }}%">
+                                                                        style="width:{{ ($rating->star / 5) * 100 }}%">
                                                                     </span>
                                                                     <span
                                                                         class="tooltiptext tooltip-top">{{ $rating->star }}</span>
@@ -289,6 +304,7 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -471,8 +487,12 @@
                 onChange: function(rating, rateYoInstance) {
                     $('#star-number').val(rating);
                     $(this).next().text(rating);
-                }
+                },
+
             });
+
+            $('.counter').html('3.5');
+            $('#star-number').val(3.5);
 
             // Avg Rating
             $("#rating_avg").html("{{ $rating_avg }}");
@@ -507,5 +527,63 @@
                 },
             });
         }
+
+        // Add rating
+        $("#form-rating-off").submit(function(event) {
+            event.preventDefault();
+
+            // Call Ajax
+            const star = $('input[name="star"]').val();
+            const message = $('#message').val();
+            const user_id = $('input[name="user_id"]').val();
+            const room_id = $('input[name="room_id"]').val();
+            const _token = $('meta[name="csrf-token"]').attr("content");
+
+            $.ajax({
+                type: "POST",
+                url: `{{ route('room_rating') }}`,
+                data: {
+                    room_id: room_id,
+                    user_id: user_id,
+                    star: star,
+                    message: message,
+                    _token: _token,
+                },
+                success: function(res) {
+                    console.log(res);
+                },
+                error: function(res) {
+                    console.log(res);
+                },
+            });
+        });
+
+        // Order Rating
+        $('#sort_by').change(function(e) {
+
+            const sort_by = $(this).val();
+
+            const _token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type: "GET",
+                datatype: 'html',
+                url: `{{ route('sort_ratings') }}`,
+                data: {
+                    sort_by: sort_by,
+                    _token: _token
+                },
+                success: function(res) {
+                    console.log(res);
+
+                    const html = res.html;
+                    $('.comment-list').html(html);
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            });
+
+        });
 </script>
 @endsection

@@ -15,6 +15,9 @@ class Room extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
+    protected $filterable = ['category_id', 'price', 'bed', 'bath', 'area'];
+
+
     // Category of room
     public function category()
     {
@@ -38,6 +41,25 @@ class Room extends Model
             if ($category) {
                 $query = Room::where('category_id', $category->id);
             }
+        }
+
+        return $query;
+    }
+
+    public function filterName($query, $value)
+    {
+        $query->where('name', 'like', '%' . $value . '%');
+        return $query;
+    }
+
+
+    public function scopeFilterPrice($query)
+    {
+        if (request()->price_from && request()->price_to) {
+            $from = request()->price_from;
+            $to = request()->price_to;
+
+            $query->where('price', '>=', $from)->where('price', '<=', $to);
         }
 
         return $query;
