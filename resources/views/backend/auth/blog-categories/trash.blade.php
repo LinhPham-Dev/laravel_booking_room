@@ -38,7 +38,7 @@
             @if(count($categories_trash) == 0)
             <div class="alert alert-info alert-dismissible fade show p-3" role="alert">
                 <span>No categories have been deleted yet !</span>
-                <a class="ml-3" href="{{ route('categories.index') }}">All categories !</a>
+                <a class="ml-3" href="{{ route('blog-categories.index') }}">All categories !</a>
             </div>
             @else
             <div class="soft-delete bg-light text-center mb-5 pb-2">
@@ -62,7 +62,7 @@
                     <tbody>
                         @foreach ($categories_trash as $category)
                         <tr data-position="{{ $category->id }}">
-                            <form action="{{ route('categories.action') }}" method="POST">
+                            <form action="{{ route('blog_categories.action') }}" method="POST">
                                 @csrf
                                 <th width="5%">
                                     <div class="form-check">
@@ -82,14 +82,14 @@
                                 <td>
                                     <p>{{ $category->slug }}</p>
                                 </td>
-                                <td><img width="150px" src="{{ asset("uploads/categories/$category->image") }}"
+                                <td><img width="150px" src="{{ asset("uploads/blog-categories/$category->image") }}"
                                         alt="{{ $category->name }}">
                                 </td>
                                 <td>
                                     @if($category->status == 1)
-                                    <span class="badge badge-success">Show</span>
+                                    <span class="badge bg-success">Show</span>
                                     @else
-                                    <span class="badge badge-secondary">Hide</span>
+                                    <span class="badge bg-secondary">Hide</span>
                                     @endif
                                 </td>
                         </tr>

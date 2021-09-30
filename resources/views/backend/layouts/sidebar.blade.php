@@ -8,7 +8,7 @@
                 </div>
                 <div class="flex-grow-1 ps-2" style="align-self: center;">
                     <a class="sidebar-user-title dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        Phạm Ngọc Linh
+                        {{Auth::guard('admin')->user()->name}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-start">
                         <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
@@ -92,22 +92,39 @@
                 </ul>
             </li>
 
-            <!-- Blog -->
+            <!-- Blog Categories -->
             <li class="sidebar-item">
                 <a data-bs-target="#blog" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="far fa-edit"></i> <span class="align-middle">Blogs</span>
+                    <i class="fa fa-list-alt"></i></i> <span class="align-middle">Blog Categories</span>
                 </a>
                 <ul id="blog" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new blog</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit blog</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Blogs trash</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog-categories.index') }}">Blog
+                            Categories
+                        </a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog_categories.trash') }}">Blog
+                            Categories trash</a></li>
+                </ul>
+            </li>
+
+            <!-- Blog -->
+            <li class="sidebar-item">
+                <a data-bs-target="#blogs" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="far fa-edit"></i> <span class="align-middle">Blogs</span>
+                </a>
+                <ul id="blogs" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blogs.index') }}">Blogs Manager</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blogs.create') }}">Add new Blog</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blogs.trash') }}">Blogs trash</a>
+                    </li>
                 </ul>
             </li>
 
             <!-- User -->
             <li class="sidebar-item">
                 <a href="{{ route('backend.user.show') }}" class="sidebar-link collapsed">
-                    <i class="fas fa-user"></i> <span class="align-middle">Users</span>
+                    <i class="fas fa-user"></i><span class="align-middle">Users</span>
                 </a>
             </li>
 

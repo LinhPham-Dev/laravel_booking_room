@@ -18,7 +18,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter category name ..." value="{{ request()->name }}">
+                                        placeholder="Enter room name ..." value="{{ request()->name }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
@@ -35,14 +35,14 @@
                     </form>
                 </div>
             </div>
-            @if(count($categories_trash) == 0)
-            <div class="alert alert-info alert-dismissible fade show p-3" role="alert">
-                <span>No categories have been deleted yet !</span>
-                <a class="ml-3" href="{{ route('categories.index') }}">All categories !</a>
+            @if(count($rooms_trash) == 0)
+            <div class="alert alert-info alert-dismissible fade show mx-3" role="alert">
+                <span>No rooms have been deleted yet !</span>
+                <a class="ml-3" href="{{ route('rooms.index') }}">All Rooms !</a>
             </div>
             @else
+            @includeIf('backend.layouts.alert')
             <div class="soft-delete bg-light text-center mb-5 pb-2">
-                @includeIf('backend.layouts.alert')
                 <table class="table table-striped table-bordered table-hover text-center">
                     <thead>
                         <tr>
@@ -53,40 +53,50 @@
                                 </div>
                             </th>
                             <th>No.</th>
-                            <th>Name</th>
-                            <th>Url</th>
+                            <th>Information</th>
                             <th>Image</th>
+                            <th>Price</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categories_trash as $category)
-                        <tr data-position="{{ $category->id }}">
-                            <form action="{{ route('categories.action') }}" method="POST">
+                        @foreach ($rooms_trash as $room)
+                        <tr>
+                            <form action="{{ route('rooms.action') }}" method="POST">
                                 @csrf
                                 <th width="5%">
                                     <div class="form-check">
-                                        <input style="margin-left: -1.1em;" value="{{ $category->id }}"
-                                            id="select-position-{{ $category->id }}" name="id-{{ $category->id }}"
-                                            class="form-check-input" type="checkbox">
+                                        <input style="margin-left: -1.1em;" value="{{ $room->id }}" id="select-all"
+                                            name="id-{{ $room->id }}" class="form-check-input" type="checkbox">
                                     </div>
                                 </th>
                                 <th>{{ $loop->iteration }}</th>
                                 <td>
                                     <p>
-                                        <a class="text-dark" href="">
-                                            <strong>Name</strong>: {{ $category->name }}
+                                        <a class="text-dark" href="{{ route('rooms.show', $room->id) }}">
+                                            <strong>Name</strong>: {{ $room->name }}
                                         </a>
                                     </p>
+                                    <p><strong>Category</strong>: {{ $room->category->name }}</p>
+                                    <p><strong>Bed</strong>: {{ $room->bed}}</p>
+                                    <p><strong>Bath</strong>: {{ $room->bath}}</p>
+                                    <p><strong>Area</strong>: {{ $room->area }}</p>
+                                </td>
+                                <td><img width="150px" src="{{ asset("uploads/rooms/room_avatar/$room->image") }}"
+                                        alt="{{ $room->name }}">
                                 </td>
                                 <td>
-                                    <p>{{ $category->slug }}</p>
-                                </td>
-                                <td><img width="150px" src="{{ asset("uploads/categories/$category->image") }}"
-                                        alt="{{ $category->name }}">
+                                    @if ($room->sale_price > 0)
+                                    <p class="text-decoration-line-through">
+                                        <del>{{ number_format($room->price, 2, ',') }}$</del>
+                                    </p>
+                                    <p>{{ number_format($room->sale_price, 2, ',') }}$</p>
+                                    @else
+                                    <p>{{ number_format($room->price, 2, ',') }}$</p>
+                                    @endif
                                 </td>
                                 <td>
-                                    @if($category->status == 1)
+                                    @if($room->status == 1)
                                     <span class="badge badge-success">Show</span>
                                     @else
                                     <span class="badge badge-secondary">Hide</span>
@@ -98,11 +108,9 @@
                 </table>
                 <div class="action text-left my-4">
                     {{-- Restore and Delete --}}
-                    <button onclick="return confirm('Are you sure to take this action ?')" type="submit" name="action"
-                        value="restore" class="btn btn-success m-1">Restore
+                    <button type="submit" name="action" value="restore" class="btn btn-success m-1">Restore
                         <i class="fa fa-undo mx-1"></i></button>
-                    <button onclick="return confirm('Are you sure to take this action ?')" type="submit" name="action"
-                        value="delete" class="btn btn-danger m-1">Delete
+                    <button type="submit" name="action" value="delete" class="btn btn-danger m-1">Delete
                         <i class="fa fa-trash m-1"></i></button>
                     </form>
                 </div>
@@ -117,5 +125,5 @@
 @endsection
 
 @section('script-option')
-@includeIf('backend.layouts.select-input')
+@includeIf('backend.layouts.select-all')
 @endsection

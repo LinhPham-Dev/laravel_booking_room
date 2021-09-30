@@ -36,38 +36,42 @@
                             {{-- Image --}}
                             <div class="form-group">
                                 <label for="room_avatar">Choose Image :</label>
-                                <input class="form-control-file d-block" type="file" id="room_avatar" name="room_avatar">
+                                <input class="form-control-file d-block" type="file" id="room_avatar"
+                                    name="room_avatar">
                                 @error('room_avatar')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="my-4">
-                                <img id="image-show" style="padding: 18px 10px 10px 0;" width="70%" style="display: none">
+                                <img id="image-show" style="padding: 18px 10px 10px 0;" width="70%"
+                                    style="display: none">
                             </div>
                             {{-- Bed --}}
-                                <div class="form-group">
-                                    <label for="bed">Bed :</label>
-                                    <input type="number" id="bed" name="bed" class="form-control">
+                            <div class="form-group">
+                                <label for="bed">Bed :</label>
+                                <input type="number" id="bed" name="bed" class="form-control" value="{{ old('bed') }}">
                                 @error('bed')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                </div>
+                            </div>
                             {{-- Bath --}}
-                                <div class="form-group">
-                                    <label for="bath">Bath :</label>
-                                    <input type="number" id="bath" name="bath" class="form-control">
+                            <div class="form-group">
+                                <label for="bath">Bath :</label>
+                                <input type="number" id="bath" name="bath" class="form-control"
+                                    value="{{ old('bath') }}">
                                 @error('bath')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                </div>
+                            </div>
                             {{-- Area --}}
-                                <div class="form-group">
-                                    <label for="bath">Area :</label>
-                                    <input type="number" id="area" name="area" class="form-control">
+                            <div class="form-group">
+                                <label for="bath">Area :</label>
+                                <input type="number" id="area" name="area" class="form-control"
+                                    value="{{ old('area') }}">
                                 @error('area')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6 px-3">
                             {{-- Price --}}
@@ -91,8 +95,8 @@
                             {{-- Image Detail --}}
                             <div class="form-group">
                                 <label for="image_details">Choose Image Detail :</label>
-                                <input class="form-control-file d-block" type="file" id="image_details" name="image_details[]"
-                                    multiple>
+                                <input class="form-control-file d-block" type="file" id="image_details"
+                                    name="image_details[]" multiple>
                                 @error('image_details')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -108,8 +112,8 @@
                             {{-- Quantity --}}
                             <div class="form-group">
                                 <label for="quantity">Quantity :</label>
-                                <input class="form-control @error('quantity') is-invalid @enderror" type="number" id="quantity"
-                                    name="quantity" value="{{ old('quantity') }}">
+                                <input class="form-control @error('quantity') is-invalid @enderror" type="number"
+                                    id="quantity" name="quantity" value="{{ old('quantity') }}">
                                 @error('quantity')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -136,9 +140,9 @@
                             <label for="summernote">Description: </label>
                             <textarea class="form-control" name="description" id="summernote">
                             </textarea>
-                              @error('description')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            @error('description')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,8 @@ use App\Http\Controllers\Backend\LoginAdminController;
 use App\Http\Controllers\Backend\OrderBackendController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\BlogCategoryController;
+use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LoginUserController;
@@ -54,10 +56,10 @@ Route::prefix('admin')->group(function () {
         Route::get('trash/categories', [CategoryController::class, 'trash'])->name('categories.trash');
         Route::post('trash/categories', [CategoryController::class, 'trashAction'])->name('categories.action');
         // Rooms
-        Route::resource('rooms', RoomController::class)->where(['room', '[0-9]+']);
+        Route::resource('rooms', RoomController::class);
 
         // Rooms Trash
-        Route::get('trash/rooms', [RoomController::class, 'trash'])->name('rooms.trash')->where(['room', '[a-z]+']);
+        Route::get('trash/rooms', [RoomController::class, 'trash'])->name('rooms.trash');
         Route::post('trash/rooms', [RoomController::class, 'trashAction'])->name('rooms.action');
 
         // Orders
@@ -76,6 +78,19 @@ Route::prefix('admin')->group(function () {
 
             Route::put('update-status/{id}', [UserController::class, 'updateStatus'])->name('backend.user.update_status');
         });
+
+        // Blog Category
+        Route::resource('blog-categories', BlogCategoryController::class);
+        // Blog Categories Trash
+        Route::get('trash/blog-categories', [BlogCategoryController::class, 'trash'])->name('blog_categories.trash');
+        Route::post('trash/blog-categories', [BlogCategoryController::class, 'trashAction'])->name('blog_categories.action');
+
+        // Blog
+        Route::resource('blogs', BlogController::class);
+
+        // Blog Trash
+        Route::get('trash/blogs', [BlogController::class, 'trash'])->name('blogs.trash');
+        Route::post('trash/blogs', [BlogController::class, 'trashAction'])->name('blogs.action');
     });
 });
 
