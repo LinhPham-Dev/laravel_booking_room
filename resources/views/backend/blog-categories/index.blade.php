@@ -38,18 +38,11 @@
             <div class="col-lg-4">
                 <div class="card card-primary">
                     <div class="px-4 py-2 bg-light border">
-                        <h3 class="card-title my-2">Add new Category</h3>
+                        <h3 class="card-title my-2">Add New Blog Category</h3>
                     </div>
-                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('blog-categories.store') }}" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             @csrf
-                            <div class="form-group">
-                                <label for="parent_id">Parent: </label>
-                                <select class="form-control" name="parent_id" id="parent_id">
-                                    <option value="">None</option>
-                                    {{ showCategories($select_category, null) }}
-                                </select>
-                            </div>
                             {{-- Name --}}
                             <div class="form-group">
                                 <label for="name">Name :</label>
@@ -100,9 +93,9 @@
                     @includeIf('backend.layouts.alert')
                     <div class="card">
                         <div class="px-4 py-2 bg-light border">
-                            <h3 class="card-title d-inline-block my-2">DataTable Categories</h3>
+                            <h3 class="card-title d-inline-block my-2">DataTable Blog Categories</h3>
                             <div class="action float-end">
-                                <a href="{{ route('categories.trash') }}" class="btn btn-outline-danger"><i
+                                <a href="{{ route('blog_categories.trash') }}" class="btn btn-outline-danger"><i
                                         class="fa fa-trash m-1"></i>Trash</a>
                             </div>
                         </div>
@@ -134,7 +127,7 @@
                                             <p>{{ Str::limit($category->slug, 25, '...') }}</p>
                                         </td>
                                         <td><img class="w-100"
-                                                src="{{ asset('uploads/categories') . '/' . $category->image  }}"
+                                                src="{{ asset('uploads/blog-categories') . '/' . $category->image  }}"
                                                 alt="{{ $category->name }}"></td>
                                         <td>
                                             @if($category->status == 1)
@@ -143,10 +136,11 @@
                                             <span class="badge bg-secondary">Hide</span>
                                             @endif
                                         <td>
-                                            <a class="btn btn-info" href="{{ route('categories.edit', $category->id) }}"
+                                            <a class="btn btn-info"
+                                                href="{{ route('blog-categories.edit', $category->id) }}"
                                                 role="button"><i class="fas fa-pen"></i></a>
                                             <form class="d-inline-block"
-                                                action="{{ route('categories.destroy', $category->id ) }}"
+                                                action="{{ route('blog-categories.destroy', $category->id ) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('delete')

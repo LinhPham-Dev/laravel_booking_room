@@ -42,7 +42,8 @@
             <div class="col-lg-4">
                 <div class="card card-primary">
                     <div class="card-header bg-light">
-                        <h3 class="card-title line-height-40 d-inline-block" style="line-height: 30px;">Edit Category</h3>
+                        <h3 class="card-title line-height-40 d-inline-block" style="line-height: 30px;">Edit Category
+                        </h3>
                         <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary float-end"><i
                                 class="fas fa-plus mr-2"></i>
                             Add New</a>
@@ -83,8 +84,9 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                              <div class="my-2">
-                                <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%" src="{{ asset('uploads/categories') . '/' . $category_update->image  }}"
+                            <div class="my-2">
+                                <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%"
+                                    src="{{ asset('uploads/categories') . '/' . $category_update->image  }}"
                                     alt="{{ $category_update->name }}">
                             </div>
                             <label for="status">Status: </label>
@@ -107,7 +109,11 @@
                     @includeIf('backend.layouts.alert')
                     <div class="card">
                         <div class="card-header bg-light">
-                            <h3 class="card-title">DataTable Categories</h3>
+                            <h3 class="card-title d-inline-block">DataTable Categories</h3>
+                            <div class="action float-end">
+                                <a href="{{ route('categories.trash') }}" class="btn btn-outline-danger"><i
+                                        class="fa fa-trash m-1"></i>Trash</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -134,15 +140,17 @@
                                         <td>
                                             <p>{{ Str::limit($category->name, 25, '...') }}</p>
                                         </td>
-                                        <td>{{ Str::limit($category->slug, 25, '...') }}</td>
+                                        <td>
+                                            <p>{{ Str::limit($category->slug, 25, '...') }}</p>
+                                        </td>
                                         <td><img class="w-100"
                                                 src="{{ asset('uploads/categories') . '/' . $category->image  }}"
                                                 alt="{{ $category->name }}"></td>
                                         <td>
                                             @if($category->status == 1)
-                                            <span class="badge badge-success">Show</span>
+                                            <span class="badge bg-success">Show</span>
                                             @else
-                                            <span class="badge badge-secondary">Hide</span>
+                                            <span class="badge bg-secondary">Hide</span>
                                             @endif
                                         <td>
                                             <a class="btn btn-info" href="{{ route('categories.edit', $category->id) }}"

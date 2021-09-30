@@ -37,8 +37,8 @@
                 @includeIf('backend.layouts.alert')
                 @if(count($categories_trash) == 0)
                 <div class="alert alert-info alert-dismissible fade show p-3" role="alert">
-                    <span class="me-3">No categories have been deleted yet !</span>
-                    <a href="{{ route('categories.index') }}">All categories !</a>
+                    <span class="me-3">No blog categories have been deleted yet !</span>
+                    <a href="{{ route('blog-categories.index') }}">All blog categories !</a>
                 </div>
             </div>
             @else
@@ -60,11 +60,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form action="{{ route('categories.action') }}" method="POST">
-                            @csrf
-                            @foreach ($categories_trash as $category)
-                            {{-- data-position="{{ $category->id }}" --}}
-                            <tr>
+                        @foreach ($categories_trash as $category)
+                        <tr>
+                            <form action="{{ route('blog_categories.action') }}" method="POST">
+                                @csrf
                                 <th width="5%">
                                     <div class="form-check">
                                         <input style="margin-left: -1.1em;" value="{{ $category->id }}"
@@ -83,7 +82,7 @@
                                 <td>
                                     <p>{{ $category->slug }}</p>
                                 </td>
-                                <td><img width="150px" src="{{ asset("uploads/categories/$category->image") }}"
+                                <td><img width="150px" src="{{ asset("uploads/blog-categories/$category->image") }}"
                                         alt="{{ $category->name }}">
                                 </td>
                                 <td>
@@ -93,8 +92,8 @@
                                     <span class="badge bg-secondary">Hide</span>
                                     @endif
                                 </td>
-                            </tr>
-                            @endforeach
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <div class="action text-left my-4">
@@ -104,15 +103,14 @@
                         <i class="fa fa-undo mx-1"></i></button>
                     <button onclick="return confirm('Are you sure to take this action ?')" type="submit" name="action"
                         value="delete" class="btn btn-danger m-1">Delete
-                        <i class="fa fa-trash m-1"></i>
-                    </button>
+                        <i class="fa fa-trash m-1"></i></button>
                     </form>
-                    {{-- End form --}}
                 </div>
-                @endif
+                <div>
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </main>
 

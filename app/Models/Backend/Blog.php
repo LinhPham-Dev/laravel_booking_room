@@ -16,6 +16,8 @@ class Blog extends Model
 
     protected $fillable = ['title', 'slug', 'blog_category_id', 'image', 'content', 'admin_id', 'status'];
 
+    protected $filterable = ['title'];
+
     public function scopeAddNewBlog($query, $request, $image)
     {
         $request->only(['title', 'image', 'blog_category_id', 'slug',  'status', 'content']);

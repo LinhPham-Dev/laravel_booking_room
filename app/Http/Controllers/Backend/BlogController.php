@@ -30,6 +30,7 @@ class BlogController extends Controller
     public function index()
     {
         $page = 'List Blogs';
+
         $blogs = Blog::latest()->paginate(3);
 
         $blog_categories = $this->blog_categories->categoryActives();
@@ -97,9 +98,14 @@ class BlogController extends Controller
      * @param  \App\Models\Backend\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $blog)
+    public function edit($id)
     {
-        //
+        $page = 'Update Blog';
+
+        $categories = $this->blog_categories->categoryActives();
+        $blog_edit = Blog::find($id);
+
+        return view('backend.blogs.edit', compact('page', 'categories', 'blog_edit'));
     }
 
     /**
@@ -109,9 +115,29 @@ class BlogController extends Controller
      * @param  \App\Models\Backend\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, $id)
     {
-        //
+        $blog_update = Blog::find($id);
+
+        $title = $request->title;
+
+        // Upload Room Avatar Handler => ImageName
+        if ($request->hasFile('blog_image')) {
+            $file = $request->file('blog_image');
+
+            // Method Upload
+            $path = 'uploads/blog';
+            $imageName = $this->uploadService->uploadImageHandler($file, $title, $path);
+
+            // Merge field image -> request
+            $request->merge(['image' => $imageName]);
+        }
+
+        // Update record in database
+        $returned_blog = $blog_update->update($request->all());
+
+        // Check Result
+        return alertUpdate($returned_blog, 'blogs.index');
     }
 
     /**
@@ -120,18 +146,20 @@ class BlogController extends Controller
      * @param  \App\Models\Backend\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy($id)
     {
-        //
+        $blog_delete = Blog::destroy($id);
+
+        return alertTrash($blog_delete, 'blogs.index');
     }
 
     public function trash()
     {
         $page = 'Categories Trash';
 
-        $categories_trash = Blog::onlyTrashed()->get();
+        $blogs_trash = Blog::onlyTrashed()->get();
 
-        return view('backend.categories.trash', compact('page', 'categories_trash'));
+        return view('backend.blogs.trash', compact('page', 'blogs_trash'));
     }
 
     public function trashAction(Request $request)

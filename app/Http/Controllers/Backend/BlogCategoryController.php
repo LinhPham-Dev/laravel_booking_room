@@ -110,7 +110,7 @@ class BlogCategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        $category = BlogCategory::find($id);
+        $blog_category = BlogCategory::find($id);
 
         // Upload Product Avatar Handler => ImageName
         if ($request->hasFile('category_image')) {
@@ -121,7 +121,7 @@ class BlogCategoryController extends Controller
 
             // Remove old file
             $path = 'uploads/blog-categories/';
-            $this->uploadService->deleteFile($category->image, $path);
+            $this->uploadService->deleteFile($blog_category->image, $path);
 
             // Method Upload
             $path = 'uploads/blog-categories/';
@@ -131,8 +131,7 @@ class BlogCategoryController extends Controller
             $request->merge(['image' => $image_name]);
         }
 
-
-        $result = $category->update($request->all());
+        $result = $blog_category->update($request->all());
 
         return alertUpdate($result, 'blog-categories.index');
     }
@@ -145,14 +144,14 @@ class BlogCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = BlogCategory::find($id);
+        $blog_category = BlogCategory::find($id);
 
-        if ($category->blogOfBlogCategories()->get()->count() > 0) {
-            $message = 'Can\'t move record to trash! Because it belongs to a certain room !';
+        if ($blog_category->blogOfBlogCategories()->get()->count() > 0) {
+            $message = 'Can\'t move record to trash! Because it belongs to a certain blog !';
             return redirect()->back()->with('error', $message);
         }
 
-        $result = $category->delete();
+        $result = $blog_category->delete();
 
         return alertTrash($result, 'blog-categories.index');
     }

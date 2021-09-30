@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Blog;
 use App\Models\Backend\Category;
 use App\Models\Backend\Room;
 use App\Models\Frontend\Order;
@@ -106,7 +107,6 @@ class HomeController extends Controller
         // User wasn't booking room
         return redirect()->back()->with('error', 'You must booking room first to rate !');
 
-
         // return response()->json(['status' => false, 'message' => 'You must booking room first to rate']);
     }
 
@@ -118,5 +118,19 @@ class HomeController extends Controller
         $html = view('frontend.pages.sort-ratings')->with('ratings', $ratings)->render();
 
         return response()->json(['success' => true, 'html' => $html]);
+    }
+
+    // Blog method
+    public function blog(Request $request)
+    {
+        $params = $request->all();
+
+        $blogs = Blog::filter($params)->paginate(4);
+
+        $new_blogs = Blog::latest()->take(3)->get();
+
+        $new_categories = Category::latest()->take(3)->get();
+
+        return view('frontend.pages.blogs', compact('blogs', 'new_blogs', 'new_categories'));
     }
 }

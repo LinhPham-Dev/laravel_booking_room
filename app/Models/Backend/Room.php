@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend;
 
+use App\Models\Frontend\Order;
 use App\Traits\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +52,6 @@ class Room extends Model
         $query->where('name', 'like', '%' . $value . '%');
         return $query;
     }
-
 
     public function scopeFilterPrice($query)
     {

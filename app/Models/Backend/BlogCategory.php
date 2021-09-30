@@ -24,9 +24,9 @@ class BlogCategory extends Model
         return self::where('status', 1)->get();
     }
 
-    // Check the product number belongs to the category
+    // Check the blog number belongs to the blog categories
     public function blogOfBlogCategories()
     {
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Blog::class, 'blog_category_id');
     }
 }

@@ -36,7 +36,7 @@
                             {{-- Image --}}
                             <div class="form-group">
                                 <label for="room_avatar">Choose Image :</label>
-                                <input class="form-control-file d-block" type="file" id="blog_image" name="blog_image">
+                                <input class="form-control-file d-block" type="file" id="room_avatar" name="blog_image">
                                 @error('blog_image')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -68,7 +68,8 @@
                         </div>
                         <div class="col-lg-12">
                             <label for="summernote">Description: </label>
-                            <textarea class="form-control" name="content" id="summernote"></textarea>
+                            <textarea class="form-control" name="content"
+                                id="summernote">{{ old('content') }}</textarea>
                             @error('content')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

@@ -14,6 +14,12 @@
                 <div class="card px-3 pt-3">
                     <form method="GET">
                         <div class="row my-3">
+                            <div class="form-group col-md-3">
+                                <select name="status" class="form-control">
+                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
+                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
+                                </select>
+                            </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
@@ -22,10 +28,8 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="status" class="form-control">
-                                    <option {{ request()->status == 1 ? 'selected' : '' }} value="1">
-                                        Show</option>
-                                    <option {{ request()->status == 0 ? 'selected' : '' }} value="0">
-                                        Hide</option>
+                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
+                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
@@ -37,37 +41,35 @@
             </div>
             <div class="col-lg-4">
                 <div class="card card-primary">
-                    <div class="px-4 py-2 bg-light border">
-                        <h3 class="card-title my-2">Add new Category</h3>
+                    <div class="card-header bg-light">
+                        <h3 class="card-title line-height-40 d-inline-block" style="line-height: 30px;">Edit Category
+                        </h3>
+                        <a href="{{ route('blog-categories.index') }}" class="btn btn-outline-secondary float-end"><i
+                                class="fas fa-plus mr-2"></i>
+                            Add New</a>
                     </div>
-                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('blog-categories.update', $category_update->id ) }}" method="POST"
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="{{ $category_update->id }}">
                         <div class="card-body">
                             @csrf
-                            <div class="form-group">
-                                <label for="parent_id">Parent: </label>
-                                <select class="form-control" name="parent_id" id="parent_id">
-                                    <option value="">None</option>
-                                    {{ showCategories($select_category, null) }}
-                                </select>
-                            </div>
-                            {{-- Name --}}
+                            @method('put')
                             <div class="form-group">
                                 <label for="name">Name :</label>
-                                <input class="form-control @error('name') is-invalid @enderror" type="text" id="name"
-                                    name="name" value="{{ old('name') }}" autofocus>
-                                @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                <input class="form-control @error('name') error @enderror" type="text" id="name"
+                                    name="name" value="{{ old('name') ?? $category_update->name }}" autofocus>
                             </div>
-                            {{-- Url --}}
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                             <div class="form-group">
                                 <label for="slug">Url :</label>
-                                <input class="form-control @error('slug') is-invalid @enderror" type="text" id="slug"
-                                    name="slug" value="{{ old('slug') }}">
-                                @error('slug')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                <input class="form-control @error('slug') error @enderror" type="text" id="slug"
+                                    name="slug" value="{{ old('slug') ?? $category_update->slug }}">
                             </div>
+                            @error('slug')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                             {{-- Image --}}
                             <div class="form-group">
                                 <label for="category_image">Choose Image :</label>
@@ -78,18 +80,19 @@
                             </div>
                             <div class="my-2">
                                 <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%"
-                                    style="display: none">
+                                    src="{{ asset('uploads/blog-categories') . '/' . $category_update->image  }}"
+                                    alt="{{ $category_update->name }}">
                             </div>
                             <label for="status">Status: </label>
                             <select class="form-control" name="status" id="status">
-                                <option value="1">Show</option>
-                                <option value="0">Hide</option>
+                                <option {{ $category_update->status === 1 ? 'selected' : '' }} value="1">Show</option>
+                                <option {{ $category_update->status === 0 ? 'selected': '' }} value="0">Hide</option>
                             </select>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button class="btn btn-success mt-2">
-                                Add new !
+                            <button type="submit" class="btn btn-warning mt-2">
+                                Update data !
                             </button>
                         </div>
                     </form>
@@ -99,12 +102,8 @@
                 <section class="content-page">
                     @includeIf('backend.layouts.alert')
                     <div class="card">
-                        <div class="px-4 py-2 bg-light border">
-                            <h3 class="card-title d-inline-block my-2">DataTable Categories</h3>
-                            <div class="action float-end">
-                                <a href="{{ route('categories.trash') }}" class="btn btn-outline-danger"><i
-                                        class="fa fa-trash m-1"></i>Trash</a>
-                            </div>
+                        <div class="card-header bg-light">
+                            <h3 class="card-title">DataTable Blog Categories</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -121,7 +120,8 @@
                                 </thead>
                                 <tbody>
                                     @if(count($categories) == 0)
-                                    <div class="alert alert-warning p-3" role="alert">No any categories here !
+                                    <div class=" alert alert-warning alert-dismissible fade show" role="alert">
+                                        <span>No any blog categories here !</span>
                                     </div>
                                     @else
                                     @foreach ($categories as $category)
@@ -134,7 +134,7 @@
                                             <p>{{ Str::limit($category->slug, 25, '...') }}</p>
                                         </td>
                                         <td><img class="w-100"
-                                                src="{{ asset('uploads/categories') . '/' . $category->image  }}"
+                                                src="{{ asset('uploads/blog-categories') . '/' . $category->image  }}"
                                                 alt="{{ $category->name }}"></td>
                                         <td>
                                             @if($category->status == 1)
@@ -143,17 +143,17 @@
                                             <span class="badge bg-secondary">Hide</span>
                                             @endif
                                         <td>
-                                            <a class="btn btn-info" href="{{ route('categories.edit', $category->id) }}"
+                                            <a class="btn btn-info"
+                                                href="{{ route('blog-categories.edit', $category->id) }}"
                                                 role="button"><i class="fas fa-pen"></i></a>
                                             <form class="d-inline-block"
-                                                action="{{ route('categories.destroy', $category->id ) }}"
+                                                action="{{ route('blog-categories.destroy', $category->id ) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <button onclick="return confirm('Are you sure to take this action ?')"
                                                     class="btn btn-danger" type="submit">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                                                    <i class="fas fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -161,8 +161,8 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <div class="col-md-12 my-3">
-                                <!-- Pagination -->
+                            <!-- Pagination -->
+                            <div class="col-lg-12 col-md-7">
                                 <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $categories->firstItem() }} to
                                         {{ $categories->lastItem() }} of
@@ -174,8 +174,7 @@
                             </div>
                             <!-- /.card-body -->
                         </div>
-                    </div>
-                    <!-- /.card -->
+                        <!-- /.card -->
                 </section>
                 <!-- /.content -->
             </div>

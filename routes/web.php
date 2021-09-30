@@ -87,7 +87,6 @@ Route::prefix('admin')->group(function () {
 
         // Blog
         Route::resource('blogs', BlogController::class);
-
         // Blog Trash
         Route::get('trash/blogs', [BlogController::class, 'trash'])->name('blogs.trash');
         Route::post('trash/blogs', [BlogController::class, 'trashAction'])->name('blogs.action');
@@ -154,6 +153,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('checkout-change-date', [OrderController::class, 'changeDate'])->name('checkout.change_date');
 });
+
+// Blog and Blog-details
+Route::get('blogs', [HomeController::class, 'blog'])->name('user.blogs');
 
 // Route 404
 Route::fallback(function () {

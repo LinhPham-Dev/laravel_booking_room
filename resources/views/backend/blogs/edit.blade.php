@@ -10,8 +10,9 @@
             </div>
         </div>
         <div class="row">
-            <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('blogs.update', $blog_edit->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('put')
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 px-3">
@@ -19,7 +20,7 @@
                             <div class="form-group">
                                 <label for="title">Title :</label>
                                 <input class="form-control @error('title') is-invalid @enderror" type="text" id="name"
-                                    name="title" value="{{ old('title') }}" autofocus>
+                                    name="title" value="{{ $blog_edit->title ?? old('title') }}" autofocus>
                                 @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -28,7 +29,7 @@
                             <div class="form-group">
                                 <label for="slug">Url :</label>
                                 <input class="form-control @error('slug') is-invalid @enderror" type="text" id="slug"
-                                    name="slug" value="{{ old('slug') }}">
+                                    name="slug" value="{{ $blog_edit->title ?? old('slug') }}">
                                 @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -36,14 +37,14 @@
                             {{-- Image --}}
                             <div class="form-group">
                                 <label for="room_avatar">Choose Image :</label>
-                                <input class="form-control-file d-block" type="file" id="blog_image" name="blog_image">
+                                <input class="form-control-file d-block" type="file" id="room_avatar" name="blog_image">
                                 @error('blog_image')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="my-2">
-                                <img id="image-show" style="padding: 18px 10px 10px 0;" width="70%"
-                                    style="display: none">
+                                <img id="image-show" src="{{ asset('uploads/blog/').'/'.$blog_edit->image }}"
+                                    style="padding: 18px 10px 10px 0;" width="70%">
                             </div>
                         </div>
                         <div class="col-lg-6 px-3">
@@ -52,7 +53,8 @@
                                 <label for="category">Blog Category: </label>
                                 <select class="form-control" name="blog_category_id" id="category">
                                     @foreach ($categories as $category)
-                                    <option {{ request()->blog_category_id == $category->id ? 'selected' : '' }}
+                                    <option
+                                        {{ ( $blog_edit->category->id ?? request()->blog_category_id) == $category->id ? 'selected' : '' }}
                                         value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
@@ -68,7 +70,8 @@
                         </div>
                         <div class="col-lg-12">
                             <label for="summernote">Description: </label>
-                            <textarea class="form-control" name="content" id="summernote"></textarea>
+                            <textarea class="form-control" name="content"
+                                id="summernote">{!! $blog_edit->content !!}</textarea>
                             @error('content')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -77,7 +80,7 @@
                 </div>
                 <!-- /.card-body -->
                 <button type="submit" class="btn btn-info btn-lg mx-3">
-                    Add New Blog !
+                    Update Blog !
                 </button>
             </form>
         </div>

@@ -8,6 +8,7 @@ use App\Http\Requests\Backend\UpdateRoomRequest;
 use App\Models\Backend\Category;
 use App\Models\Backend\Room;
 use App\Models\Backend\RoomImage;
+use App\Models\Frontend\Order;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -72,7 +73,7 @@ class RoomController extends Controller
         if ($request->hasFile('room_avatar')) {
             $file = $request->file('room_avatar');
 
-            // Method Upload
+            // Method UploadT
             $path = 'uploads/rooms/room_avatar';
             $imageName = $this->uploadService->uploadImageHandler($file, $room_name, $path);
 
@@ -196,11 +197,41 @@ class RoomController extends Controller
      * @param  \App\Models\Backend\Room  $room
      * @return \Illuminate\Http\Response
      */
+
+    function checkOrderOfRoom($orders, $room_id)
+    {
+        if ($orders) {
+            foreach ($orders as $order) {
+                if ($order) {
+                    foreach ($order->orderDetails as $item) {
+                        if ($item->room_id == $room_id) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function destroy($id)
     {
-        $room_delete = Room::destroy($id);
+        $room_delete = Room::find($id);
 
-        return alertDelete($room_delete, 'rooms.index');
+        $orders = Order::all();
+
+        $check = $this->checkOrderOfRoom($orders, $room_delete->id);
+
+        // Check Relationship
+        if ($check) {
+            $message = 'Can\'t move record to trash! Because it belongs to a certain order !';
+            return redirect()->back()->with('error', $message);
+        }
+
+        $room_delete->delete();
+
+        return alertTrash($room_delete, 'rooms.index');
     }
 
     public function trash()
@@ -214,12 +245,6 @@ class RoomController extends Controller
 
     public function trashAction(Request $request)
     {
-
-        // Check Relationship
-        // if ($room_delete->orderOfRoom()->get()->count() > 0) {
-        //     $message = 'You cannot delete this product. Because it belongs to a certain order !';
-        //     return redirect()->back()->with('error', $message);
-        // };
 
         // Action
         $action = $request->action;
@@ -262,6 +287,7 @@ class RoomController extends Controller
                 $this->roomImage->deleteRoomImage($id);
             }
 
+            // Real delete
             Room::withTrashed()->whereIn('id', $action_id)->forceDelete();
 
             return redirect()->back()->with('success', 'Delete record successfully !');

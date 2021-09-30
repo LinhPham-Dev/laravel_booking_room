@@ -1,9 +1,9 @@
 <script>
     $('#summernote').summernote({
         placeholder: "Describe your room...",
-        height: 150,
-        minHeight: 100,
-        maxHeight: 300,
+        height: 300,
+        minHeight: 150,
+        maxHeight: 500,
     });
 
     $('#category_image').change(function (e) {

@@ -51,7 +51,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="d-inline-block my-0" style="line-height: 35px">DataTable blogs</h5>
+                        <h5 class="d-inline-block my-0" style="line-height: 35px">DataTable Blogs</h5>
                         <div class="action float-end">
                             <a href="{{ route('blogs.trash') }}" class="btn btn-outline-danger"><i
                                     class="fa fa-trash m-1"></i>Trash</a>

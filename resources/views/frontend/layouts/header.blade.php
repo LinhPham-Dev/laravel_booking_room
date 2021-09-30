@@ -47,58 +47,58 @@
                         {{-- <div class="lag-select">
                             <div class="lag-img">
                                 <img id="flag-country" src="{{ asset('assets/frontend') }}/img/icons/flag-en.png"
-                                    alt="Flag">
-                            </div>
-                            <div class="lag-option">
-                                <select id="lang">
-                                    <option class="lang" value="en">English</option>
-                                    <option class="lang" value="vi">VietNam</option>
-                                </select>
-                            </div>
-                        </div> --}}
-                        <nav class="main-menu">
-                            <ul class="list-inline">
-                                <li class="active-page">
-                                    <a href="/">Home</a>
-                                </li>
-                                <li class="have-submenu">
-                                    <a href="{{ route('user.category') }}">Rooms</a>
-                                    <ul class="submenu">
-                                        <li><a href="#">Room Classic</a></li>
-                                        <li><a href="#">Room Modern</a></li>
-                                        <li><a href="#">Room Luxury</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="service.html">Services</a></li>
-                                <li class="submenu">
-                                    <a href="blog.html">News</a>
-                                </li>
-                                <li class="submenu">
-                                <li><a href="about.html">About Us</a></li>
-                                </li>
-                                <li><a href="{{ route('cart.show') }}">Cart</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                        alt="Flag">
+                    </div>
+                    <div class="lag-option">
+                        <select id="lang">
+                            <option class="lang" value="en">English</option>
+                            <option class="lang" value="vi">VietNam</option>
+                        </select>
+                    </div>
+                </div> --}}
+                <nav class="main-menu">
+                    <ul class="list-inline">
+                        <li class="active-page">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="have-submenu">
+                            <a href="{{ route('user.category') }}">Rooms</a>
+                            <ul class="submenu">
+                                <li><a href="#">Room Classic</a></li>
+                                <li><a href="#">Room Modern</a></li>
+                                <li><a href="#">Room Luxury</a></li>
                             </ul>
-                        </nav>
-                        <div class="search-wrap">
-                            <a href="#" class="search-icon"><i class="far fa-search"></i></a>
-                            <a href="#" class="search-icon icon-close">
-                                <i class="far fa-times"></i>
-                            </a>
-                            <div class="search-form">
-                                <form>
-                                    <input type="search" placeholder="TYPE AND PRESS ENTER.....">
-                                </form>
-                            </div>
-                        </div>
-                        <div class="quote-btn">
-                            <a href="room.html" class="btn filled-btn">Booking now
-                                <i class="far fa-long-arrow-right"></i></a>
-                        </div>
+                        </li>
+                        <li><a href="service.html">Services</a></li>
+                        <li class="submenu">
+                            <a href="{{ route('user.blogs') }}">News</a>
+                        </li>
+                        <li class="submenu">
+                        <li><a href="about.html">About Us</a></li>
+                        </li>
+                        <li><a href="{{ route('cart.show') }}">Cart</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="search-wrap">
+                    <a href="#" class="search-icon"><i class="far fa-search"></i></a>
+                    <a href="#" class="search-icon icon-close">
+                        <i class="far fa-times"></i>
+                    </a>
+                    <div class="search-form">
+                        <form>
+                            <input type="search" placeholder="TYPE AND PRESS ENTER.....">
+                        </form>
                     </div>
                 </div>
+                <div class="quote-btn">
+                    <a href="room.html" class="btn filled-btn">Booking now
+                        <i class="far fa-long-arrow-right"></i></a>
+                </div>
             </div>
-            <div class="mobilemenu"></div>
         </div>
+    </div>
+    <div class="mobilemenu"></div>
+    </div>
     </div>
 </header>
