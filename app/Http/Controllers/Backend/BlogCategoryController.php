@@ -124,7 +124,7 @@ class BlogCategoryController extends Controller
             $this->uploadService->deleteFile($blog_category->image, $path);
 
             // Method Upload
-            $path = 'uploads/blog-categories/';
+            $path = 'uploads/blog-categories';
             $image_name = $this->uploadService->uploadImageHandler($file, $category_name, $path);
 
             // Merge field image -> request

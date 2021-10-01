@@ -40,4 +40,16 @@ class Blog extends Model
     {
         return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
+
+    // Blog of admin
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
+    // Comment of blog
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

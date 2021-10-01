@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Blog;
+use App\Models\Backend\BlogCategory;
 use App\Models\Backend\Category;
+use App\Models\Backend\Comment;
 use App\Models\Backend\Room;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\Rating;
@@ -125,12 +127,46 @@ class HomeController extends Controller
     {
         $params = $request->all();
 
-        $blogs = Blog::filter($params)->paginate(4);
+        $blogs = Blog::latest()->filter($params)->paginate(4);
 
         $new_blogs = Blog::latest()->take(3)->get();
 
-        $new_categories = Category::latest()->take(3)->get();
+        $new_blog_categories = BlogCategory::latest()->take(3)->get();
 
-        return view('frontend.pages.blogs', compact('blogs', 'new_blogs', 'new_categories'));
+        return view('frontend.pages.blogs', compact('blogs', 'new_blogs', 'new_blog_categories'));
+    }
+
+    // Blog detail method
+    public function blogDetail($slug, Request $request)
+    {
+        $params = $request->all();
+
+        $blog = Blog::where('slug', $slug)->first();
+
+        $comments = $blog->comment()->latest()->get();
+
+        $new_blogs = Blog::latest()->take(3)->where('slug', '<>', $slug)->get();
+
+        $new_blog_categories = BlogCategory::latest()->take(3)->get();
+
+        return view('frontend.pages.blog-details', compact('blog', 'new_blogs', 'new_blog_categories', 'comments'));
+    }
+
+    // Comment method
+    public function comment()
+    {
+        // Add new comment
+        $comment = Comment::addComment();
+
+        if ($comment) {
+            return redirect()->back()->with('success', 'Your rating  has been added !');
+        } else {
+            return redirect()->back()->with('error', 'Your rating have a problem !');
+        }
+    }
+
+    public function sortComment()
+    {
+        # code...
     }
 }

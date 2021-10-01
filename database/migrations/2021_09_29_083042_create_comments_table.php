@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->text('message');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->default(0);
             $table->tinyInteger('status')->comment('1 is visible, 0 is hidden');
             $table->timestamps();
         });

@@ -156,6 +156,12 @@ Route::middleware(['auth'])->group(function () {
 
 // Blog and Blog-details
 Route::get('blogs', [HomeController::class, 'blog'])->name('user.blogs');
+Route::get('blog-details/{slug}', [HomeController::class, 'blogDetail'])->name('user.blog_details');
+
+// Comment blog
+Route::post('/blogs/comment', [HomeController::class, 'comment'])->name('comment')->middleware('auth');
+Route::get('sort-comments', [HomeController::class, 'sortComment'])->name('sort_comment')->middleware('auth');
+
 
 // Route 404
 Route::fallback(function () {

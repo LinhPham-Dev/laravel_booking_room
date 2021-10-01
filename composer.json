@@ -33,6 +33,7 @@
         "files": [
             "app/Helper/AlertHelper.php",
             "app/Helper/CategoryHelper.php",
+            "app/Helper/CommentHelper.php",
             "app/Helper/MoneyHelper.php",
             "app/Helper/DateHelper.php"
         ]

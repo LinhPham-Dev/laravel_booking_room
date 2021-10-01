@@ -5299,7 +5299,7 @@ div.rating-container .counter::before {
     margin-bottom: 50px;
 }
 
-.comment-area .comment-list li .comment-autor {
+.comment-area .comment-list li .comment-author {
     position: absolute;
     left: 0;
     top: 0;
@@ -5307,7 +5307,7 @@ div.rating-container .counter::before {
     height: 100px;
 }
 
-.comment-area .comment-list li .comment-autor img {
+.comment-area .comment-list li .comment-author img {
     max-width: 100px;
     max-height: 100px;
     border-radius: 50px;
@@ -5547,7 +5547,7 @@ figure {
 
 .sidebar-wrap .widget.recent-news li .recent-post-img img {
     border-radius: 50%;
-    max-height: 70px;
+    height: 55px;
     max-width: 70px;
 }
 
