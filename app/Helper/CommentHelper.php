@@ -15,10 +15,10 @@ if (!function_exists('showComments')) {
 
                 echo '<li>
                     <div class="comment-author">
-                        <img src="assets/img/blog-details/04.jpg" alt="Avatar">
+                    <img class="w-75" src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png" alt="Avatar">
                     </div>
                     <div class="comment-desc">
-                        <h6 id="comment-' . $comment->id . '">' . $comment->user->name . '<span class="comment-date ml-3">' . dateBlog($comment->created_at) . '</span>
+                        <h6 id="comment-' . $comment->id . '">' . $comment->user->name . '<span class="comment-date ml-3">' . dateComment($comment->created_at) . '</span>
                         </h6>';
                 if ($comment->parent_id != 0) {
                     echo '<p class="reply-to">Reply to: <a href="#comment-' . $comment->parentComment->id . '">' . $comment->parentComment->user->name . '</a></p>';

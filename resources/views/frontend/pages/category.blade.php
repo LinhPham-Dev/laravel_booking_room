@@ -79,8 +79,9 @@
                                             </li>
                                         </ul>
                                         <div class="room-price">
-                                            <p>${{ $room->sale_price }}<del
-                                                    class="ml-2 text-secondary">${{ $room->price }}</del></p>
+                                            <p>${{ moneyFormat($room->sale_price) }}<del
+                                                    class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                                            </p>
                                         </div>
                                         <div class="room-book float-right">
                                             <a href="{{ route('user.room', $room->slug) }}">Book now</a>
@@ -116,8 +117,9 @@
                                             </li>
                                         </ul>
                                         <div class="room-price">
-                                            <p>${{ $room->sale_price }}<del
-                                                    class="ml-2 text-secondary">${{ $room->price }}</del></p>
+                                            <p>${{ moneyFormat($room->sale_price) }}<del
+                                                    class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                                            </p>
                                         </div>
                                         <div class="room-book float-right">
                                             <a href="{{ route('user.room', $room->slug) }}">Book now</a>
@@ -207,10 +209,12 @@
                                         </div>
                                         <div class="price-ammount">
                                             <input disabled type="text" id="amount">
+                                            <input type="hidden" value="{{ $max_price }}" id="max" name="max">
+                                            <input type="hidden" value="{{ $min_price }}" id="min" name="min">
                                             <input type="hidden" name="price_from" id="price_from"
-                                                value="{{ request()->price_from }}">
+                                                value="{{ request()->price_from ?? $min_price }}">
                                             <input type="hidden" name="price_to" id="price_to"
-                                                value="{{ request()->price_to }}">
+                                                value="{{ request()->price_to ?? $max_price }}">
                                         </div>
                                     </div>
                                 </div>

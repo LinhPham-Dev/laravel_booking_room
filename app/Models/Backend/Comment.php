@@ -48,4 +48,13 @@ class Comment extends Model
     {
         return $this->belongsTo(Comment::class, 'parent_id');
     }
+
+    public function scopeSort($query, $sort)
+    {
+        if ($sort == 'oldest') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
+    }
 }

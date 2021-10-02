@@ -51,8 +51,8 @@
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label>Phone <sup>*</sup>
                                             </label>
-                                            <input type="text" value="{{ old('phone') }}" name="phone"
-                                                class="form-control">
+                                            <input type="text" value="{{ old('phone') ?? Auth::user()->phone }}"
+                                                name="phone" class="form-control">
                                             @error('phone')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -60,8 +60,8 @@
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label>Address <sup>*</sup>
                                             </label>
-                                            <input type="text" value="{{ old('address') }}" name="address"
-                                                class="form-control">
+                                            <input type="text" value="{{ old('address') ?? Auth::user()->address }}"
+                                                name="address" class="form-control">
                                             @error('address')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -93,7 +93,8 @@
                                                 @foreach (range(0, 10) as $item)
                                                 <option
                                                     {{ Session::get('children')[0] ?? old('children') == $item ? 'selected' : '' }}
-                                                    value="{{ $item }}">{{ $item }}</option>
+                                                    value="{{ $item }}">{{ $item }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             @error('children')

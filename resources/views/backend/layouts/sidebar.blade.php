@@ -121,11 +121,19 @@
                 </ul>
             </li>
 
-            <!-- User -->
+            <!-- Coupon -->
             <li class="sidebar-item">
-                <a href="{{ route('backend.user.show') }}" class="sidebar-link collapsed">
-                    <i class="fas fa-user"></i><span class="align-middle">Users</span>
+                <a data-bs-target="#coupon" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fas fa-hand-holding-usd"></i> <span class="align-middle">Coupon</span>
                 </a>
+                <ul id="coupon" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('coupons.index') }}">Coupons
+                            Manager</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('coupons.create') }}">Add new
+                            Coupon</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('coupons.index') }}">Coupons
+                            Trash</a></li>
+                </ul>
             </li>
 
             <!-- Faq -->
@@ -138,6 +146,13 @@
                     <li class="sidebar-item"><a class="sidebar-link" href="">Edit Faq</a></li>
                     <li class="sidebar-item"><a class="sidebar-link" href="">Faq trash</a></li>
                 </ul>
+            </li>
+
+            <!-- User -->
+            <li class="sidebar-item">
+                <a href="{{ route('backend.user.show') }}" class="sidebar-link collapsed">
+                    <i class="fas fa-user"></i><span class="align-middle">Users</span>
+                </a>
             </li>
 
             <!-- Order -->

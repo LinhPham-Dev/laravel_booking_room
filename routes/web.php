@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backend\CartController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\LoginAdminController;
@@ -9,12 +9,13 @@ use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LoginUserController;
 use Illuminate\Support\Facades\Route;
 
-// *** Admin route *** \\
+// ======== *** ADMIN ROUTE *** ============== \\
 Route::prefix('admin')->group(function () {
 
     // *** Login - Register Route *** \\
@@ -46,6 +47,8 @@ Route::prefix('admin')->group(function () {
 
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        Route::get('events', [DashboardController::class, 'events'])->name('admin.events');
 
         // Route Logout
         Route::get('logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
@@ -90,10 +93,16 @@ Route::prefix('admin')->group(function () {
         // Blog Trash
         Route::get('trash/blogs', [BlogController::class, 'trash'])->name('blogs.trash');
         Route::post('trash/blogs', [BlogController::class, 'trashAction'])->name('blogs.action');
+
+        // Coupon
+        Route::resource('coupons', CouponController::class);
+        // Coupon Trash
+        Route::get('trash/coupons', [CouponController::class, 'trash'])->name('coupons.trash');
+        Route::post('trash/coupons', [CouponController::class, 'trashAction'])->name('coupons.action');
     });
 });
 
-// *** User route *** \\
+// ======== *** USER ROUTE *** ============== \\
 // Show register form
 Route::get('register', [
     LoginUserController::class,
@@ -103,6 +112,7 @@ Route::get('register', [
 // Register
 Route::post('register', [LoginUserController::class, 'register'])->name('user.handle_register');
 
+// Show login form
 Route::get('login', [
     LoginUserController::class,
     'showLoginForm'
@@ -111,10 +121,34 @@ Route::get('login', [
 // Login
 Route::post('login', [LoginUserController::class, 'login'])->name('user.handle_login');
 
-// Route Logout
-Route::get('logout', [LoginUserController::class, 'logout'])->name('user.logout');
+// Forgot Password
+Route::get('forgot-password', [LoginUserController::class, 'showFormEnterMail'])->name('user.forgot_password');
 
+// Send to email
+Route::post('forgot-password', [LoginUserController::class, 'sendMailReset'])->name('user.send_mail_reset');
+
+// Confirm reset
+Route::get('confirm-reset/{token}', [LoginUserController::class, 'confirmToken'])->name('user.confirm_reset');
+
+// Show form enter new pass
+Route::get('reset-password', [LoginUserController::class, 'showFormReset'])->name('user.reset_password');
+
+// Update password
+Route::post('reset-password', [LoginUserController::class, 'handleReset'])->name('user.handle_reset_password');
+
+// Change password
+Route::post('change-password', [LoginUserController::class, 'changePassword'])->name('user.change_password')->middleware('auth');
+
+// Route Logout
+Route::get('logout', [LoginUserController::class, 'logout'])->name('user.logout')->middleware('auth');
+
+// Route home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::redirect('/home', '/');
+
+Route::get('profile', [HomeController::class, 'profile'])->name('profile')->middleware('auth');
+Route::put('profile', [HomeController::class, 'updateProfile'])->name('updateProfile')->middleware('auth');
 
 Route::get('categories/{slug?}', [HomeController::class, 'category'])->name('user.category');
 
@@ -160,7 +194,7 @@ Route::get('blog-details/{slug}', [HomeController::class, 'blogDetail'])->name('
 
 // Comment blog
 Route::post('/blogs/comment', [HomeController::class, 'comment'])->name('comment')->middleware('auth');
-Route::get('sort-comments', [HomeController::class, 'sortComment'])->name('sort_comment')->middleware('auth');
+Route::get('sort-comments', [HomeController::class, 'sortComment'])->name('sort_comments')->middleware('auth');
 
 
 // Route 404

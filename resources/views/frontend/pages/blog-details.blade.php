@@ -5,7 +5,7 @@
 <main>
     <!-- Breadcrumb section -->
     <section class="breadcrumb-area d-flex align-items-center position-relative bg-img-center"
-        style="background-image:  url('{{ asset('assets/frontend')}}/img/bg/breadcrumb-02.jpg');">
+        style="background-image:  url('{{ asset('assets/frontend') }}/img/bg/breadcrumb-02.jpg');">
         <div class="container">
             <div class="breadcrumb-content text-center">
                 <h1>Blog Details</h1>
@@ -28,7 +28,7 @@
                     <div class="post-details">
                         <div class="entry-header">
                             <div class="post-thumb">
-                                <img src="{{ asset('uploads/blog').'/'.$blog->image }}" alt="Image">
+                                <img src="{{ asset('uploads/blog') . '/' . $blog->image }}" alt="Image">
                             </div>
                             <ul class="entry-meta list-inline">
                                 <li><a href="javascript:void(0)"><i
@@ -63,11 +63,11 @@
                     </div>
                     <div class="comment-area">
                         <div class="reviews-head">
-                            <h3 class="tab-title comment-title">2.3K Reviews</h3>
+                            <h3 class="tab-title comment-title">{{ $total_comments }} Comments</h3>
                             <div class="select-filter">
-                                <select name="filter" id="filter-reviews">
-                                    <option value="esc">Latest</option>
-                                    <option value="desc">Oldest</option>
+                                <select name="filter" id="filter-comments">
+                                    <option value="latest">Latest</option>
+                                    <option value="oldest">Oldest</option>
                                 </select>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                 @foreach ($new_blogs as $blog)
                                 <li>
                                     <div class="recent-post-img">
-                                        <img src="{{ asset('uploads/blog').'/'. $blog->image}}" alt="Image">
+                                        <img src="{{ asset('uploads/blog') . '/' . $blog->image }}" alt="Image">
                                     </div>
                                     <div class="recent-post-desc">
                                         <h6><a
@@ -128,7 +128,7 @@
                             <h4 class="widget-title">Category</h4>
                             @foreach ($new_blog_categories as $category)
                             <div class="single-cat bg-img-center"
-                                style="background-image: url('{{ asset('uploads/blog-categories/').'/'.$category->image }}')">
+                                style="background-image: url('{{ asset('uploads/blog-categories/') . '/' . $category->image }}')">
                                 <a href="#">{{ $category->name }}</a>
                             </div>
                             @endforeach
@@ -147,5 +147,39 @@
     @includeIf('frontend.layouts.brand')
     <!-- Brands section End -->
 </main>
+
+@endsection
+
+@section('script-option')
+
+<script>
+    // Order Rating
+        $('#filter-comments').change(function(e) {
+
+            const sort_by = $(this).val();
+
+            const _token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type: "GET",
+                datatype: 'html',
+                url: `{{ route('sort_comments') }}`,
+                data: {
+                    sort_by: sort_by,
+                    _token: _token
+                },
+                success: function(res) {
+                    const html = res.html;
+                    $('.comment-all').html(html);
+
+                    // alert('Sort comments successfully !');
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            });
+
+        });
+</script>
 
 @endsection

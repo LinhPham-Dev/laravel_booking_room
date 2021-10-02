@@ -2218,6 +2218,7 @@ span.counter-number,
     margin: 15px 0;
     position: absolute;
     opacity: 0;
+    visibility: hidden;
 }
 
 .main-page .form-checkbox .custom-checkbox + label {
@@ -5435,6 +5436,13 @@ div.rating-container .counter::before {
 figure {
     margin: 0;
     overflow: hidden;
+}
+
+/* Profile */
+.profile-picture .show-avt {
+    max-width: 220px;
+    max-height: 220px;
+    border-radius: 50%;
 }
 
 /* Blog and Room Details END

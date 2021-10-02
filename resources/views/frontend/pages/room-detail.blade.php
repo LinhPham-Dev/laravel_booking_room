@@ -324,7 +324,7 @@
                                 <div class="input-wrap">
                                     <select id="quantity" name="quantity">
                                         <option value="">Quantity</option>
-                                        @foreach (range(1, 10) as $quantity)
+                                        @foreach (range(1, $room->quantity) as $quantity)
                                         <option value="{{ $quantity }}">{{ $quantity }}</option>
                                         @endforeach
                                     </select>

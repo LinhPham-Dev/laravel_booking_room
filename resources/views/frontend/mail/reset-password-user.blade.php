@@ -9,9 +9,10 @@
 </head>
 
 <body>
-    <h1>Click the link below to reset your password !</h1>
-    <h3>Your emai: {{ $email }}</h3>
-    <a style="font-size: 17px; color: red; margin-top: 30px" href="{{ route('admin.confirm_reset', $token) }}">
+    <h1 style="color: brown">Reset Password User</h1>
+    <h2>Click the link below to reset your password !</h2>
+    <h3>Your email: {{ $email }}</h3>
+    <a style="font-size: 17px; color: red; margin-top: 30px" href="{{ route('user.confirm_reset', $token) }}">
         Reset my password.
     </a>
 </body>

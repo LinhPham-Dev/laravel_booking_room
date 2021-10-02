@@ -4,12 +4,10 @@
 
 <main class="content">
     <div class="container-fluid p-0">
-
         <div class="row mb-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Dashboard</strong></h3>
             </div>
-
         </div>
         <div class="row">
             <div class="col-sm-6 col-xl-3">
@@ -19,7 +17,6 @@
                             <div class="col mt-0">
                                 <h5 class="card-title">Income</h5>
                             </div>
-
                             <div class="col-auto">
                                 <div class="stat text-primary">
                                     <i class="align-middle" data-feather="dollar-sign"></i>
@@ -105,13 +102,10 @@
                 </div>
             </div>
         </div>
-
         <div class="container-fluid p-0">
-
             <div class="mb-3">
                 <h1 class="h3 d-inline align-middle"><strong>Reservation List</strong></h1>
             </div>
-
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">User booking room</h5>
@@ -132,72 +126,55 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-            var calendarEl = document.getElementById("fullcalendar");
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                themeSystem: "Materia",
-                initialView: "dayGridMonth",
-                initialDate: "2021-07-07",
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay"
+            // Call ajax get all events
+            const url = "{{ route('admin.events') }}";
+
+            const _token = $('meta[name="csrf-token"]').attr('content');
+
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    _token: _token
                 },
-                events: [{
-                        title: "All Day Event",
-                        start: "2021-07-01"
-                    },
-                    {
-                        title: "Long Event",
-                        start: "2021-07-07",
-                        end: "2021-07-10"
-                    },
-                    {
-                        groupId: "999",
-                        title: "Repeating Event",
-                        start: "2021-07-09T16:00:00"
-                    },
-                    {
-                        groupId: "999",
-                        title: "Repeating Event",
-                        start: "2021-07-16T16:00:00"
-                    },
-                    {
-                        title: "Conference",
-                        start: "2021-07-11",
-                        end: "2021-07-13"
-                    },
-                    {
-                        title: "Conference demo",
-                        start: "2021-07-11T10:30:00",
-                        end: "2021-07-12T12:30:00"
-                    },
-                    {
-                        title: "Meeting",
-                        start: "2021-07-12T10:30:00",
-                        end: "2021-07-12T12:30:00"
-                    },
-                    {
-                        title: "Lunch",
-                        start: "2021-07-12T12:00:00"
-                    },
-                    {
-                        title: "Meeting",
-                        start: "2021-07-12T14:30:00"
-                    },
-                    {
-                        title: "Birthday Party",
-                        start: "2021-07-13T07:00:00"
-                    },
-                    {
-                        title: "Click for Google",
-                        url: "http://google.com/",
-                        start: "2021-07-28"
+                success: function(res) {
+                    if (res.status) {
+                        events = res.events;
+
+                        // Get current date
+                        var today = new Date();
+                        var day = String(today.getDate()).padStart(2, '0');
+                        var month = String(today.getMonth() + 1).padStart(2, '0');  //January is 0!
+                        var year = today.getFullYear();
+
+                        var init_date = `${year}-${month}-01`;
+
+                        // Render Calender
+                        var calendarEl = document.getElementById("fullcalendar");
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            themeSystem: "Materia",
+                            initialView: "dayGridMonth",
+                            initialDate: init_date,
+                            headerToolbar: {
+                                left: "prev,next today",
+                                center: "title",
+                                right: "dayGridMonth,timeGridWeek,timeGridDay"
+                            },
+                            events: events
+                        });
+                        setTimeout(function() {
+                            console.log(events);
+                            calendar.render();
+                        }, 250)
                     }
-                ]
+                },
+                error: function(res) {
+                    console.log(res);
+                }
             });
-            setTimeout(function() {
-                calendar.render();
-            }, 250)
+
+
         });
 </script>
 

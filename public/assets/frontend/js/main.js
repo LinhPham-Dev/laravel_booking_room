@@ -377,13 +377,15 @@ $(function () {
     });
     // Price Range Slider
 
+    const max = $("#max").val();
+    const min = $("#min").val();
     const price_from = $("#price_from").val();
     const price_to = $("#price_to").val();
 
     $("#slider-range").slider({
         range: true,
-        min: 0,
-        max: 100,
+        min: parseInt(min),
+        max: parseInt(max),
         values: [price_from, price_to],
         slide: function (event, ui) {
             $("#amount").val(

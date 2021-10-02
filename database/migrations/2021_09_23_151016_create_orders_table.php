@@ -20,12 +20,12 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->bigInteger('coupon_id')->unsigned();
-            // $table->foreign('coupon_id')->references('id')->on('coupons');
+            $table->foreign('coupon_id')->references('id')->on('coupons');
             $table->text('note')->nullable();
             $table->dateTime('arrive_date');
             $table->dateTime('depart_date');
             $table->integer('adult');
-            $table->integer('child');
+            $table->integer('children');
             $table->tinyInteger('status')->default(0);
             $table->float('total_amount');
             $table->timestamps();

@@ -12,3 +12,11 @@ if (!function_exists('dateBlog')) {
         return date(' j F Y', strtotime($date));
     }
 }
+
+
+if (!function_exists('dateComment')) {
+    function dateComment($date)
+    {
+        return date('j F Y g:i A', strtotime($date));
+    }
+}

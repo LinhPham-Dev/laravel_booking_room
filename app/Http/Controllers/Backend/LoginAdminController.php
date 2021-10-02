@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\LoginRequest;
 use App\Http\Requests\Backend\ResetPasswordAdmin;
-use App\Mail\ResetPassword;
+use App\Mail\ResetPasswordAdmin as MailResetPasswordAdmin;
 use App\Models\Backend\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +68,7 @@ class LoginAdminController extends Controller
             $admin->save();
 
             // Send mail.
-            Mail::to($request->email)->send(new ResetPassword($email, $token, $admin->id));
+            Mail::to($request->email)->send(new MailResetPasswordAdmin($email, $token, $admin->id));
 
             return redirect()->back()->with('success', "Check your email $email to reset password !");
         }

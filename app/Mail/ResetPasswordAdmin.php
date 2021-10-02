@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPassword extends Mailable
+class ResetPasswordAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,6 +31,6 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->from('linhp0418@gmail.com', 'Laravel Booking Room')->view('frontend.mail.reset-password')->with(['email' => $this->email, 'token' => $this->token]);
+        return $this->from('linhp0418@gmail.com', 'Laravel Booking Room')->view('frontend.mail.reset-password-admin')->with(['email' => $this->email, 'token' => $this->token]);
     }
 }

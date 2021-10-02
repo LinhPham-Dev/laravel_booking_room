@@ -10,7 +10,10 @@ use App\Models\Backend\Comment;
 use App\Models\Backend\Room;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\Rating;
+use App\Models\User;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,11 +30,22 @@ class HomeController extends Controller
     {
         $params = $request->all();
 
+        $all_rooms = Room::select('price')->get()->toArray();
+
+        // Get max and min price
+        $max_price = max($all_rooms);
+
+        $max_price = $max_price['price'];
+
+        $min_price = min($all_rooms);
+
+        $min_price = $min_price['price'];
+
         $rooms = Room::filter($params)->filterPrice()->paginate(4);
 
         $categories = Category::all();
 
-        return view('frontend.pages.category', compact('rooms', 'categories'));
+        return view('frontend.pages.category', compact('rooms', 'categories', 'max_price', 'min_price'));
     }
 
     public function categoryAjax(Request $request, $slug = null)
@@ -145,11 +159,13 @@ class HomeController extends Controller
 
         $comments = $blog->comment()->latest()->get();
 
+        $total_comments = $comments->count();
+
         $new_blogs = Blog::latest()->take(3)->where('slug', '<>', $slug)->get();
 
         $new_blog_categories = BlogCategory::latest()->take(3)->get();
 
-        return view('frontend.pages.blog-details', compact('blog', 'new_blogs', 'new_blog_categories', 'comments'));
+        return view('frontend.pages.blog-details', compact('blog', 'new_blogs', 'new_blog_categories', 'comments', 'total_comments'));
     }
 
     // Comment method
@@ -165,8 +181,50 @@ class HomeController extends Controller
         }
     }
 
-    public function sortComment()
+    public function sortComment(Request $request)
     {
-        # code...
+        $comments = Comment::sort($request->sort_by)->get();
+
+        $html = view('frontend.pages.sort-comments')->with('comments', $comments)->render();
+
+        return response()->json(['success' => true, 'html' => $html]);
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('frontend.pages.profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request, UploadService $uploadService, User $user)
+    {
+        $user_id = Auth::user()->id;
+
+        $user_update = $user->find($user_id);
+
+        if ($request->hasFile('image_avt')) {
+            $category_name = $request->name;
+
+            $file = $request->file('image_avt');
+
+            // Method Upload
+            $path = 'uploads/avatars';
+            $image_name = $uploadService->uploadImageHandler($file, $category_name, $path);
+
+            // Merge field image -> request
+            $request->merge(['avatar' => $image_name]);
+        }
+
+
+        // dd($user_update);
+
+        $user_update = $user_update->update($request->all());
+
+        if ($user_update) {
+            return redirect()->back()->with('success', 'Update profile successfully !');
+        } else {
+            return redirect()->back()->with('success', 'Update profile failed !');
+        }
     }
 }

@@ -56,8 +56,9 @@
                             </div>
                         </form>
                         <p class="small">
-                            <a href="#" class="small-text">Forgot password!</a>
-                            <a href="register.html" class="small-text float-right">I don't have account!</a>
+                            <a href="{{ route('user.forgot_password') }}" class="small-text">Forgot password!</a>
+                            <a href="{{ route('user.show_register_form') }}" class="small-text float-right">I don't have
+                                account!</a>
                         </p>
                         <div class="divider"><span>Or</span></div>
                         <a href="#0" class="social_bt facebook">
