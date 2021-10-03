@@ -37,7 +37,6 @@ class OrderController extends Controller
         return view('frontend.pages.checkout', compact('payments', 'cart'))->with('hours', $hours);
     }
 
-
     public function changeDate(Request $request)
     {
         $depart_date = $request->depart_date;
@@ -74,6 +73,9 @@ class OrderController extends Controller
             // Send mail success.
             Mail::to($request->email)->send(new OrderComplete($new_order));
 
+            // Remove session coupon
+            $request->session()->forget('coupon');
+
             if ($request->payment_id == 2) {
                 $route_redirect = route('checkout.complete');
 
@@ -95,18 +97,24 @@ class OrderController extends Controller
 
         $arrive_date = $order->arrive_date;
 
-        if ($arrive_date && $depart_date) {
-            $depart_date = Carbon::create($depart_date);
-
-            $arrive_date = Carbon::create($arrive_date);
-
-            $depart_date->toDateTimeString();
-
-            $arrive_date->toDateTimeString();
-
-            $hours = $arrive_date->diffInHours($depart_date);
-        }
+        $hours = countHours($depart_date, $arrive_date);
 
         return view('frontend.pages.order-complete', compact('order', 'hours'));
+    }
+
+    public function orderHistory()
+    {
+        $user_id = Auth::user()->id;
+
+        $orders = Order::where('user_id', $user_id)->latest()->get();
+
+        return view('frontend.pages.order-history', compact('orders'));
+    }
+
+    public function orderDetails($id)
+    {
+        $order = Order::find($id);
+
+        return view('frontend.pages.order-details', compact('order'));
     }
 }

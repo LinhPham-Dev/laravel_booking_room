@@ -63,7 +63,7 @@
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Address</th>
-                                            <th>Status</th>
+                                            <th width="11%">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -71,10 +71,12 @@
                                         <tr>
                                             <th>{{ $loop->iteration }}</th>
                                             <td>{{ $user->name }}</td>
-                                            <td><img src="" alt="Avatar Image"></td>
+                                            <td><img class="w-50" src="{{ asset("uploads/avatars/$user->avatar") }}"
+                                                    alt="Avatar">
+                                            </td>
                                             <td>{{ $user->email }}</td>
-                                            <td>035324623434</td>
-                                            <td>Hà Lội - Việt Nam</td>
+                                            <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->address }}</td>
                                             <td>
                                                 <select id="user-{{ $user->id }}"
                                                     onchange="onChangeStatus({{ $user->id }})" name="status"

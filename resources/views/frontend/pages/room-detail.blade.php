@@ -281,7 +281,7 @@
                                                 <ul class="comment-list">
                                                     @foreach ($ratings as $rating)
                                                     <li>
-                                                        <div class="comment-autor">
+                                                        <div class="comment-author">
                                                             <img src="{{ asset('assets/frontend') }}/img/blog-details/04.jpg"
                                                                 alt="reviews">
                                                         </div>

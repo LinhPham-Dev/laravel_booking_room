@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\StoreCouponRequest;
+use App\Http\Requests\Backend\UpdateCouponRequest;
 use App\Models\Backend\Coupon;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,7 +47,7 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Coupon $coupon)
+    public function store(StoreCouponRequest $request, Coupon $coupon)
     {
         $new_coupon = $coupon->createNewCoupon();
 
@@ -94,9 +96,28 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(UpdateCouponRequest $request, $id,)
     {
-        dd($request->all());
+        $coupon_update = Coupon::find($id);
+
+        // Convert date form input
+        $start_time = Carbon::create($request->start_time);
+
+        $end_time = Carbon::create($request->end_time);
+
+        $start_time->toDateTimeString();
+
+        $end_time->toDateTimeString();
+
+        // Merge in to request
+        $request->merge(['start_time' => $start_time]);
+
+        $request->merge(['end_time' => $end_time]);
+
+        $coupon_update->update($request->all());
+
+        // Check Result
+        return alertUpdate($coupon_update, 'coupons.index');
     }
 
     /**
@@ -105,9 +126,20 @@ class CouponController extends Controller
      * @param  \App\Models\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy($id)
     {
-        //
+
+        $coupon_delete = Coupon::find($id);
+
+        // Check Relationship
+        if (count($coupon_delete->orders) > 0) {
+            $message = 'Can\'t move record to trash! Because it belongs to a certain order !';
+            return redirect()->back()->with('error', $message);
+        } else {
+            $coupon_delete->delete();
+
+            return alertTrash($coupon_delete, 'coupons.index');
+        }
     }
 
     public function trash()

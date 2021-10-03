@@ -55,10 +55,10 @@
                     <div class="card-header">
                         <h5 class="d-inline-block my-0" style="line-height: 35px">DataTable Rooms</h5>
                         <div class="action float-end">
-                            <a href="{{ route('rooms.trash') }}" class="btn btn-outline-danger"><i
-                                    class="fa fa-trash m-1"></i>Trash</a>
                             <a href="{{ route('rooms.create') }}" class="btn btn-outline-success mx-3"><i
                                     class="fas fa-plus mr-2"></i>Add New</a>
+                            <a href="{{ route('rooms.trash') }}" class="btn btn-outline-danger"><i
+                                    class="fa fa-trash m-1"></i>Trash</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -142,6 +142,7 @@
 
                                 <!-- Pagination -->
                                 <div class="row">
+                                    @if(count($banners) >= 3)
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info my-2">
                                             <p>Showing {{ $rooms->firstItem() }} to {{ $rooms->lastItem() }} of
@@ -153,6 +154,7 @@
                                             {{ $rooms->withQueryString()->links() }}
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                                 @endif
                             </div>

@@ -2,6 +2,6 @@
 if (!function_exists('moneyFormat')) {
     function moneyFormat($money)
     {
-        return number_format($money, 2, ',');
+        return number_format($money, 2, '.', ',');
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helper\CartHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Blog;
 use App\Models\Backend\BlogCategory;
 use App\Models\Backend\Category;
 use App\Models\Backend\Comment;
+use App\Models\Backend\Coupon;
 use App\Models\Backend\Room;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\Rating;
@@ -14,6 +16,7 @@ use App\Models\User;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Constraint\Count;
 
 class HomeController extends Controller
 {
@@ -225,6 +228,44 @@ class HomeController extends Controller
             return redirect()->back()->with('success', 'Update profile successfully !');
         } else {
             return redirect()->back()->with('success', 'Update profile failed !');
+        }
+    }
+
+    public function checkCoupon(Request $request, Coupon $coupon, CartHelper $cart)
+    {
+        if ($request->ajax()) {
+            $code = $request->code;
+
+            $check_coupon_exits = $coupon->findByCode($code);
+
+            if ($check_coupon_exits) {
+
+                // Remove old session coupon
+                $request->session()->forget('coupon');
+
+                // Add new session coupon
+                $request->session()->push('coupon', $request->code);
+
+                $percent = $check_coupon_exits->percent;
+
+                if ($request->page) {
+                    $total = $request->total_amount;
+                } else {
+                    $total = $cart->getTotalAmount();
+                }
+
+                $discount = ($total * $percent) / 100;
+
+                $total_amount = $total - $discount;
+
+                return response()->json(['type' => 'success', 'discount' => $discount, 'total_amount' => $total_amount]);
+            } else {
+                // Remove old session coupon
+                $request->session()->forget('coupon');
+
+                // Send error
+                return response()->json(['type' => 'error', 'message' => 'Coupon invalid !'])->setStatusCode(500);
+            }
         }
     }
 }

@@ -147,13 +147,18 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <label class="text-muted">Enter your coupon code if you have one!</label>
-                                    <form action="#">
+                                    <form action="{{ route('check_coupon') }}" method="GET" id="form-add-coupon">
+                                        @csrf
                                         <div class="form-body">
-                                            <input type="text" class="form-control-lg"
-                                                placeholder="Enter Coupon Code Here">
+                                            <input type="text" class="form-control-lg" name="code" id="code"
+                                                placeholder="Enter Coupon Code Here"
+                                                value="@if (Session::has('coupon')) {{ Session::get('coupon')[0] }} @else {{ old('code') }} @endif">
+                                            <div class="mess-err m-1" style="display: none">
+                                                <span class="text-danger">Your coupon invalid please try again !</span>
+                                            </div>
                                         </div>
                                         <div class="form-actions border-0 pb-0 text-right">
-                                            <button type="button" class="btn btn-info">Apply Code</button>
+                                            <button type="submit" class="btn btn-info">Apply Code</button>
                                         </div>
                                     </form>
                                 </div>
@@ -171,16 +176,20 @@
                                         <span class="float-right"><strong>Total:</strong></span>
                                     </div>
                                     @foreach ($cart->content() as $key => $item)
-                                    <div class="price-detail">{{ $item['name'] }} ({{ $item['quantity'] }}
-                                        rooms) <span
+                                    <div class="price-detail">{{ $item['name'] }} ({{ $item['quantity'] }} rooms) <span
                                             class="float-right">${{ $item['quantity'] * $item['price'] }}</span>
                                     </div>
                                     @endforeach
-                                    <div class="price-detail">Coupon: <span class="float-right"> - $300</span>
+                                    <div class="price-detail">Coupon: <span class="float-right">- $ <span
+                                                id="discount">0</span></span>
+                                    </div>
+                                    <input type="hidden" name="total" id="total" value="{{ $cart->getTotalAmount() }}">
+                                    <div class="price-detail"><b>Total:</b> <span class="float-right">$
+                                            {{ $cart->getTotalAmount() }}</span>
                                     </div>
                                     <hr>
-                                    <div class="price-detail">Payable Amount <span
-                                            class="float-right">${{ $cart->getTotalAmount() }}</span>
+                                    <div class="price-detail">Payable Amount <span class="float-right">$<span
+                                                id="total_amount">{{ $cart->getTotalAmount() }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -209,4 +218,40 @@
         </div>
     </section>
 </main>
+@endsection
+
+@section('script-option')
+<script>
+    $('#form-add-coupon').submit(function(e) {
+            e.preventDefault();
+
+            const code = $('#code').val();
+
+            const _token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                type: "GET",
+                url: `{{ route('check_coupon') }}`,
+                data: {
+                    code: code,
+                    _token: _token
+                },
+                success: function(res) {
+                    $(".mess-err").css('display', 'none');
+                    $('#discount').html(res.discount);
+                    $('#total_amount').html(res.total_amount);
+                    console.log(res);
+                },
+                error: function(res) {
+                    $(".mess-err").css('display', 'block');
+                    $('#discount').html(0);
+
+                    const old_value = $("#total").val();
+                    $('#total_amount').html(old_value);
+                    console.log(res);
+                }
+            });
+
+        });
+</script>
 @endsection

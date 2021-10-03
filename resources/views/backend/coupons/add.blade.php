@@ -1,7 +1,6 @@
 @extends('backend.layouts.master')
 
 @section('content')
-
 <main class="content">
     <div class="container-fluid p-0">
         <div class="row mb-2 mb-xl-3 mx-2">
@@ -64,12 +63,18 @@
                                 </label>
                                 <input type="text" name="start_time" id="start-date-picker" class="form-control"
                                     value="{{ request()->start_time ?? old('start_time') }}">
+                                @error('start_time')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>End Time <sup>*</sup>
                                 </label>
                                 <input type="text" name="end_time" id="end-date-picker" class="form-control"
                                     value="{{ request()->end_time ?? old('end_time') }}">
+                                @error('end_time')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             {{-- Status --}}
                             <div class="form-group">
@@ -78,6 +83,9 @@
                                     <option value="1">Show</option>
                                     <option value="0">Hide</option>
                                 </select>
+                                @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -90,7 +98,6 @@
         </div>
     </div>
 </main>
-
 @endsection
 
 @section('script-option')

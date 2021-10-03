@@ -33,39 +33,12 @@
             <li class="sidebar-header">
                 Pages
             </li>
+
             <!-- Dashboard -->
             <li class="sidebar-item active">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
                     <i class="align-middle" data-feather="sliders"></i><span class="align-middle">Dashboards</span>
                 </a>
-            </li>
-
-            <!-- Categories -->
-            <li class="sidebar-item">
-                <a data-bs-target="#categories" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fa fa-list-alt"></i> <span class="align-middle">Categories</span>
-                </a>
-                <ul id="categories" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('categories.index') }}">Category
-                            Manager</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('categories.trash') }}">Categories
-                            trash</a></li>
-                </ul>
-            </li>
-
-            <!-- Room -->
-            <li class="sidebar-item">
-                <a data-bs-target="#rooms" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fas fa-hotel"></i> <span class="align-middle">Rooms</span>
-                </a>
-                <ul id="rooms" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.index') }}">Room Manager</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.create') }}">Add new room</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.trash') }}">Room trash</a>
-                    </li>
-                </ul>
             </li>
 
             <!-- Banner -->
@@ -74,35 +47,12 @@
                     <i class="far fa-images"></i> <span class="align-middle">Banners</span>
                 </a>
                 <ul id="banner" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new banner</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit banner</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Banner trash</a></li>
-                </ul>
-            </li>
-
-            <!-- Service -->
-            <li class="sidebar-item">
-                <a data-bs-target="#service" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fas fa-concierge-bell"></i> <span class="align-middle">Services</span>
-                </a>
-                <ul id="service" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new service</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit service</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Services trash</a></li>
-                </ul>
-            </li>
-
-            <!-- Blog Categories -->
-            <li class="sidebar-item">
-                <a data-bs-target="#blog" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fa fa-list-alt"></i></i> <span class="align-middle">Blog Categories</span>
-                </a>
-                <ul id="blog" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog-categories.index') }}">Blog
-                            Categories
-                        </a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog_categories.trash') }}">Blog
-                            Categories trash</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('banners.index') }}">Banners
+                            Manager</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('banners.create') }}">Add new
+                            Banner</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('banners.trash') }}">Banner
+                            trash</a></li>
                 </ul>
             </li>
 
@@ -121,6 +71,54 @@
                 </ul>
             </li>
 
+            <!-- Blog Categories -->
+            <li class="sidebar-item">
+                <a data-bs-target="#blog" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fa fa-list-alt"></i></i> <span class="align-middle">Blog Categories</span>
+                </a>
+                <ul id="blog" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog-categories.index') }}">Blog
+                            Categories
+                        </a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('blog_categories.trash') }}">Blog
+                            Categories trash</a></li>
+                </ul>
+            </li>
+
+            <!-- Brand -->
+            <li class="sidebar-item">
+                <a data-bs-target="#brands" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fas fa-copyright"></i> <span class="align-middle">Brands</span>
+                </a>
+                <ul id="brands" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('brands.index') }}">Brands
+                            Manager</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('brands.trash') }}">Brands trash</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Categories -->
+            <li class="sidebar-item">
+                <a data-bs-target="#categories" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fa fa-list-alt"></i> <span class="align-middle">Categories</span>
+                </a>
+                <ul id="categories" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('categories.index') }}">Category
+                            Manager</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('categories.trash') }}">Categories
+                            Trash</a></li>
+                </ul>
+            </li>
+
+            <!-- Config -->
+            <li class="sidebar-item">
+                <a data-bs-target="#banners" class="sidebar-link collapsed">
+                    <i class="fas fa-sliders-h"></i> <span class="align-middle">Config</span>
+                </a>
+            </li>
+
             <!-- Coupon -->
             <li class="sidebar-item">
                 <a data-bs-target="#coupon" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -133,6 +131,22 @@
                             Coupon</a></li>
                     <li class="sidebar-item"><a class="sidebar-link" href="{{ route('coupons.index') }}">Coupons
                             Trash</a></li>
+                </ul>
+            </li>
+
+
+            <!-- Service -->
+            <li class="sidebar-item">
+                <a data-bs-target="#service" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fas fa-concierge-bell"></i> <span class="align-middle">Services</span>
+                </a>
+                <ul id="service" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('services.index') }}">Service
+                            Manager</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('services.create') }}">Add new
+                            Service</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('services.trash') }}">Service Trash
+                        </a></li>
                 </ul>
             </li>
 
@@ -162,12 +176,22 @@
                 </a>
             </li>
 
-            <!-- Config -->
+            <!-- Room -->
             <li class="sidebar-item">
-                <a data-bs-target="#banners" class="sidebar-link collapsed">
-                    <i class="fas fa-sliders-h"></i> <span class="align-middle">Config</span>
+                <a data-bs-target="#rooms" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fas fa-hotel"></i> <span class="align-middle">Rooms</span>
                 </a>
+                <ul id="rooms" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.index') }}">Room Manager</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.create') }}">Add new room</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.trash') }}">Room trash</a>
+                    </li>
+                </ul>
             </li>
+
+
         </ul>
     </div>
 </nav>

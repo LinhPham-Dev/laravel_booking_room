@@ -13,6 +13,7 @@
             <form action="{{ route('coupons.update', $coupon_edit->id) }}" method="POST">
                 @csrf
                 @method('put')
+                <input type="hidden" name="id" value="{{ $coupon_edit->id }}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 px-3">
@@ -67,12 +68,18 @@
                                 </label>
                                 <input type="text" name="start_time" id="start-date-picker" class="form-control"
                                     value="{{ old('start_time') ?? $start_time }}">
+                                @error('start_time')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>End Time <sup>*</sup>
                                 </label>
                                 <input type="text" name="end_time" id="end-date-picker" class="form-control"
                                     value="{{ old('end_time') ?? $end_time }}">
+                                @error('end_time')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             {{-- Status --}}
                             <div class="form-group">
@@ -81,12 +88,15 @@
                                     <option {{ $coupon_edit->status == 1 ? 'selected': '' }} value="1">Show</option>
                                     <option {{ $coupon_edit->status == 0 ? 'selected': '' }} value="0">Hide</option>
                                 </select>
+                                @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
-                    <button type="submit" class="btn btn-info btn-lg mx-1 my-3">
-                        Add New Coupon !
+                    <button type="submit" class="btn btn-warning btn-lg mx-1 my-3">
+                        Update Coupon !
                     </button>
                 </div>
             </form>

@@ -5303,7 +5303,7 @@ div.rating-container .counter::before {
 .comment-area .comment-list li .comment-author {
     position: absolute;
     left: 0;
-    top: 0;
+    top: -15px;
     width: 100px;
     height: 100px;
 }

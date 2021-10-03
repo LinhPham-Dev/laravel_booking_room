@@ -14,9 +14,13 @@ if (!function_exists('showComments')) {
                 }
 
                 echo '<li>
-                    <div class="comment-author">
-                    <img class="w-75" src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png" alt="Avatar">
-                    </div>
+                    <div class="comment-author">';
+                if ($comment->user->avatar) {
+                    echo '<img class="w-75" src="' . asset('uploads/avatars/' . $comment->user->avatar) . '" alt="Avatar">';
+                } else {
+                    echo '<img class="w-75" src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png" alt="Avatar">';
+                }
+                echo '</div>
                     <div class="comment-desc">
                         <h6 id="comment-' . $comment->id . '">' . $comment->user->name . '<span class="comment-date ml-3">' . dateComment($comment->created_at) . '</span>
                         </h6>';

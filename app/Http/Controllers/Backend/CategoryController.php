@@ -30,6 +30,7 @@ class CategoryController extends Controller
         $page = 'Categories Management';
 
         $params = $request->all();
+        
         $categories = Category::latest()->filter($params)->paginate(3);
 
         $select_category = Category::all();

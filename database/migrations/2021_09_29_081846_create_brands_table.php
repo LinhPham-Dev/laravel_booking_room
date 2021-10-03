@@ -16,7 +16,6 @@ class CreateBrandsTable extends Migration
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
             $table->string('image');
             $table->tinyInteger('position');
             $table->tinyInteger('status')->default(1);

@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
-            $table->bigInteger('coupon_id')->unsigned();
+            $table->bigInteger('coupon_id')->unsigned()->nullable();
             $table->foreign('coupon_id')->references('id')->on('coupons');
             $table->text('note')->nullable();
             $table->dateTime('arrive_date');

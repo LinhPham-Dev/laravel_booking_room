@@ -71,7 +71,7 @@
                                             </label>
                                             <input type="text" name="depart_date" id="depart-date-picker"
                                                 class="form-control"
-                                                value="{{ old('depart_date') ??  Session::get('depart_date')[0] ?? '' }}">
+                                                value="{{ old('depart_date') ?? (Session::get('depart_date')[0] ?? '') }}">
                                             @error('depart_date')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -81,7 +81,7 @@
                                             </label>
                                             <input type="text" name="arrive_date" id="arrive-date-picker"
                                                 class="form-control"
-                                                value="{{ old('arrive_date') ?? Session::get('arrive_date')[0] ?? '' }}">
+                                                value="{{ old('arrive_date') ?? (Session::get('arrive_date')[0] ?? '') }}">
                                             @error('arrive_date')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -108,7 +108,8 @@
                                                 @foreach (range(0, 10) as $item)
                                                 <option
                                                     {{ Session::get('adult')[0] ?? old('adult') == $item ? 'selected' : '' }}
-                                                    value="{{ $item }}">{{ $item }}</option>
+                                                    value="{{ $item }}">{{ $item }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             @error('adult')
@@ -180,33 +181,57 @@
                                 </li>
                                 <li class="clearfix">
                                     <div class="col" style="text-transform:none;">
-                                        <b>SubTotal</b>
+                                        <b>Price</b>
                                     </div>
                                     <div class="col second">
-                                        ${{ $cart->getTotalAmount() }} /h
+                                        ${{ $cart->getTotalAmount() }} / h
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="col">
+                                        <strong>Total:</strong>
+                                    </div>
+                                    <div class="col second">
+                                        <strong
+                                            id="show-total">${{ moneyFormat($cart->getTotalAmount() * $hours) }}</strong>
+                                        <input type="hidden" name="total" id="total"
+                                            value="{{ moneyFormat($cart->getTotalAmount() * $hours) }}">
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="col" style="text-transform:none;">
+                                        <b>Discount</b>
+                                    </div>
+                                    <div class="col second">
+                                        - $ <span id="discount">0</span>
                                     </div>
                                 </li>
                                 <li class="clearfix total">
-                                    <div class="col">
-                                        <strong>Order Total</strong>
+                                    <div class="col" style="text-transform:none;">
+                                        <b>Payable Amount:</b>
                                     </div>
                                     <div class="col second">
                                         <input type="hidden" name="total_amount" id="total_amount"
                                             value="{{ $cart->getTotalAmount() * $hours }}">
-                                        <strong id="total">${{ moneyFormat($cart->getTotalAmount() * $hours) }}</strong>
+                                        <strong id="show-total-amount">${{ $cart->getTotalAmount() * $hours }}</strong>
                                     </div>
                                 </li>
                             </ul>
                             <div class="coupon-code">
                                 <div class="form-group">
                                     <div class="field-group">
-                                        <div class="form-group w-75">
-                                            <input type="text" name="coupon_id" class="form-control"
-                                                placeholder="Enter your coupon ...">
+                                        <div class="form-group mr-3">
+                                            <input type="text" name="code" class="form-control"
+                                                placeholder="Enter your coupon ..."
+                                                value="@if (Session::has('coupon')) {{ Session::get('coupon')[0] }} @else {{ old('code') }} @endif"
+                                                id="code">
+                                            <div class="mess-err m-1" style="display: none">
+                                                <span class="text-danger">Your coupon invalid !</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="field-group btn-field">
-                                        <button type="submit" class="btn filled-btn">Apply</button>
+                                        <button id="check-code" type="button" class="btn filled-btn">Apply</button>
                                     </div>
                                 </div>
                             </div>
@@ -250,12 +275,14 @@
 @endsection
 
 @section('script-option')
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     $(document).ready(function() {
             $('#children').niceSelect('destroy');
             $('#adult').niceSelect('destroy');
             $('select').niceSelect('destroy');
 
+            // Toggle layouts
             $(function() {
                 $('.pay-pal').hide();
 
@@ -268,6 +295,48 @@
                     $('.pay-pal').show();
                     $("#checkout-button").hide();
                 });
+            });
+
+            // Call check coupon
+            function checkCoupon() {
+                const code = $('#code').val();
+
+                const _token = $('meta[name="csrf-token"]').attr('content');
+
+                const total_amount = $('#total').val();
+
+                $.ajax({R
+                    type: "GET",
+                    url: `{{ route('check_coupon') }}`,
+                    data: {
+                        code: code,
+                        page: 'checkout',
+                        total_amount: total_amount,
+                        _token: _token
+                    },
+                    success: function(res) {
+                        $(".mess-err").css('display', 'none');
+                        $('#discount').html(res.discount);
+                        $('#total_amount').val(parseFloat(res.total_amount).toFixed(2));
+                        $('#show-total-amount').html('$' + res.total_amount);
+                        console.log(res);
+                    },
+                    error: function(res) {
+                        $(".mess-err").css('display', 'block');
+                        $('#discount').html(0);
+
+                        const old_value = $("#total").val();
+                        $('#total_amount').val(old_value);
+                        $('#show-total-amount').html('$' + old_value);
+                        console.log(res);
+                    }
+                });
+            }
+
+            // Check coupon
+            $('#check-code').click(function(e) {
+                e.preventDefault();
+                checkCoupon();
             });
 
             // Date Picker
@@ -295,139 +364,143 @@
                     },
                 });
             });
-        });
-</script>
 
-{{-- Checkout Paypal --}}
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script>
-    $('#depart-date-picker').change(function(e) {
-            dateChange();
-        });
-
-        $('#arrive-date-picker').change(function(e) {
-            dateChange();
-        });
-
-
-        function dateChange() {
-            const depart_date = $('#depart-date-picker').val();
-
-            const arrive_date = $('#arrive-date-picker').val();
-
-            const url = "{{ route('checkout.change_date') }}";
-
-            const _token = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    depart_date: depart_date,
-                    arrive_date: arrive_date,
-                    _token: _token
-                },
-                success: function(res) {
-                    if (res.hours) {
-                        $('#hours').val(res.hours);
-                        $('.hours').html(res.hours + ' Hours');
-                        $('#total_amount').val((parseFloat(res.hours * "{{ $cart->getTotalAmount() }}").toFixed(2)));
-
-                        $('#total').html('$' + (parseFloat(res.hours *
-                            "{{ $cart->getTotalAmount() }}").toFixed(2)));
-                    }
-
-                }
+            // Change Date
+            $('#depart-date-picker').change(function(e) {
+                dateChange();
             });
-        }
 
-        paypal.Button.render({
-            // Configure environment
-            env: 'sandbox',
-            client: {
-                sandbox: 'Ad4-Hp9VFeiA_XcRBt-cCu136Oc8YE1bJ2UQOk2jhxgwTxW6ma-TvHWq1vph-J-Ih_gYPZKeSqAbrxDX',
-                production: 'demo_production_client_id'
-            },
-            // Customize button (optional)
-            locale: 'en_US',
-            style: {
-                size: 'medium',
-                color: 'gold',
-                shape: 'pill',
-            },
+            $('#arrive-date-picker').change(function(e) {
+                dateChange();
+            });
 
-            // Enable Pay Now checkout flow (optional)
-            commit: true,
+            function dateChange() {
+                const depart_date = $('#depart-date-picker').val();
 
-            // Set up a payment
-            payment: function(data, actions) {
+                const arrive_date = $('#arrive-date-picker').val();
 
-                // Get total amount
+                const url = "{{ route('checkout.change_date') }}";
 
-                const total = $('#total_amount').val();
+                const _token = $('meta[name="csrf-token"]').attr('content');
 
-                return actions.payment.create({
-                    transactions: [{
-                        amount: {
-                            total: total,
-                            currency: 'USD'
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        depart_date: depart_date,
+                        arrive_date: arrive_date,
+                        _token: _token
+                    },
+                    success: function(res) {
+                        if (res.hours) {
+                            $('#hours').val(res.hours);
+                            $('.hours').html(res.hours + ' Hours');
+                            $('#total_amount').val((parseFloat(res.hours *
+                                    "{{ $cart->getTotalAmount() }}")
+                                .toFixed(2)));
+
+                            $('#show-total').html('$' + (parseFloat(res.hours *
+                                "{{ $cart->getTotalAmount() }}").toFixed(2)));
+
+                            $("#total").val(parseFloat(res.hours * "{{ $cart->getTotalAmount() }}").toFixed(2));
+
+                            $('#show-total-amount').html('$' + (parseFloat(res.hours *
+                                "{{ $cart->getTotalAmount() }}").toFixed(2)));
                         }
-                    }]
-                });
-            },
-            // Execute the payment
-            onAuthorize: function(data, actions) {
-                return actions.payment.execute().then(function(data) {
-                    // Show a confirmation message to the buyer
-                    window.alert('Thank you for your purchase!');
 
-                    const name = $('input[name="name"]').val();
-                    const email = $('input[name="email"]').val();
-                    const phone = $('input[name="phone"]').val();
-                    const address = $('input[name="address"]').val();
-                    const arrive_date = $('input[name="arrive_date"]').val();
-                    const depart_date = $('input[name="depart_date"]').val();
-                    const children = $("#children").val();
-                    const adult = $('#adult').val();
-                    const payment_id = 2;
-                    const status = 1;
-                    const hours = $('#hours').val();
-                    const coupon_id = $('input[name="coupon_id"]').val();
-                    const total_amount = $('#total_amount').val();
-                    const note = $('#note').val();
-
-                    const url = "{{ route('checkout.handle') }}";
-
-                    const _token = $('meta[name="csrf-token"]').attr('content');
-
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: {
-                            'name': name,
-                            'email': email,
-                            'phone': phone,
-                            'address': address,
-                            'arrive_date': arrive_date,
-                            'depart_date': depart_date,
-                            'children': children,
-                            'adult': adult,
-                            'hours': hours,
-                            'note': note,
-                            'status': 1,
-                            'coupon_id': coupon_id,
-                            'payment_id': payment_id,
-                            'total_amount': total_amount,
-                            _token: _token
-                        },
-                        success: function(response) {
-                            // Redirect route success
-                            window.location.replace(response.success);
-                        }
-                    });
+                        // Call Check coupon
+                        checkCoupon();
+                    }
                 });
             }
-        }, '#paypal-button');
-</script>
 
+            paypal.Button.render({
+                // Configure environment
+                env: 'sandbox',
+                client: {
+                    sandbox: 'Ad4-Hp9VFeiA_XcRBt-cCu136Oc8YE1bJ2UQOk2jhxgwTxW6ma-TvHWq1vph-J-Ih_gYPZKeSqAbrxDX',
+                    production: 'demo_production_client_id'
+                },
+                // Customize button (optional)
+                locale: 'en_US',
+                style: {
+                    size: 'medium',
+                    color: 'gold',
+                    shape: 'pill',
+                },
+
+                // Enable Pay Now checkout flow (optional)
+                commit: true,
+
+                // Set up a payment
+                payment: function(data, actions) {
+
+                    // Get total amount
+
+                    const total = $('#total_amount').val();
+
+                    return actions.payment.create({
+                        transactions: [{
+                            amount: {
+                                total: total,
+                                currency: 'USD'
+                            }
+                        }]
+                    });
+                },
+                // Execute the payment
+                onAuthorize: function(data, actions) {
+                    return actions.payment.execute().then(function(data) {
+                        // Show a confirmation message to the buyer
+                        window.alert('Thank you for your purchase!');
+
+                        const name = $('input[name="name"]').val();
+                        const email = $('input[name="email"]').val();
+                        const phone = $('input[name="phone"]').val();
+                        const address = $('input[name="address"]').val();
+                        const arrive_date = $('input[name="arrive_date"]').val();
+                        const depart_date = $('input[name="depart_date"]').val();
+                        const children = $("#children").val();
+                        const adult = $('#adult').val();
+                        const payment_id = 2;
+                        const status = 1;
+                        const hours = $('#hours').val();
+                        const coupon_id = $('input[name="coupon_id"]').val();
+                        const total_amount = $('#total_amount').val();
+                        const note = $('#note').val();
+
+                        const url = "{{ route('checkout.handle') }}";
+
+                        const _token = $('meta[name="csrf-token"]').attr('content');
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                'name': name,
+                                'email': email,
+                                'phone': phone,
+                                'address': address,
+                                'arrive_date': arrive_date,
+                                'depart_date': depart_date,
+                                'children': children,
+                                'adult': adult,
+                                'hours': hours,
+                                'note': note,
+                                'status': 1,
+                                'coupon_id': coupon_id,
+                                'payment_id': payment_id,
+                                'total_amount': total_amount,
+                                _token: _token
+                            },
+                            success: function(response) {
+                                // Redirect route success
+                                window.location.replace(response.success);
+                            }
+                        });
+                    });
+                }
+            }, '#paypal-button');
+        });
+</script>
 @endsection

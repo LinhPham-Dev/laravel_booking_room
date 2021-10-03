@@ -162,6 +162,7 @@
                                 </tbody>
                             </table>
                             <div class="col-md-12 my-3">
+                                @if(count($categories) >= 3)
                                 <!-- Pagination -->
                                 <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $categories->firstItem() }} to
@@ -171,6 +172,7 @@
                                 <div class="float-end">
                                     {{ $categories->withQueryString()->links() }}
                                 </div>
+                                @endif
                             </div>
                             <!-- /.card-body -->
                         </div>

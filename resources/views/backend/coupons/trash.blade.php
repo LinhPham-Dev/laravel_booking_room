@@ -15,30 +15,52 @@
                 <div class="card px-3 pt-3">
                     <form method="GET">
                         <div class="row my-3">
-                            <div class="col-lg-4">
+                            <div class="col-md-2">
+                                <label>Code <sup>*</sup></label>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter room name ..." value="{{ request()->name }}">
+                                        value="{{ request()->name }}">
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
-                                <select name="status" class="form-control">
-                                    <option>Choose status</option>
-                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
-                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
-                                </select>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Start Date <sup>*</sup>
+                                    </label>
+                                    <input type="text" name="start_time" id="start-date-picker" class="form-control"
+                                        value="{{ request()->start_time ?? old('start_time') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Arrive Date <sup>*</sup>
+                                    </label>
+                                    <input type="text" name="end_time" id="end-date-picker" class="form-control"
+                                        value="{{ request()->end_time ?? old('end_time') }}">
+                                </div>
                             </div>
                             <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Status <sup>*</sup></label>
+                                    <select name="status" class="form-control">
+                                        <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show
+                                        </option>
+                                        <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 justify-content-center"
+                                style="display: inline-grid; align-content: center;">
                                 <button type="submit" class="btn btn-info">Search</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 @includeIf('backend.layouts.alert')
-                @if(count($rooms_trash) <= 0) <div class="alert alert-info alert-dismissible fade show p-3"
+                @if(count($coupons_trash) <= 0) <div class="alert alert-info alert-dismissible fade show p-3"
                     role="alert">
-                    <span class="me-3">No rooms have been deleted yet !</span>
-                    <a href="{{ route('rooms.index') }}">All Rooms.</a>
+                    <span class="me-3">No coupons have been deleted yet !</span>
+                    <a href="{{ route('coupons.index') }}">All coupons.</a>
             </div>
         </div>
         @else
@@ -53,53 +75,50 @@
                             </div>
                         </th>
                         <th>No.</th>
-                        <th>Information</th>
-                        <th>Image</th>
-                        <th>Price</th>
+                        <th>Code</th>
+                        <th>Limit</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Percent</th>
+                        <th>Min Price</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <form action="{{ route('rooms.action') }}" method="POST">
+                    <form action="{{ route('coupons.action') }}" method="POST">
                         @csrf
-                        @foreach ($rooms_trash as $room)
+                        @foreach ($coupons_trash as $coupon)
                         <tr>
                             <th width="5%">
                                 <div class="form-check">
-                                    <input style="margin-left: -1.1em;" value="{{ $room->id }}" id="select-all"
-                                        name="id-{{ $room->id }}" class="form-check-input" type="checkbox">
+                                    <input style="margin-left: -1.1em;" value="{{ $coupon->id }}" id="select-all"
+                                        name="id-{{ $coupon->id }}" class="form-check-input" type="checkbox">
                                 </div>
                             </th>
                             <th>{{ $loop->iteration }}</th>
                             <td>
-                                <p>
-                                    <a class="text-dark" href="{{ route('rooms.show', $room->id) }}">
-                                        <strong>Name</strong>: {{ $room->name }}
-                                    </a>
-                                </p>
-                                <p><strong>Category</strong>: {{ $room->category->name }}</p>
-                                <p><strong>Bed</strong>: {{ $room->bed}}</p>
-                                <p><strong>Bath</strong>: {{ $room->bath}}</p>
-                                <p><strong>Area</strong>: {{ $room->area }}</p>
-                            </td>
-                            <td><img width="150px" src="{{ asset("uploads/rooms/room_avatar/$room->image") }}"
-                                    alt="{{ $room->name }}">
+                                <p>{{ $coupon->code }}</p>
                             </td>
                             <td>
-                                @if ($room->sale_price > 0)
-                                <p class="text-decoration-line-through">
-                                    <del>{{ number_format($room->price, 2, ',') }}$</del>
-                                </p>
-                                <p>{{ number_format($room->sale_price, 2, ',') }}$</p>
-                                @else
-                                <p>{{ number_format($room->price, 2, ',') }}$</p>
-                                @endif
+                                <p>{{ $coupon->limit }}</p>
                             </td>
                             <td>
-                                @if($room->status == 1)
-                                <span class="badge badge-success">Show</span>
+                                <p>{{ dateComment($coupon->start_time) }}</p>
+                            </td>
+                            <td>
+                                <p>{{ dateComment($coupon->end_time) }}</p>
+                            </td>
+                            <td>
+                                <p>{{ moneyFormat($coupon->percent) }}%</p>
+                            </td>
+                            <td>
+                                <p>${{ moneyFormat($coupon->min_price) }}</p>
+                            </td>
+                            <td>
+                                @if ($coupon->status == 1)
+                                <span class="badge bg-success">Show</span>
                                 @else
-                                <span class="badge badge-secondary">Hide</span>
+                                <span class="badge bg-secondary">Hide</span>
                                 @endif
                             </td>
                         </tr>
@@ -108,9 +127,11 @@
             </table>
             <div class="action text-left my-4">
                 {{-- Restore and Delete --}}
-                <button type="submit" name="action" value="restore" class="btn btn-success m-1">Restore
+                <button type="submit" onclick="return confirm('Are you sure to take this action ?')" name="action"
+                    value="restore" class="btn btn-success m-1">Restore
                     <i class="fa fa-undo mx-1"></i></button>
-                <button type="submit" name="action" value="delete" class="btn btn-danger m-1">Delete
+                <button type="submit" onclick="return confirm('Are you sure to take this action ?')" name="action"
+                    value="delete" class="btn btn-danger m-1">Delete
                     <i class="fa fa-trash m-1"></i></button>
                 </form>
             </div>
@@ -124,4 +145,36 @@
 
 @section('script-option')
 @includeIf('backend.layouts.select-input')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+    // Date Picker
+    $(function() {
+        var startDepart = moment().subtract(10, "days");
+        var startArrive = moment();
+
+        $("#start-date-picker").daterangepicker({
+            timePicker: true,
+            singleDatePicker: true,
+            timePickerSeconds: false,
+            startDate: startDepart,
+            locale: {
+                format: "M/DD/Y hh:mm A",
+            },
+        });
+
+        $("#end-date-picker").daterangepicker({
+            timePicker: true,
+            singleDatePicker: true,
+            timePickerSeconds: false,
+            startDate: startArrive,
+            locale: {
+                format: "M/DD/Y hh:mm A",
+            },
+        });
+    });
+</script>
 @endsection

@@ -53,10 +53,10 @@
                     <div class="card-header">
                         <h5 class="d-inline-block my-0" style="line-height: 35px">DataTable Blogs</h5>
                         <div class="action float-end">
-                            <a href="{{ route('blogs.trash') }}" class="btn btn-outline-danger"><i
-                                    class="fa fa-trash m-1"></i>Trash</a>
                             <a href="{{ route('blogs.create') }}" class="btn btn-outline-success mx-3"><i
                                     class="fas fa-plus mr-2"></i>Add New</a>
+                            <a href="{{ route('blogs.trash') }}" class="btn btn-outline-danger"><i
+                                    class="fa fa-trash m-1"></i>Trash</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -127,6 +127,7 @@
 
                                 <!-- Pagination -->
                                 <div class="row">
+                                    @if(count($blogs) >= 3)
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info my-2">
                                             <p>Showing {{ $blogs->firstItem() }} to {{ $blogs->lastItem() }} of
@@ -138,6 +139,7 @@
                                             {{ $blogs->withQueryString()->links() }}
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                                 @endif
                             </div>

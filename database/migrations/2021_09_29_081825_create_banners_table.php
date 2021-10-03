@@ -19,6 +19,7 @@ class CreateBannersTable extends Migration
             $table->string('image');
             $table->text('content');
             $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('position');
             $table->timestamps();
             $table->softDeletes();
         });

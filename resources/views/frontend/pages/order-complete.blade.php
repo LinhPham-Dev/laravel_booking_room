@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-around lh-condensed">
                                 <div class="order-details text-center">
-                                    <div class="order-title"><b>Order Number</b></div>
+                                    <div class="order-title"><b>No.</b></div>
                                     <div class="order-info">#{{ $order->id }}</div>
                                 </div>
                                 <div class="order-details text-center">
@@ -24,15 +24,15 @@
                                     <div class="order-info">{{ $order->created_at }}</div>
                                 </div>
                                 <div class="order-details text-center">
-                                    <div class="order-title"><b>Arrive Date</b></div>
+                                    <div class="order-title"><b>Depart Date</b></div>
                                     <div class="order-info">
-                                        {{ date('Y-m-d g:i A', strtotime($order->arrive_date)) }}
+                                        {{ dateComment($order->depart_date) }}
                                     </div>
                                 </div>
                                 <div class="order-details text-center">
-                                    <div class="order-title"><b>Depart Date</b></div>
+                                    <div class="order-title"><b>Arrive Date</b></div>
                                     <div class="order-info">
-                                        {{ date('Y-m-d g:i A', strtotime($order->depart_date)) }}
+                                        {{ dateComment($order->arrive_date) }}
                                     </div>
                                 </div>
                                 <div class="order-details text-center">

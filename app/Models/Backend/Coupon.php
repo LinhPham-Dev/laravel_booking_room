@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend;
 
+use App\Models\Frontend\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,5 +36,22 @@ class Coupon extends Model
         ]);
 
         return $coupon;
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function scopeFindByCode($query, $code)
+    {
+        if ($code) {
+            $code = $this->where('code', $code)->first();
+
+            if ($code) {
+                return $code;
+            }
+        }
+
+        return false;
     }
 }

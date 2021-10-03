@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LoginUserController;
@@ -99,6 +102,25 @@ Route::prefix('admin')->group(function () {
         // Coupon Trash
         Route::get('trash/coupons', [CouponController::class, 'trash'])->name('coupons.trash');
         Route::post('trash/coupons', [CouponController::class, 'trashAction'])->name('coupons.action');
+
+        // Route Banners
+        Route::resource('banners', BannerController::class);
+        // Coupon Trash
+        Route::get('trash/banners', [BannerController::class, 'trash'])->name('banners.trash');
+        Route::post('trash/banners', [BannerController::class, 'trashAction'])->name('banners.action');
+
+        // Route Services
+        Route::resource('services', ServiceController::class);
+        // Services Trash
+        Route::get('trash/services', [ServiceController::class, 'trash'])->name('services.trash');
+        Route::post('trash/services', [ServiceController::class, 'trashAction'])->name('services.action');
+
+        // Route Brands
+        Route::resource('brands', BrandController::class);
+
+        // Brands Trash
+        Route::get('trash/brands', [BrandController::class, 'trash'])->name('brands.trash');
+        Route::post('trash/brands', [BrandController::class, 'trashAction'])->name('brands.action');
     });
 });
 
@@ -178,6 +200,9 @@ Route::prefix('cart')->group(function () {
     Route::get('destroy', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
+// Get coupon
+Route::get('coupon', [HomeController::class, 'checkCoupon'])->name('check_coupon');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.show');
 
@@ -186,6 +211,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('checkout-complete', [OrderController::class, 'complete'])->name('checkout.complete');
 
     Route::post('checkout-change-date', [OrderController::class, 'changeDate'])->name('checkout.change_date');
+
+    Route::get('order-history', [OrderController::class, 'orderHistory'])->name('order_history');
+
+    Route::get('order-details/{id}', [OrderController::class, 'orderDetails'])->name('order_details');
 });
 
 // Blog and Blog-details

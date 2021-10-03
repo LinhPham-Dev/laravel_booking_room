@@ -3,6 +3,7 @@
 namespace App\Models\Frontend;
 
 use App\Helper\CartHelper;
+use App\Models\Backend\Coupon;
 use App\Models\Backend\Payment;
 use App\Models\User;
 use App\Traits\QueryFilter;
@@ -50,6 +51,10 @@ class Order extends Model
 
         $hours = $request->hours;
 
+        $coupon_id = Coupon::where('code', $request->code)->first()->id;
+
+        $coupon_id ? $coupon_id : null;
+
         $order = Order::create([
             'user_id' => Auth::user()->id,
             'payment_id' => $request->payment_id,
@@ -57,7 +62,7 @@ class Order extends Model
             'depart_date' => $depart_date,
             'adult' => $request->adult,
             'children' => $request->children,
-            'coupon_id' => $request->coupon_id,
+            'coupon_id' => $coupon_id,
             'note' => $request->note,
             'total_amount' => number_format($cart->getTotalAmount() * $hours, 2, '.', ''),
         ]);
