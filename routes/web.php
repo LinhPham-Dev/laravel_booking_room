@@ -12,6 +12,8 @@ use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\FaqController;
+use App\Http\Controllers\Backend\InformationController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -117,10 +119,17 @@ Route::prefix('admin')->group(function () {
 
         // Route Brands
         Route::resource('brands', BrandController::class);
-
         // Brands Trash
         Route::get('trash/brands', [BrandController::class, 'trash'])->name('brands.trash');
         Route::post('trash/brands', [BrandController::class, 'trashAction'])->name('brands.action');
+
+        // Route Brands
+        Route::resource('faqs', FaqController::class);
+
+        // Route Information
+        Route::get('informations', [InformationController::class, 'show'])->name('info.show');
+        Route::post('informations', [InformationController::class, 'add'])->name('info.add');
+        Route::put('informations', [InformationController::class, 'update'])->name('info.update');
     });
 });
 

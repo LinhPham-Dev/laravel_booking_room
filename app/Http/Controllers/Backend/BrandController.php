@@ -154,7 +154,7 @@ class BrandController extends Controller
 
     public function trash()
     {
-        $page = 'brands Trash';
+        $page = 'Brands Trash';
 
         $brands_trash = Brand::onlyTrashed()->get();
 

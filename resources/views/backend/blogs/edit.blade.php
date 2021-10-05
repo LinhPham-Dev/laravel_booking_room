@@ -62,9 +62,9 @@
                             {{-- Status --}}
                             <div class="form-group">
                                 <label for="status">Status: </label>
-                                <select class="form-control" name="status" id="status">
-                                    <option value="1">Show</option>
-                                    <option value="0">Hide</option>
+                                <select name="status" class="form-control">
+                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
+                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
                                 </select>
                             </div>
                         </div>

@@ -303,9 +303,9 @@
 
                 const _token = $('meta[name="csrf-token"]').attr('content');
 
-                const total_amount = $('#total').val();
+                const total_amount = $('#total_amount').val();
 
-                $.ajax({R
+                $.ajax({
                     type: "GET",
                     url: `{{ route('check_coupon') }}`,
                     data: {

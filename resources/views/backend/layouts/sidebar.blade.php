@@ -112,13 +112,6 @@
                 </ul>
             </li>
 
-            <!-- Config -->
-            <li class="sidebar-item">
-                <a data-bs-target="#banners" class="sidebar-link collapsed">
-                    <i class="fas fa-sliders-h"></i> <span class="align-middle">Config</span>
-                </a>
-            </li>
-
             <!-- Coupon -->
             <li class="sidebar-item">
                 <a data-bs-target="#coupon" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -133,7 +126,6 @@
                             Trash</a></li>
                 </ul>
             </li>
-
 
             <!-- Service -->
             <li class="sidebar-item">
@@ -156,9 +148,10 @@
                     <i class="fas fa-question-circle"></i> <span class="align-middle">Faq</span>
                 </a>
                 <ul id="faq" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Add new Faq</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Edit Faq</a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="">Faq trash</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('faqs.index') }}">Faq Manager</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('faqs.create') }}">Add New Faq</a>
+                    </li>
                 </ul>
             </li>
 
@@ -173,6 +166,13 @@
             <li class="sidebar-item">
                 <a href="{{ route('backend.order.show') }}" class="sidebar-link collapsed">
                     <i class="fas fa-file-invoice"></i> <span class="align-middle">Orders</span>
+                </a>
+            </li>
+
+            <!-- Information -->
+            <li class="sidebar-item">
+                <a href="{{ route('info.show') }}" class="sidebar-link collapsed">
+                    <i class="fas fa-info"></i> <span class="align-middle">Information</span>
                 </a>
             </li>
 
