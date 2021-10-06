@@ -4,19 +4,24 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Helper\CartHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Frontend\FeedbackRequest;
 use App\Models\Backend\Blog;
 use App\Models\Backend\BlogCategory;
 use App\Models\Backend\Category;
 use App\Models\Backend\Comment;
 use App\Models\Backend\Coupon;
+use App\Models\Backend\Faq;
+use App\Models\Backend\Feedback;
+use App\Models\Backend\Information;
 use App\Models\Backend\Room;
+use App\Models\Backend\Service;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\Rating;
 use App\Models\User;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\Framework\Constraint\Count;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -246,9 +251,10 @@ class HomeController extends Controller
                 // Add new session coupon
                 $request->session()->push('coupon', $request->code);
 
+                // Get percent discount
                 $percent = $check_coupon_exits->percent;
 
-                if ($request->page) {
+                if ($request->page == 'checkout') {
                     $total = $request->total_amount;
                 } else {
                     $total = $cart->getTotalAmount();
@@ -258,7 +264,7 @@ class HomeController extends Controller
 
                 $total_amount = $total - $discount;
 
-                return response()->json(['type' => 'success', 'discount' => $discount, 'total_amount' => $total_amount]);
+                return response()->json(['type' => 'success', 'discount' => $discount, 'total_amount' => $total_amount, 'coupon_id' => $check_coupon_exits->id]);
             } else {
                 // Remove old session coupon
                 $request->session()->forget('coupon');
@@ -267,5 +273,39 @@ class HomeController extends Controller
                 return response()->json(['type' => 'error', 'message' => 'Coupon invalid !'])->setStatusCode(500);
             }
         }
+    }
+
+    public function contact()
+    {
+        $info = Information::get()->first();
+
+        return view('frontend.pages.contact', compact('info'));
+    }
+
+    public function sendMessage(FeedbackRequest $request)
+    {
+        $feedback = Feedback::create($request->all());
+
+        if ($feedback) {
+            return redirect()->back()->with('success', 'You have feedback successfully');
+        }
+
+        return redirect()->back()->with('error', 'Your feedback have a problem');
+    }
+
+    public function services()
+    {
+        $services = Service::take(6)->orderBy('position', 'asc')->get();
+
+        $faqs = Faq::take(4)->orderBy('position', 'asc')->get();
+
+        $feedbacks = Feedback::take(4)->get();
+
+        return view('frontend.pages.service', compact('services', 'faqs', 'feedbacks'));
+    }
+
+    public function about()
+    {
+        # code...
     }
 }

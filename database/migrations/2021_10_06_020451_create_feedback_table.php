@@ -13,14 +13,14 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->tinyInteger('status')->default(0);
             $table->text('message');
-            $table->tinyInteger('status')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

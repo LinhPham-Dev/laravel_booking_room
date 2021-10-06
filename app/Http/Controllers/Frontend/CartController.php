@@ -39,7 +39,7 @@ class CartController extends Controller
         if ($request->home) {
 
             // Remove old session
-            $request->session()->forget(['depart_date', 'arrive_date', 'child', 'adult']);
+            $request->session()->forget(['depart_date', 'arrive_date', 'children', 'adult']);
 
             // Put new session
             $request->session()->push('depart_date', $request->depart_date);

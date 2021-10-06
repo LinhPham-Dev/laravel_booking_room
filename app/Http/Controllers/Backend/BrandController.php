@@ -27,6 +27,7 @@ class BrandController extends Controller
      */
     public function index(Request $request)
     {
+
         $page = 'Brand Management';
 
         $params = $request->all();

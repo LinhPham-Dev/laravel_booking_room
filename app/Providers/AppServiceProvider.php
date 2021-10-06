@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Backend\Brand;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        // View compose
+        // View::composer('*', function ($view) {
+        //     $brands = Brand::take(6)->orderBy('position', 'asc')->get();
+
+        //     $view->with([
+        //         'brands' => $brands,
+        //     ]);
+        // });
     }
 }

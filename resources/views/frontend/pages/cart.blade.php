@@ -152,9 +152,12 @@
                                         <div class="form-body">
                                             <input type="text" class="form-control-lg" name="code" id="code"
                                                 placeholder="Enter Coupon Code Here"
-                                                value="@if (Session::has('coupon')) {{ Session::get('coupon')[0] }} @else {{ old('code') }} @endif">
-                                            <div class="mess-err m-1" style="display: none">
+                                                value="@if (Session::has('coupon')){{ Session::get('coupon')[0] }}@else{{ old('code') }}@endif">
+                                            <div class="mess-error m-1" style="display: none">
                                                 <span class="text-danger">Your coupon invalid please try again !</span>
+                                            </div>
+                                            <div class="mess-success m-1" style="display: none">
+                                                <span class="text-success">Apply coupon successfully !</span>
                                             </div>
                                         </div>
                                         <div class="form-actions border-0 pb-0 text-right">
@@ -237,18 +240,17 @@
                     _token: _token
                 },
                 success: function(res) {
-                    $(".mess-err").css('display', 'none');
+                    $(".mess-error").css('display', 'none');
+                    $(".mess-success").css('display', 'block');
                     $('#discount').html(res.discount);
                     $('#total_amount').html(res.total_amount);
-                    console.log(res);
                 },
                 error: function(res) {
-                    $(".mess-err").css('display', 'block');
-                    $('#discount').html(0);
-
+                    $(".mess-success").css('display', 'none');
+                    $(".mess-error").css('display', 'block');
                     const old_value = $("#total").val();
+                    $('#discount').html(0);
                     $('#total_amount').html(old_value);
-                    console.log(res);
                 }
             });
 

@@ -166,7 +166,9 @@
                             </table>
                             <div class="col-md-12 my-3">
                                 <!-- Pagination -->
-                                @if(count($brands) >= 3) <div class="dataTables_info d-inline-block my-2">
+                                @if(count($brands) >= 3)
+                                <!-- Pagination -->
+                                <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $brands->firstItem() }} to
                                         {{ $brands->lastItem() }} of
                                         {{$brands->total()}} entries</p>

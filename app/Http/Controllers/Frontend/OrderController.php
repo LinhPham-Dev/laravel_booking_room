@@ -70,17 +70,20 @@ class OrderController extends Controller
             // new Order
             $new_order = Order::findOrFail($order->id);
 
+            // Remove old session
+            $request->session()->forget(['depart_date', 'arrive_date', 'children', 'adult', 'coupon']);
+
             // Send mail success.
             Mail::to($request->email)->send(new OrderComplete($new_order));
 
-            // Remove session coupon
-            $request->session()->forget('coupon');
-
-            if ($request->payment_id == 2) {
+            // Checkout with paypal
+            if ($request->ajax()) {
                 $route_redirect = route('checkout.complete');
 
                 return response()->json(['success' => $route_redirect]);
             }
+
+            // Payment without paypal
             return redirect()->route('checkout.complete');
         } else {
             return redirect()->back()->with('error', 'Checkout failed !');

@@ -39,8 +39,6 @@ class Order extends Model
 
     public function scopeAddOrder($query, $request)
     {
-        $cart = new CartHelper;
-
         $depart_date = Carbon::create($request->depart_date);
 
         $arrive_date = Carbon::create($request->arrive_date);
@@ -49,11 +47,7 @@ class Order extends Model
 
         $arrive_date->toDateTimeString();
 
-        $hours = $request->hours;
-
-        $coupon_id = Coupon::where('code', $request->code)->first()->id;
-
-        $coupon_id ? $coupon_id : null;
+        $coupon_id = $request->coupon_id ? $request->coupon_id : null;
 
         $order = Order::create([
             'user_id' => Auth::user()->id,
@@ -63,8 +57,9 @@ class Order extends Model
             'adult' => $request->adult,
             'children' => $request->children,
             'coupon_id' => $coupon_id,
+            'status' => $request->status,
             'note' => $request->note,
-            'total_amount' => number_format($cart->getTotalAmount() * $hours, 2, '.', ''),
+            'total_amount' => $request->total_amount,
         ]);
 
         return $order;

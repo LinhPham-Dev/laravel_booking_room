@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LoginUserController;
 use Illuminate\Support\Facades\Route;
+use RealRashid\SweetAlert\Facades\Alert;
 
 // ======== *** ADMIN ROUTE *** ============== \\
 Route::prefix('admin')->group(function () {
@@ -190,6 +191,19 @@ Route::get('rooms/{slug}', [HomeController::class, 'room'])->name('user.room');
 // Room Rating
 Route::post('/rooms/rating', [HomeController::class, 'rating'])->name('room_rating')->middleware('auth');
 Route::get('sort-ratings', [HomeController::class, 'sortRating'])->name('sort_ratings');
+
+// Contact page
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+
+// Send message
+Route::post('send-message', [HomeController::class, 'sendMessage'])->name('send_message');
+
+// Service page
+Route::get('services', [HomeController::class, 'services'])->name('services');
+
+// About
+Route::get('about', [HomeController::class, 'about'])->name('about');
+
 
 // *** Route Cart *** \\
 Route::prefix('cart')->group(function () {

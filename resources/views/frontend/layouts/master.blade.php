@@ -44,6 +44,9 @@
         <span></span>
         <span></span>
     </div>
+    <!-- Sweet Alert-->
+    @include('sweetalert::alert')
+
     <!-- Header Start -->
     @includeIf('frontend.layouts.header')
     <!-- Header End -->
@@ -84,6 +87,7 @@
     <script src="{{ asset('assets/frontend') }}/js/bootstrap-datepicker.js"></script>
     <!-- jQuery Ui for price range slide -->
     <script src="{{ asset('assets/frontend') }}/js/jquery-ui.min.js"></script>
+    <!-- Google Maps -->
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC3Ip9iVC0nIxC6V14CKLQ1HZNF_65qEQ"></script>
     <!-- DateRangePicker -->
