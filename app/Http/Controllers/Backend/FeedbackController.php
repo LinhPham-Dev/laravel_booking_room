@@ -8,79 +8,35 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $page = 'Feedbacks Manager';
+
+        $feedbacks = Feedback::filterByDate()->paginate(4);
+
+        return view('backend.feedbacks.index', compact('feedbacks', 'page'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function updateStatus($id, Request $request)
     {
-        //
-    }
+        $status = $request->status;
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $feedback = Feedback::find($id);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Backend\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Feedback $feedback)
-    {
-        //
-    }
+        if ($status < 0 || $status > 1) {
+            return response()->json(['message' => "Status is not valid!"]);
+        } else {
+            $feedback->status = $status;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Backend\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Feedback $feedback)
-    {
-        //
-    }
+            $result = $feedback->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Backend\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Feedback $feedback)
-    {
-        //
-    }
+            if ($result) {
+                // Class status
+                $class = statusClass($status);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Backend\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Feedback $feedback)
-    {
-        //
+                // Response data
+                return response()->json(['status' => 'success', 'result' => $feedback->status, 'message' => "Update status user number success !", 'class' => $class]);
+            }
+        }
     }
 }

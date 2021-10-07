@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\FeedbackRequest;
 use App\Models\Backend\Blog;
 use App\Models\Backend\BlogCategory;
+use App\Models\Backend\Brand;
 use App\Models\Backend\Category;
 use App\Models\Backend\Comment;
 use App\Models\Backend\Coupon;
@@ -21,20 +22,40 @@ use App\Models\User;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        View::composer('*', function ($view) {
+            $brands = Brand::take(6)->orderBy('position', 'asc')->get();
+            $info = Information::get()->first();
+
+            $view->with([
+                'brands' => $brands,
+                'info' => $info
+            ]);
+        });
+    }
+
     public function index()
     {
         $rooms = Room::latest()->take(6)->get();
 
         $all_rooms = Room::all();
 
-        return view('frontend.home', compact('rooms', 'all_rooms'));
+        $services = Service::take(6)->get();
+
+        $feedbacks = Feedback::take(4)->get();
+
+        $info = Information::get()->first();
+
+        return view('frontend.home', compact('rooms', 'all_rooms', 'services', 'feedbacks', 'info'));
     }
 
-    public function category(Request $request, $slug = null)
+    public function category(Request $request)
     {
         $params = $request->all();
 
@@ -56,13 +77,13 @@ class HomeController extends Controller
         return view('frontend.pages.category', compact('rooms', 'categories', 'max_price', 'min_price'));
     }
 
-    public function categoryAjax(Request $request, $slug = null)
+    public function categoryAjax()
     {
-        $rooms = Room::filter($request)->roomByCategory($slug)->paginate(1);
+        $rooms = Room::sortBy()->get();
 
         $html = view('frontend.pages.category-ajax')->with('rooms', $rooms)->render();
 
-        return response()->json(['success' => true, 'html' => $html]);
+        return response()->json(['status' => 'success', 'html' => $html]);
     }
 
     public function room($slug)
@@ -306,6 +327,17 @@ class HomeController extends Controller
 
     public function about()
     {
-        # code...
+
+        $total_room = Room::sum('quantity');
+
+        $total_service = Service::all()->count();
+
+        $new_blogs = Blog::take(3)->get();
+
+        $benefits = Service::take(3)->get();
+
+        $feedbacks = Feedback::take(4)->get();
+
+        return view('frontend.pages.about', compact('total_room', 'total_service',  'new_blogs', 'benefits', 'feedbacks'));
     }
 }

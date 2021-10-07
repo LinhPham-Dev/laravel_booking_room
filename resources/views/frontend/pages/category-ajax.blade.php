@@ -13,17 +13,22 @@
                     <div class="room-cat">
                         <p>{{ $room->category->name }}</p>
                     </div>
-                    <h4><a href="room-details.html">{{ $room->name }}</a></h4>
+                    <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
+                    </h4>
                     <ul class="room-info list-inline">
                         <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
                         <li><i class="far fa-bath"></i>{{ $room->bath }} Bath</li>
-                        <li><i class="far fa-ruler-triangle"></i>{{ $room->area }} m<sup>2</sup></li>
+                        <li><i class="far fa-ruler-triangle"></i>{{ $room->area }}
+                            m<sup>2</sup>
+                        </li>
                     </ul>
                     <div class="room-price">
-                        <p>${{ $room->sale_price }}<del class="ml-2 text-secondary">${{ $room->price }}</del></p>
+                        <p>${{ moneyFormat($room->sale_price) }}<del
+                                class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                        </p>
                     </div>
                     <div class="room-book float-right">
-                        <a href="#">Book now</a>
+                        <a href="{{ route('user.room', $room->slug) }}">Book now</a>
                     </div>
                 </div>
             </div>
@@ -44,18 +49,23 @@
                     <div class="room-cat">
                         <p>{{ $room->category->name }}</p>
                     </div>
-                    <h4><a href="room-details.html">{{ $room->name }}</a></h4>
+                    <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
+                    </h4>
                     <p>{!! $room->description !!}</p>
                     <ul class="room-info list-inline">
                         <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
                         <li><i class="far fa-bath"></i>{{ $room->bath }} Bath</li>
-                        <li><i class="far fa-ruler-triangle"></i>{{ $room->area }} m<sup>2</sup></li>
+                        <li><i class="far fa-ruler-triangle"></i>{{ $room->area }}
+                            m<sup>2</sup>
+                        </li>
                     </ul>
                     <div class="room-price">
-                        <p>${{ $room->sale_price }}<del class="ml-2 text-secondary">${{ $room->price }}</del></p>
+                        <p>${{ moneyFormat($room->sale_price) }}<del
+                                class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                        </p>
                     </div>
                     <div class="room-book float-right">
-                        <a href="#">Book now</a>
+                        <a href="{{ route('user.room', $room->slug) }}">Book now</a>
                     </div>
                 </div>
             </div>
@@ -63,5 +73,3 @@
         @endforeach
     </div>
 </div>
-<!-- Pagination -->
-{{ $rooms->links() }}

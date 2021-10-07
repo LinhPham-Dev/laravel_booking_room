@@ -64,4 +64,33 @@ class Room extends Model
 
         return $query;
     }
+
+    public function scopeSortBy($query)
+    {
+        if (request()->sort_by) {
+            $sort_by = request()->sort_by;
+
+            switch ($sort_by) {
+                case 'price-low-to-hight':
+                    $query->orderBy('price', 'desc');
+                    break;
+
+                case 'price-hight-to-low':
+                    $query->orderBy('price', 'asc');
+                    break;
+
+                case 'name-a-z':
+                    $query->orderBy('name', 'asc');
+                    break;
+
+                case 'name-z-a':
+                    $query->orderBy('name', 'desc');
+                    break;
+
+                default:
+                    $query->oldest();
+                    break;
+            }
+        }
+    }
 }

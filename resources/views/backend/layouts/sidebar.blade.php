@@ -155,6 +155,13 @@
                 </ul>
             </li>
 
+            <!-- Feedback -->
+            <li class="sidebar-item">
+                <a href="{{ route('feedbacks.show') }}" class="sidebar-link collapsed">
+                    <i class="far fa-comment-dots"></i> <span class="align-middle">Feedbacks</span>
+                </a>
+            </li>
+
             <!-- User -->
             <li class="sidebar-item">
                 <a href="{{ route('backend.user.show') }}" class="sidebar-link collapsed">

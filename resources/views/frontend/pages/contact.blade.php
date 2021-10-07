@@ -135,13 +135,14 @@
             </div>
         </div>
     </section>
+    {{-- Brand Session --}}
+    @includeIf('frontend.layouts.brand')
 </main>
 
 @endsection
 
 @section('script-option')
 <!-- Google Maps -->
-
 <script>
     const input = document.getElementById("map").value;
         const latlngStr = input.split(",", 2);

@@ -26,7 +26,9 @@ class UserController extends Controller
         if ($status < 0 || $status > 1) {
             return response()->json(['message' => "Status is not valid!"]);
         } else {
-            $result = $user_update->update(['status' => $status]);
+            $user_update->status = $status;
+
+            $result = $user_update->save();
         }
 
         if ($result) {

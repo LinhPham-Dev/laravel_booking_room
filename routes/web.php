@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FaqController;
+use App\Http\Controllers\Backend\FeedbackController;
 use App\Http\Controllers\Backend\InformationController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -131,6 +132,10 @@ Route::prefix('admin')->group(function () {
         Route::get('informations', [InformationController::class, 'show'])->name('info.show');
         Route::post('informations', [InformationController::class, 'add'])->name('info.add');
         Route::put('informations', [InformationController::class, 'update'])->name('info.update');
+
+        Route::get('feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.show');
+
+        Route::put('update-status-feedbacks/{id}', [FeedbackController::class, 'updateStatus'])->name('feedbacks.update_status');
     });
 });
 
@@ -182,9 +187,9 @@ Route::redirect('/home', '/');
 Route::get('profile', [HomeController::class, 'profile'])->name('profile')->middleware('auth');
 Route::put('profile', [HomeController::class, 'updateProfile'])->name('updateProfile')->middleware('auth');
 
-Route::get('categories/{slug?}', [HomeController::class, 'category'])->name('user.category');
+Route::get('categories', [HomeController::class, 'category'])->name('user.category');
 
-Route::get('categories-ajax', [HomeController::class, 'categoryAjax'])->name('user.category_ajax');
+Route::get('categories-search-ajax', [HomeController::class, 'categoryAjax'])->name('user.category_search_ajax');
 
 Route::get('rooms/{slug}', [HomeController::class, 'room'])->name('user.room');
 

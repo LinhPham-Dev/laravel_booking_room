@@ -36,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
         //         'brands' => $brands,
         //     ]);
         // });
+
+        // $brands = Brand::take(6)->orderBy('position', 'asc')->get();
+
+        // View::share('brands', $brands);
     }
 }

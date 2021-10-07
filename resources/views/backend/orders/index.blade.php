@@ -167,11 +167,22 @@
             var startDepart = moment().subtract(10, "days");
             var startArrive = moment();
 
+            // Check session date exits
+            var depart_date = $('#depart-date-picker').val();
+            if (!depart_date) {
+            depart_date = startDepart;
+            }
+
+            var arrive_date = $('#arrive-date-picker').val();
+            if (!arrive_date) {
+            arrive_date = startArrive;
+            }
+
             $("#depart-date-picker").daterangepicker({
                 timePicker: true,
                 singleDatePicker: true,
                 timePickerSeconds: false,
-                // startDate: startDepart,
+                startDate: depart_date,
                 locale: {
                     format: "M/DD/Y hh:mm A",
                 },
@@ -181,7 +192,7 @@
                 timePicker: true,
                 singleDatePicker: true,
                 timePickerSeconds: false,
-                // startDate: startArrive,
+                startDate: arrive_date,
                 locale: {
                     format: "M/DD/Y hh:mm A",
                 },

@@ -6,6 +6,8 @@ use App\Helper\CartHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\CheckoutRequest;
 use App\Mail\OrderComplete;
+use App\Models\Backend\Brand;
+use App\Models\Backend\Information;
 use App\Models\Backend\Payment;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\OrderDetail;
@@ -13,9 +15,24 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        View::composer('*', function ($view) {
+            $brands = Brand::take(6)->orderBy('position', 'asc')->get();
+            $info = Information::get()->first();
+
+            $view->with([
+                'brands' => $brands,
+                'info' => $info
+            ]);
+        });
+    }
+
     public function showCheckoutForm(CartHelper $cart)
     {
         $payments = Payment::all();

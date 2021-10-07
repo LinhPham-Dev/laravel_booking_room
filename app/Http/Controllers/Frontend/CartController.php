@@ -5,23 +5,27 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helper\CartHelper;
+use App\Models\Backend\Brand;
+use App\Models\Backend\Information;
 use App\Models\Backend\Room;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\View;
 
 class CartController extends Controller
 {
 
-    /**
-     * protected $cart;
-     * CartHelper $cart
-     */
+    public function __construct()
+    {
+        View::composer('*', function ($view) {
+            $brands = Brand::take(6)->orderBy('position', 'asc')->get();
+            $info = Information::get()->first();
 
-    // protected $cart;
-
-    // public function __construct(CartHelper $cart)
-    // {
-    //     $cart = $cart;
-    // }
+            $view->with([
+                'brands' => $brands,
+                'info' => $info
+            ]);
+        });
+    }
 
     public function show(CartHelper $cart)
     {

@@ -1,5 +1,13 @@
 @extends('frontend.layouts.master')
 
+@section('css-option')
+<style>
+    .contact-box {
+        font-size: 22px;
+    }
+</style>
+@endsection
+
 @section('content')
 
 <main>
@@ -193,7 +201,8 @@
                                     </ul>
                                     <div class="room-price">
                                         <p>${{ moneyFormat($room->sale_price) }}<del
-                                                class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del></p>
+                                                class="ml-2 text-secondary">${{ moneyFormat($room->price) }}</del>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -216,96 +225,20 @@
 
             <!-- Service Boxes -->
             <div class="row">
+                @foreach ($services as $service)
                 <div class="col-lg-4 col-md-6">
                     <!-- SingleBox -->
                     <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
                         data-wow-delay="400ms">
-                        <span class="service-counter">01</span>
+                        <span class="service-counter">{{ sprintf('%02d', $loop->iteration) }}</span>
                         <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/01.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/01-hover.png" alt="Hover Icon"
-                                class="second-icon">
+                            <img src="{{ asset("uploads/services/$service->image") }}" alt="Icon" class="first-icon">
                         </div>
-                        <h4>Rooms & Appartment</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
+                        <h4>{{ $service->title }}</h4>
+                        <p>{{ Str::limit($service->content, 130, '...') }}</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <!-- SingleBox -->
-                    <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="500ms">
-                        <span class="service-counter">02</span>
-                        <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/02.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/02-hover.png" alt="Hover Icon"
-                                class="second-icon">
-                        </div>
-                        <h4>Food & Restaurant</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <!-- SingleBox -->
-                    <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="600ms">
-                        <span class="service-counter">03</span>
-                        <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/03.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/03-hover.png" alt="Hover Icon"
-                                class="second-icon">
-                        </div>
-                        <h4>Spa & Fitness</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <!-- SingleBox -->
-                    <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="700ms">
-                        <span class="service-counter">03</span>
-                        <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/04.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/04-hover.png" alt="Hover Icon"
-                                class="second-icon">
-                        </div>
-                        <h4>Sports & Gaming</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <!-- SingleBox -->
-                    <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="800ms">
-                        <span class="service-counter">03</span>
-                        <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/05.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/05-hover.png" alt="Hover Icon"
-                                class="second-icon">
-                        </div>
-                        <h4>Event & Party</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <!-- SingleBox -->
-                    <div class="single-service-box text-center wow fadeIn animated" data-wow-duration="1500ms"
-                        data-wow-delay="900ms">
-                        <span class="service-counter">03</span>
-                        <div class="service-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/06.png" alt="Icon" class="first-icon">
-                            <img src="{{ asset('assets/frontend') }}/img/icons/06-hover.png" alt="Hover Icon"
-                                class="second-icon">
-                        </div>
-                        <h4>GYM & Yoga</h4>
-                        <p>Great explorer of the truth the ter-blde human happiness one reject</p>
-                        <a href="service.html" class="read-more">raed more <i class="far fa-long-arrow-right"></i></a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -479,70 +412,14 @@
                 <h1>Our Satisfaction People Say <br> About Our Services </h1>
             </div>
             <div class="feadback-slide row" id="feedbackSlideActive">
+                @foreach ($feedbacks as $feedback)
                 <div class="col-lg-6">
                     <div class="single-feedback-box">
-                        <p>Omnis voluptas assumde est omnis dolor reporibus autem quidam et aut ciise debitiset
-                            arerum
-                            neces tibus saep on ways feels like ways.</p>
-                        <h5 class="feedback-author">James M. Varney</h5>
+                        <p>{{ $feedback->message }}</p>
+                        <h5 class="feedback-author">{{ $feedback->name }}</h5>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>At vero eos et accusamu way set iusto odio dignis ducimus qui bpraes enum voluptatum
-                            deleniti
-                            atque corrupti quos dolores others worlds.</p>
-                        <h5 class="feedback-author">David K. Vinson</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>Omnis voluptas assumde est omnis dolor reporibus autem quidam et aut ciise debitiset
-                            arerum
-                            neces tibus saep on ways feels like ways.</p>
-                        <h5 class="feedback-author">James M. Varney</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>At vero eos et accusamu way set iusto odio dignis ducimus qui bpraes enum voluptatum
-                            deleniti
-                            atque corrupti quos dolores others worlds.</p>
-                        <h5 class="feedback-author">David K. Vinson</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>Omnis voluptas assumde est omnis dolor reporibus autem quidam et aut ciise debitiset
-                            arerum
-                            neces tibus saep on ways feels like ways.</p>
-                        <h5 class="feedback-author">James M. Varney</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>At vero eos et accusamu way set iusto odio dignis ducimus qui bpraes enum voluptatum
-                            deleniti
-                            atque corrupti quos dolores others worlds.</p>
-                        <h5 class="feedback-author">David K. Vinson</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>Omnis voluptas assumde est omnis dolor reporibus autem quidam et aut ciise debitiset
-                            arerum
-                            neces tibus saep on ways feels like ways.</p>
-                        <h5 class="feedback-author">James M. Varney</h5>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="single-feedback-box">
-                        <p>At vero eos et accusamu way set iusto odio dignis ducimus qui bpraes enum voluptatum
-                            deleniti
-                            atque corrupti quos dolores others worlds.</p>
-                        <h5 class="feedback-author">David K. Vinson</h5>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -552,21 +429,7 @@
         <div class="container">
             <div class="row align-items-center no-gutters">
                 <div class="col-lg-6">
-                    <div class="map-lg-pc d-none d-lg-block">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.66656488542!2d105.78299366697445!3d21.04602353116366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3b4220c2bd%3A0x1c9e359e2a4f618c!2sB%C3%A1ch%20Khoa%20Aptech!5e0!3m2!1svi!2s!4v1630659498844!5m2!1svi!2s"
-                            width="600" height="550" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                    <div class="map-lg-tablet d-none d-md-block d-lg-none">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.66656488542!2d105.78299366697445!3d21.04602353116366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3b4220c2bd%3A0x1c9e359e2a4f618c!2sB%C3%A1ch%20Khoa%20Aptech!5e0!3m2!1svi!2s!4v1630659498844!5m2!1svi!2s"
-                            width="690" height="550" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                    <div class="map-phone d-block d-sm-none">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.66656488542!2d105.78299366697445!3d21.04602353116366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3b4220c2bd%3A0x1c9e359e2a4f618c!2sB%C3%A1ch%20Khoa%20Aptech!5e0!3m2!1svi!2s!4v1630659498844!5m2!1svi!2s"
-                            width="395" height="550" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
+                    <div id="gg-map" style="height: 530px; margin-top: 5px"></div>
                 </div>
                 <div class="col-lg-5 offset-lg-1">
                     <!-- Section Title -->
@@ -578,13 +441,14 @@
                     </div>
                     <div class="contact-box wow fadeInUp animated" data-wow-duration="1500ms" data-wow-delay="400ms">
                         <ul>
-                            <li><i class="far fa-map-marker-alt"></i>205 Main Road, New York</li>
+                            <li><i class="far fa-map-marker-alt"></i>{{ $info->address }}</li>
+                            <input type="hidden" name="map" id="map" value="{{ $info->map }}">
                             <li>
                                 <a href="#">
-                                    <i class="far fa-envelope-open"></i>supportinfo@gmail.com
+                                    <i class="far fa-envelope-open"></i>{{ $info->email }}
                                 </a>
                             </li>
-                            <li><a href="#"><i class="far fa-phone"></i>+89 (456) 789 999</a>
+                            <li><a href="#"><i class="far fa-phone"></i>{{ $info->phone }}</a>
                             </li>
                         </ul>
                     </div>
@@ -600,7 +464,6 @@
 @endsection
 
 @section('script-option')
-
 <script>
     // Add to cart
         function addItemToCart() {
@@ -655,5 +518,47 @@
                 },
             });
         });
+
+        const input = document.getElementById("map").value;
+        const latlngStr = input.split(",", 2);
+        const myLatlng = {
+            lat: parseFloat(latlngStr[0]),
+            lng: parseFloat(latlngStr[1]),
+        };
+
+        function myMap() {
+            var mapProp = {
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+                scrollwheel: false,
+
+                center: new google.maps.LatLng(
+                    myLatlng.lat,
+                    myLatlng.lng
+                ),
+                zoom: 15,
+            };
+            var map = new google.maps.Map(
+                document.getElementById("gg-map"),
+                mapProp
+            );
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: map.getCenter(),
+                title: "Click to zoom",
+                animation: google.maps.Animation.BOUNCE,
+            });
+
+            marker.setMap(map);
+
+            var infowindow = new google.maps.InfoWindow({
+                content: "Welcome to BachKhoa-Aptech !",
+            });
+
+            infowindow.open(map, marker);
+        }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFGZV7aczW8BFE53IKMt4DeiPWEFDCRwE&callback=myMap">
 </script>
 @endsection

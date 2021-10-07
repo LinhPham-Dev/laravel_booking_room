@@ -240,29 +240,29 @@
 
 @section('script-option')
 <script>
-    $('#category').change(function(e) {
-            const slug = $('#category').val();
+    $('#sort').change(function(e) {
+
+            const sortBy = $('#sort').val();
 
             const _token = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
                 type: "GET",
                 datatype: 'html',
-                url: `{{ route('user.category_ajax') }}`,
+                url: `{{ route('user.category_search_ajax') }}`,
                 data: {
-                    slug: slug,
+                    sort_by: sortBy,
                     _token: _token
                 },
                 success: function(res) {
+                    console.log(res.status);
                     const html = res.html;
-
                     $('.show-ajax').html(html);
                 },
                 error: function(res) {
                     console.log(res);
                 }
             });
-
         });
 </script>
 @endsection
