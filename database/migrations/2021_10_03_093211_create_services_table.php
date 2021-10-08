@@ -20,8 +20,7 @@ class CreateServicesTable extends Migration
             $table->string('image');
             $table->tinyInteger('position');
             $table->tinyInteger('status')->default(1);
-            $table->bigInteger('blog_category_id')->unsigned();
-            $table->foreign('blog_category_id')->references('id')->on('blog_categories');
+            $table->float('price');
             $table->timestamps();
             $table->softDeletes();
         });

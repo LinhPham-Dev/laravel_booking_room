@@ -15,20 +15,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
-                                <h5 class="card-title">Income</h5>
+                                <h5 class="card-title">Rooms</h5>
                             </div>
                             <div class="col-auto">
                                 <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="dollar-sign"></i>
+                                    <i class="fas fa-hotel"></i>
                                 </div>
                             </div>
                         </div>
-                        <h1 class="mt-1 mb-3">$47.482</h1>
-                        <div class="mb-0">
-                            <span class="badge badge-success-light"> <i class="mdi mdi-arrow-bottom-right"></i> 3.65%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
+                        <h1 class="mt-1 mb-3">{{ $rooms }}</h1>
                     </div>
                 </div>
             </div>
@@ -46,12 +41,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h1 class="mt-1 mb-3">2.542</h1>
-                        <div class="mb-0">
-                            <span class="badge badge-danger-light"> <i class="mdi mdi-arrow-bottom-right"></i> -5.25%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
+                        <h1 class="mt-1 mb-3">{{ $orders }}</h1>
                     </div>
                 </div>
             </div>
@@ -60,21 +50,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
-                                <h5 class="card-title">Activity</h5>
+                                <h5 class="card-title">Unpaid</h5>
                             </div>
-
                             <div class="col-auto">
                                 <div class="stat text-primary">
                                     <i class="align-middle" data-feather="activity"></i>
                                 </div>
                             </div>
                         </div>
-                        <h1 class="mt-1 mb-3">16.300</h1>
-                        <div class="mb-0">
-                            <span class="badge badge-success-light"> <i class="mdi mdi-arrow-bottom-right"></i> 4.65%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
+                        <h1 class="mt-1 mb-3">{{ $unpaid }}</h1>
                     </div>
                 </div>
             </div>
@@ -83,21 +67,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
-                                <h5 class="card-title">Revenue</h5>
+                                <h5 class="card-title">Accounts</h5>
                             </div>
-
                             <div class="col-auto">
                                 <div class="stat text-primary">
-                                    <i class="align-middle" data-feather="shopping-cart"></i>
+                                    <i class="far fa-user"></i>
                                 </div>
                             </div>
                         </div>
-                        <h1 class="mt-1 mb-3">$20.120</h1>
-                        <div class="mb-0">
-                            <span class="badge badge-success-light"> <i class="mdi mdi-arrow-bottom-right"></i> 2.35%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                        </div>
+                        <h1 class="mt-1 mb-3">{{ $accounts }}</h1>
                     </div>
                 </div>
             </div>

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\StoreCouponRequest;
 use App\Http\Requests\Backend\UpdateCouponRequest;
+use App\Mail\SendNewCoupon;
 use App\Models\Backend\Coupon;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class CouponController extends Controller
@@ -49,6 +52,18 @@ class CouponController extends Controller
      */
     public function store(StoreCouponRequest $request, Coupon $coupon)
     {
+        $code = $request->code;
+
+        if ($request->send_to_user) {
+            // Send mail new coupon.
+            $users = User::all();
+
+            foreach ($users as $user) {
+                Mail::to($user->email)->send(new SendNewCoupon($code));
+            }
+        }
+
+
         $new_coupon = $coupon->createNewCoupon();
 
         // Check Result

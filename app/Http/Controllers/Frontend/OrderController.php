@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\CheckoutRequest;
 use App\Mail\OrderComplete;
 use App\Models\Backend\Brand;
+use App\Models\Backend\Coupon;
 use App\Models\Backend\Information;
 use App\Models\Backend\Payment;
+use App\Models\Backend\Service;
 use App\Models\Frontend\Order;
 use App\Models\Frontend\OrderDetail;
+use App\Models\Frontend\OrderService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +40,8 @@ class OrderController extends Controller
     {
         $payments = Payment::all();
 
+        $services = Service::all();
+
         $hours = 0;
 
         if (session('depart_date') && session('arrive_date')) {
@@ -51,7 +56,7 @@ class OrderController extends Controller
             $hours = $arrive_date->diffInHours($depart_date);
         }
 
-        return view('frontend.pages.checkout', compact('payments', 'cart'))->with('hours', $hours);
+        return view('frontend.pages.checkout', compact('payments', 'services', 'cart'))->with('hours', $hours);
     }
 
     public function changeDate(Request $request)
@@ -81,8 +86,29 @@ class OrderController extends Controller
 
         if ($order) {
 
+            // Reduce the number of quantity coupon
+            if ($request->coupon_id) {
+                $coupon_id = $request->coupon_id;
+
+                $check_coupon_exits = Coupon::find($coupon_id);
+
+                if ($check_coupon_exits) {
+
+                    $check_coupon_exits->limit = $check_coupon_exits->limit - 1;
+
+                    $check_coupon_exits->save();
+                }
+            }
+
             // Insert order detail
             OrderDetail::addOrderDetail($order->id);
+
+            // Insert Order service
+            if ($request->services) {
+                $services = $request->services;
+
+                OrderService::addOrderService($services, $order->id);
+            }
 
             // new Order
             $new_order = Order::findOrFail($order->id);

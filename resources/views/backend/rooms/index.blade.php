@@ -37,7 +37,6 @@
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <select name="status" class="form-control">
-                                        <option>Status</option>
                                         <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
                                         <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
                                     </select>
@@ -142,7 +141,7 @@
 
                                 <!-- Pagination -->
                                 <div class="row">
-                                    @if(count($banners) >= 3)
+                                    @if(count($rooms->all()) >= 3)
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info my-2">
                                             <p>Showing {{ $rooms->firstItem() }} to {{ $rooms->lastItem() }} of

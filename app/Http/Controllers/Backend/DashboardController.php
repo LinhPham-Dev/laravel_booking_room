@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Room;
 use App\Models\Frontend\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('backend.dashboard');
+        $orders = Order::all()->count();
+        $rooms = Room::all()->count();
+        $unpaid = Order::where('status', 0)->count();
+        $accounts = User::all()->count();
+
+        return view('backend.dashboard', compact('orders', 'rooms', 'accounts', 'unpaid'));
     }
 
     public function events()
@@ -25,20 +32,6 @@ class DashboardController extends Controller
         }
 
         $events->toArray();
-
-        $pages_array = array(
-            array(
-                "title" => "Long Event",
-                "start" => "2021-07-07",
-                "end" => "2021-07-10"
-            ),
-
-            array(
-                "title" => "Conference",
-                "start" => "2021-07-12",
-                "end" => "2021-07-15"
-            )
-        );
 
         return response()->json(['status' => 'success', 'events' => $events]);
     }

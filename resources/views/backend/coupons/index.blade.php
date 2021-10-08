@@ -115,10 +115,16 @@
                                                 <p>${{ moneyFormat($coupon->min_price) }}</p>
                                             </td>
                                             <td>
-                                                @if ($coupon->status == 1)
-                                                <span class="badge bg-success">Show</span>
+                                                @if ($coupon->checkExpirationDate())
+                                                <span class="badge bg-primary my-1">Alive</span>
                                                 @else
-                                                <span class="badge bg-secondary">Hide</span>
+                                                <span class="badge bg-secondary my-1">Expired</span>
+                                                @endif
+
+                                                @if ($coupon->status == 1)
+                                                <span class="badge bg-success my-1">Show</span>
+                                                @else
+                                                <span class="badge bg-secondary my-1">Hide</span>
                                                 @endif
                                             </td>
                                             <td width="15%">

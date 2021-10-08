@@ -54,4 +54,13 @@ class Coupon extends Model
 
         return false;
     }
+
+    public function scopeCheckExpirationDate($query)
+    {
+        $now = Carbon::now();
+
+        $query->where('start_time', '<=', $now)->where('end_time', '>=', $now);
+
+        return $query;
+    }
 }

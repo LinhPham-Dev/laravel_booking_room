@@ -1,5 +1,15 @@
 @extends('frontend.layouts.master')
 
+@section('css-option')
+<style>
+    .custom-checkbox {
+        width: 16px;
+        height: 16px;
+        margin: 5px;
+    }
+</style>
+@endsection
+
 @section('content')
 
 <main>
@@ -141,6 +151,7 @@
                                         <strong>Total</strong>
                                     </div>
                                 </li>
+                                {{-- Room --}}
                                 @foreach ($cart->content() as $item)
                                 <li class="clearfix">
                                     <div class="col" style="text-transform:none;">
@@ -154,22 +165,38 @@
                                     </div>
                                 </li>
                                 @endforeach
+                                {{-- Service --}}
                                 <li class="clearfix">
-                                    <div class="col" style="text-transform:none;">
-                                        WiFi
-                                    </div>
                                     <div class="col second">
-                                        free
+                                        <div class="form-checkbox">
+                                            <input type="checkbox" class="custom-checkbox" id="all-service"
+                                                name="all_service" value="all">
+                                            <label class="form-control-label" for="all-service"><b>Choose
+                                                    Services</b></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="hours" id="hours" value="{{ $hours }}">
+                                    <div class="col hours">
+                                        Price
                                     </div>
                                 </li>
+                                @foreach ($services as $service)
                                 <li class="clearfix">
-                                    <div class="col" style="text-transform:none;">
-                                        Massage
+                                    <div class="col second">
+                                        <div class="form-checkbox">
+                                            <input type="checkbox" data-price="{{ $service->price }}"
+                                                class="custom-checkbox service-checkbox" id="service-{{ $service->id }}"
+                                                name="services[]" value="{{ $service->id }}">
+                                            <label class="form-control-label"
+                                                for="service-{{ $service->id }}">{{ $service->title }}</label>
+                                        </div>
                                     </div>
                                     <div class="col second">
-                                        $20.50
+                                        ${{ moneyFormat($service->price) }}
                                     </div>
                                 </li>
+                                @endforeach
+                                {{-- Hours --}}
                                 <li class="clearfix">
                                     <div class="col" style="text-transform:none;">
                                         <b>Hours</b>
@@ -213,6 +240,7 @@
                                     <div class="col second">
                                         <input type="hidden" name="total_amount" id="total_amount"
                                             value="{{ $cart->getTotalAmount() * $hours }}">
+                                        <input type="hidden" name="old_total_amount" id="old_total_amount">
                                         <strong
                                             id="show-total-amount">${{ moneyFormat($cart->getTotalAmount() * $hours) }}</strong>
                                     </div>
@@ -283,9 +311,78 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     $(document).ready(function() {
+            // Select all service
+            $("#all-service").click(function(event) {
+                if (this.checked) {
+                    $(":checkbox").each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(":checkbox").each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            $(function() {
+                $('.custom-checkbox').click(function() {
+
+                    // Uncheck All Service
+                    // $("#all-service").prop('checked', false);
+
+                    var services = [];
+                    var total_service_price = 0;
+
+                    $('.service-checkbox:checked').each(function(i) {
+                        services[i] = $(this).val();
+
+                        // Get price each service
+                        let price = parseFloat($(this).attr('data-price'));
+
+                        // Calculate total service
+                        total_service_price += price;
+
+                    });
+
+                    console.log(services);
+                    console.log(total_service_price);
+
+                    // Get token
+                    const _token = $('meta[name="csrf-token"]').attr('content');
+                    const old_total_amount = $('#old_total_amount').val();
+
+                    // Ajax calculate total price after choose service
+                    $.ajax({
+                        type: "GET",
+                        url: `{{ route('select_services') }}`,
+                        data: {
+                            total_amount: old_total_amount,
+                            total_service_price: total_service_price,
+                            _token: _token
+                        },
+                        success: function(res) {
+                            console.log(res);
+
+                            // Set new total amount
+                            $('#total_amount').val(parseFloat(res.total_amount).toFixed(
+                                2));
+                            $('#show-total-amount').html('$' + parseFloat(res
+                                .total_amount).toFixed(
+                                2));
+                        },
+                        error: function(res) {
+                            console.log(res);
+                        }
+                    });
+
+
+                });
+            });
+
             $('#children').niceSelect('destroy');
             $('#adult').niceSelect('destroy');
-            $('select').niceSelect('destroy');
+            $('select').niceSelect(
+                'destroy');
 
             // Toggle layouts
             $(function() {
@@ -308,7 +405,6 @@
 
                 if (!(code.trim().length == 0)) {
                     const _token = $('meta[name="csrf-token"]').attr('content');
-
                     const total_amount = $('#total').val();
 
                     $.ajax({
@@ -321,23 +417,26 @@
                             _token: _token
                         },
                         success: function(res) {
-                            console.log(res);
+                            // console.log(res);
                             $(".mess-success").css('display', 'block');
                             $(".mess-error").css('display', 'none');
 
-                            $('#discount').html(res.discount);
+                            $('#discount').html(parseFloat(res.discount).toFixed(2));
                             $('#total_amount').val(parseFloat(res.total_amount).toFixed(2));
+                            $('#old_total_amount').val(parseFloat(res.total_amount).toFixed(2));
                             $('#coupon_id').val(res.coupon_id);
                             $('#show-total-amount').html('$' + res.total_amount);
                         },
                         error: function(res) {
                             $(".mess-success").css('display', 'none');
                             $(".mess-error").css('display', 'block');
+                            $(".mess-error").text('display');
 
                             const old_value = $("#total").val();
                             $('#discount').html(0);
                             $('#coupon_id').val(0);
                             $('#total_amount').val(old_value);
+                            $('#old_total_amount').val(old_value);
                             $('#show-total-amount').html('$' + old_value);
                         }
                     });
@@ -400,8 +499,9 @@
                 const depart_date = $('#depart-date-picker').val();
                 const arrive_date = $('#arrive-date-picker').val();
 
-                const url = "{{ route('checkout.change_date') }}";
+                // Get token
                 const _token = $('meta[name="csrf-token"]').attr('content');
+                const url = "{{ route('checkout.change_date') }}";
 
                 $.ajax({
                     type: "POST",
@@ -422,7 +522,8 @@
                             $('#show-total').html('$' + (parseFloat(res.hours *
                                 "{{ $cart->getTotalAmount() }}").toFixed(2)));
 
-                            $("#total").val(parseFloat(res.hours * "{{ $cart->getTotalAmount() }}")
+                            $("#total").val(parseFloat(res.hours *
+                                    "{{ $cart->getTotalAmount() }}")
                                 .toFixed(2));
 
                             $('#show-total-amount').html('$' + (parseFloat(res.hours *
@@ -489,6 +590,11 @@
                         const coupon_id = $("#coupon_id").val();
                         const note = $('#note').val();
 
+                        var services = [];
+                        $('.service-checkbox:checked').each(function(i) {
+                            services[i] = $(this).val();
+                        });
+
                         const url = "{{ route('checkout.handle') }}";
                         const _token = $('meta[name="csrf-token"]').attr('content');
 
@@ -508,13 +614,16 @@
                                     'adult': adult,
                                     'note': note,
                                     'status': 1,
+                                    'services': services,
                                     'coupon_id': coupon_id,
                                     'payment_id': payment_id,
                                     'total_amount': total_amount
                                 },
                                 success: function(response) {
                                     // Redirect route success
-                                    window.location.replace(response.success);
+                                    console.log(res);
+                                    window.location.replace(response
+                                        .success);
                                 },
                                 error: function(response) {
                                     console.log(response);

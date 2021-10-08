@@ -70,7 +70,11 @@
                                         @endif
                                         <div class="tab-content desc-tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active show" id="info">
-                                                <h5 class="tab-title ml-5">Your Information</h5>
+                                                <h5 class="tab-title d-inline-block ml-5">Your Information</h5>
+                                                <a href="{{ route('order_history') }}"
+                                                    class="btn btn-warning px-2 py-1 float-right"><i
+                                                        class="fas fa-file-invoice"></i> Your
+                                                    orders</a>
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="profile-picture p-4">

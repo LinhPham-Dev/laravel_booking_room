@@ -17,7 +17,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter category name ..." value="{{ request()->name }}">
+                                        placeholder="Enter payments name ..." value="{{ request()->name }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
@@ -38,18 +38,11 @@
             <div class="col-lg-4">
                 <div class="card card-primary">
                     <div class="px-4 py-2 bg-light border">
-                        <h3 class="card-title my-2">Add new Category</h3>
+                        <h3 class="card-title my-2">Add new payments</h3>
                     </div>
-                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('payments.store') }}" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             @csrf
-                            <div class="form-group">
-                                <label for="parent_id">Parent: </label>
-                                <select class="form-control" name="parent_id" id="parent_id">
-                                    <option value="">None</option>
-                                    {{ showCategories($select_category, null) }}
-                                </select>
-                            </div>
                             {{-- Name --}}
                             <div class="form-group">
                                 <label for="name">Name :</label>
@@ -58,27 +51,6 @@
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
-                            {{-- Url --}}
-                            <div class="form-group">
-                                <label for="slug">Url :</label>
-                                <input class="form-control @error('slug') is-invalid @enderror" type="text" id="slug"
-                                    name="slug" value="{{ old('slug') }}">
-                                @error('slug')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            {{-- Image --}}
-                            <div class="form-group">
-                                <label for="category_image">Choose Image :</label>
-                                <input class="form-control-file" type="file" id="category_image" name="category_image">
-                                @error('category_image')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="my-2">
-                                <img id="image-show" style="padding: 10px 10px 10px 0;" width="70%"
-                                    style="display: none">
                             </div>
                             <label for="status">Status: </label>
                             <select class="form-control" name="status" id="status">
@@ -101,10 +73,6 @@
                     <div class="card">
                         <div class="px-4 py-2 bg-light border">
                             <h3 class="card-title d-inline-block my-2">DataTable Categories</h3>
-                            <div class="action float-end">
-                                <a href="{{ route('categories.trash') }}" class="btn btn-outline-danger"><i
-                                        class="fa fa-trash m-1"></i>Trash</a>
-                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -113,41 +81,32 @@
                                     <tr>
                                         <th width="5%">STT</th>
                                         <th width="20%">Name</th>
-                                        <th width="20%">Url</th>
-                                        <th width="20%">Image</th>
                                         <th width="10%">Status</th>
                                         <th width="25%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(count($categories) == 0)
-                                    <div class="alert alert-warning p-3" role="alert">No any categories here !
+                                    @if(count($payments) == 0)
+                                    <div class="alert alert-warning p-3" role="alert">No any payments here !
                                     </div>
                                     @else
-                                    @foreach ($categories as $category)
+                                    @foreach ($payments as $payment)
                                     <tr>
                                         <th>{{ $loop->iteration }}</th>
                                         <td>
-                                            <p>{{ Str::limit($category->name, 25, '...') }}</p>
+                                            <p>{{ Str::limit($payment->name, 25, '...') }}</p>
                                         </td>
                                         <td>
-                                            <p>{{ Str::limit($category->slug, 25, '...') }}</p>
-                                        </td>
-                                        <td><img class="w-100"
-                                                src="{{ asset('uploads/categories') . '/' . $category->image  }}"
-                                                alt="{{ $category->name }}"></td>
-                                        <td>
-                                            @if($category->status == 1)
+                                            @if($payment->status == 1)
                                             <span class="badge bg-success">Show</span>
                                             @else
                                             <span class="badge bg-secondary">Hide</span>
                                             @endif
                                         <td>
-                                            <a class="btn btn-info" href="{{ route('categories.edit', $category->id) }}"
+                                            <a class="btn btn-info" href="{{ route('payments.edit', $payment->id) }}"
                                                 role="button"><i class="fas fa-pen"></i></a>
                                             <form class="d-inline-block"
-                                                action="{{ route('categories.destroy', $category->id ) }}"
-                                                method="POST">
+                                                action="{{ route('payments.destroy', $payment->id ) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <button onclick="return confirm('Are you sure to take this action ?')"
@@ -162,15 +121,15 @@
                                 </tbody>
                             </table>
                             <div class="col-md-12 my-3">
-                                @if(count($categories->all()) >= 3)
+                                @if(count($payments->all()) >= 3)
                                 <!-- Pagination -->
                                 <div class="dataTables_info d-inline-block my-2">
-                                    <p>Showing {{ $categories->firstItem() }} to
-                                        {{ $categories->lastItem() }} of
-                                        {{$categories->total()}} entries</p>
+                                    <p>Showing {{ $payments->firstItem() }} to
+                                        {{ $payments->lastItem() }} of
+                                        {{$payments->total()}} entries</p>
                                 </div>
                                 <div class="float-end">
-                                    {{ $categories->withQueryString()->links() }}
+                                    {{ $payments->withQueryString()->links() }}
                                 </div>
                                 @endif
                             </div>

@@ -112,6 +112,21 @@
                 </ul>
             </li>
 
+            <!-- Room -->
+            <li class="sidebar-item">
+                <a data-bs-target="#rooms" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="fas fa-hotel"></i> <span class="align-middle">Rooms</span>
+                </a>
+                <ul id="rooms" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.index') }}">Room Manager</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.create') }}">Add new room</a>
+                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.trash') }}">Room trash</a>
+                    </li>
+                </ul>
+            </li>
+
             <!-- Coupon -->
             <li class="sidebar-item">
                 <a data-bs-target="#coupon" data-bs-toggle="collapse" class="sidebar-link collapsed">
@@ -155,6 +170,15 @@
                 </ul>
             </li>
 
+            <!-- Payment -->
+            <li class="sidebar-item">
+                <a href="{{ route('payments.index') }}" class="sidebar-link collapsed">
+                    <i class="fab fa-cc-amazon-pay"></i> <span class="align-middle">Payments</span>
+                </a>
+            </li>
+
+
+
             <!-- Feedback -->
             <li class="sidebar-item">
                 <a href="{{ route('feedbacks.show') }}" class="sidebar-link collapsed">
@@ -182,23 +206,6 @@
                     <i class="fas fa-info"></i> <span class="align-middle">Information</span>
                 </a>
             </li>
-
-            <!-- Room -->
-            <li class="sidebar-item">
-                <a data-bs-target="#rooms" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="fas fa-hotel"></i> <span class="align-middle">Rooms</span>
-                </a>
-                <ul id="rooms" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.index') }}">Room Manager</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.create') }}">Add new room</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('rooms.trash') }}">Room trash</a>
-                    </li>
-                </ul>
-            </li>
-
-
         </ul>
     </div>
 </nav>

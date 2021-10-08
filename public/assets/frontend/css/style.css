@@ -1101,6 +1101,11 @@ h1.big-text {
     border-color: #fea116;
 }
 
+.service-item {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
 /* hero area end
 ============================================================================================ */
 /* Booking Form

@@ -37,10 +37,13 @@ class RoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $page = 'List Rooms';
-        $rooms = Room::latest()->filterPrice()->paginate(3);
+
+        $params = $request->all();
+
+        $rooms = Room::latest()->filter($params)->filterPrice()->paginate(3);
 
         return view('backend.rooms.index', compact('rooms', 'page'));
     }

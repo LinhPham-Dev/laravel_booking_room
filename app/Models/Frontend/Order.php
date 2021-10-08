@@ -5,6 +5,7 @@ namespace App\Models\Frontend;
 use App\Helper\CartHelper;
 use App\Models\Backend\Coupon;
 use App\Models\Backend\Payment;
+use App\Models\Backend\Service;
 use App\Models\User;
 use App\Traits\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +48,8 @@ class Order extends Model
 
         $arrive_date->toDateTimeString();
 
+        $status = $request->status ? $request->status : 0;
+
         $coupon_id = $request->coupon_id ? $request->coupon_id : null;
 
         $order = Order::create([
@@ -57,7 +60,7 @@ class Order extends Model
             'adult' => $request->adult,
             'children' => $request->children,
             'coupon_id' => $coupon_id,
-            'status' => $request->status,
+            'status' => $status,
             'note' => $request->note,
             'total_amount' => $request->total_amount,
         ]);
@@ -73,6 +76,12 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+
+    public function orderServices()
+    {
+        return $this->hasMany(OrderService::class);
     }
 
     /**

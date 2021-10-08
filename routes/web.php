@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\FeedbackController;
 use App\Http\Controllers\Backend\InformationController;
+use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -65,6 +66,7 @@ Route::prefix('admin')->group(function () {
         // Categories Trash
         Route::get('trash/categories', [CategoryController::class, 'trash'])->name('categories.trash');
         Route::post('trash/categories', [CategoryController::class, 'trashAction'])->name('categories.action');
+
         // Rooms
         Route::resource('rooms', RoomController::class);
 
@@ -133,9 +135,12 @@ Route::prefix('admin')->group(function () {
         Route::post('informations', [InformationController::class, 'add'])->name('info.add');
         Route::put('informations', [InformationController::class, 'update'])->name('info.update');
 
+        // Feedbacks
         Route::get('feedbacks', [FeedbackController::class, 'index'])->name('feedbacks.show');
-
         Route::put('update-status-feedbacks/{id}', [FeedbackController::class, 'updateStatus'])->name('feedbacks.update_status');
+
+        // Payments
+        Route::resource('payments', PaymentController::class);
     });
 });
 
@@ -230,6 +235,7 @@ Route::prefix('cart')->group(function () {
 
 // Get coupon
 Route::get('coupon', [HomeController::class, 'checkCoupon'])->name('check_coupon');
+Route::get('select-services', [HomeController::class, 'selectService'])->name('select_services');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('checkout', [OrderController::class, 'showCheckoutForm'])->name('checkout.show');

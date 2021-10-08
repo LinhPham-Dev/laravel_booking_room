@@ -16,24 +16,23 @@
                         <div class="row my-3">
                             <div class="col-lg-2">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="title" id="title"
-                                        placeholder="Banner title ..." value="{{ request()->title }}">
+                                    <input type="text" class="form-control" name="search_title" id="search_title"
+                                        placeholder="Title ..." value="{{ request()->search_title }}">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <select name="position" class="form-control">
-                                        <option>Position</option>
-                                        <option {{ request()->position === 1 ? 'selected' : '' }} value="1">1</option>
-                                        <option {{ request()->position === 2 ? 'selected' : '' }} value="2">2</option>
-                                        <option {{ request()->position === 3 ? 'selected' : '' }} value="3">3</option>
+                                        <option value="">Position</option>
+                                        <option {{ request()->position == 1 ? 'selected' : '' }} value="1">1</option>
+                                        <option {{ request()->position == 2 ? 'selected' : '' }} value="2">2</option>
+                                        <option {{ request()->position == 3 ? 'selected' : '' }} value="3">3</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <select name="status" class="form-control">
-                                        <option>Status</option>
                                         <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
                                         <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
                                     </select>

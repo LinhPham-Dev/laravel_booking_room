@@ -12,9 +12,4 @@ class Service extends Model
     use HasFactory, QueryFilter, SoftDeletes;
 
     protected $fillable = ['title', 'content', 'image', 'position', 'status', 'blog_category_id'];
-
-    public function blogCategory()
-    {
-        return $this->belongsTo(BlogCategory::class, 'blog_category_id');
-    }
 }

@@ -28,8 +28,8 @@ class StoreCouponRequest extends FormRequest
             'limit' => 'required|numeric',
             'percent' => 'required|numeric',
             'min_price' => 'required|numeric',
-            'start_time' => 'required|date|date_format:d/m/Y H:i A',
-            'end_time' => 'required|date|date_format:d/m/Y H:i A|after:start_time',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
             'status' => 'required',
         ];
     }

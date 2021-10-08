@@ -59,6 +59,16 @@
                         </div>
                         <div class="col-lg-6 px-3">
                             <div class="form-group">
+                                <label>Send coupon<sup>*</sup>
+                                </label>
+                                <div class="d-flex align-content-center my-1">
+                                    <input class="form-check-input mt-1" {{ old('send_to_user') ? 'checked': '' }}
+                                        type="checkbox" id="send-to-use" name="send_to_user">
+                                    <label class="mx-2" for="send-to-use">Send to user.</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Start Time <sup>*</sup>
                                 </label>
                                 <input type="text" name="start_time" id="start-date-picker" class="form-control"

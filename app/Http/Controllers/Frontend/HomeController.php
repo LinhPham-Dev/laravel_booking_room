@@ -257,14 +257,40 @@ class HomeController extends Controller
         }
     }
 
+    function checkUsedOnlyOne($orders, $coupon_id)
+    {
+        if ($orders) {
+            foreach ($orders as $order) {
+                if ($order->coupon_id == $coupon_id) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function checkCoupon(Request $request, Coupon $coupon, CartHelper $cart)
     {
         if ($request->ajax()) {
             $code = $request->code;
 
+            $total_amount = $request->total_amount;
+
             $check_coupon_exits = $coupon->findByCode($code);
 
-            if ($check_coupon_exits) {
+            // Check life time coupon
+            $check_expiration_date = $check_coupon_exits->checkExpirationDate()->first();
+
+            // Check status
+            $check_status = $check_coupon_exits->status;
+
+            // check each person is only used once
+            $user_id = Auth::user()->id;
+            $orders = Order::where('user_id', $user_id)->get();
+            $check_used_one = $this->checkUsedOnlyOne($orders, $check_coupon_exits->id);
+
+            if ($check_coupon_exits->limit > 0 && $check_expiration_date && !$check_used_one && $check_status == 1 && $check_coupon_exits->min_price >= $total_amount) {
 
                 // Remove old session coupon
                 $request->session()->forget('coupon');
@@ -339,5 +365,22 @@ class HomeController extends Controller
         $feedbacks = Feedback::take(4)->get();
 
         return view('frontend.pages.about', compact('total_room', 'total_service',  'new_blogs', 'benefits', 'feedbacks'));
+    }
+
+    public function selectService(Request $request)
+    {
+        if ($request->ajax()) {
+            $total_service_price = $request->total_service_price;
+
+            $total = $request->total_amount;
+
+            $total_amount = $total + $total_service_price;
+
+            // Success
+            return response()->json(['type' => 'success', 'total_amount' => $total_amount]);
+        } else {
+            // Send error
+            return response()->json(['type' => 'error', 'message' => 'Coupon invalid !'])->setStatusCode(500);
+        }
     }
 }

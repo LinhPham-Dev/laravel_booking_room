@@ -30,7 +30,7 @@ class BannerController extends Controller
 
         $params = $request->all();
 
-        $banners = Banner::latest()->filter($params)->paginate(3);
+        $banners = Banner::latest()->filter($params)->searchTitle()->paginate(3);
 
         return view('backend.banners.index', compact('page', 'banners'));
     }

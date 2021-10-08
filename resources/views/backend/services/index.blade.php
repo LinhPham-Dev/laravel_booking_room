@@ -76,7 +76,7 @@
                                             <th>Image</th>
                                             <th>Content</th>
                                             <th>Position</th>
-                                            <th width="16%">Blog Category</th>
+                                            <th>Price</th>
                                             <th>Status</th>
                                             <th width="16%">Action</th>
                                         </tr>
@@ -95,10 +95,10 @@
                                                     alt="{{ $service->title }}">
                                             </td>
                                             <td>
-                                                <p>{{ Str::limit($service->content, 30, '...') }}</p>
+                                                <p>{{ Str::limit($service->content, 50, '...') }}</p>
                                             </td>
-                                            <td>{{$service->position}}</td>
-                                            <td>{{$service->blogCategory->name}}</td>
+                                            <td>{{ $service->position }}</td>
+                                            <td>${{ moneyFormat($service->price) }}</td>
                                             <td>
                                                 @if($service->status == 1)
                                                 <span class="badge bg-success">Show</span>
