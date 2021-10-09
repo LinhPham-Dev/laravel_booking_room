@@ -14,22 +14,18 @@
                 <div class="card px-3 pt-3">
                     <form method="GET">
                         <div class="row my-3">
-                            <div class="form-group col-md-3">
-                                <select name="status" class="form-control">
-                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
-                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
-                                </select>
-                            </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter category name ..." value="{{ request()->name }}">
+                                    <input type="text" class="form-control" name="search_name" id="name"
+                                        placeholder="Enter category name ..." value="{{ request()->search_name }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="status" class="form-control">
-                                    <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
-                                    <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
+                                    <option {{ request()->status == 1 ? 'selected' : '' }} value="1">
+                                        Show</option>
+                                    <option {{ request()->status == 0 ? 'selected' : '' }} value="0">
+                                        Hide</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
@@ -163,6 +159,7 @@
                             </table>
                             <!-- Pagination -->
                             <div class="col-lg-12 col-md-7">
+                                <!-- Pagination -->
                                 <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $categories->firstItem() }} to
                                         {{ $categories->lastItem() }} of

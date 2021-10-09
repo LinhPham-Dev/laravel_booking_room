@@ -344,9 +344,6 @@
 
                     });
 
-                    console.log(services);
-                    console.log(total_service_price);
-
                     // Get token
                     const _token = $('meta[name="csrf-token"]').attr('content');
                     const old_total_amount = $('#old_total_amount').val();
@@ -430,7 +427,6 @@
                         error: function(res) {
                             $(".mess-success").css('display', 'none');
                             $(".mess-error").css('display', 'block');
-                            $(".mess-error").text('display');
 
                             const old_value = $("#total").val();
                             $('#discount').html(0);
@@ -621,7 +617,6 @@
                                 },
                                 success: function(response) {
                                     // Redirect route success
-                                    console.log(res);
                                     window.location.replace(response
                                         .success);
                                 },

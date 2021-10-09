@@ -14,6 +14,10 @@
                                 height="34">
                         </div>
                         <hr>
+                        @if (Session::has('error'))
+                        <div class="text text-danger text-center">{{ Session::get('error') }}
+                        </div>
+                        @endif
                         <form action="{{ route('user.handle_login') }}" method="POST">
                             @csrf
                             <div class="row">

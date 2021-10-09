@@ -11,5 +11,17 @@ class Service extends Model
 {
     use HasFactory, QueryFilter, SoftDeletes;
 
-    protected $fillable = ['title', 'content', 'image', 'position', 'status', 'blog_category_id'];
+    protected $fillable = ['title', 'content', 'image', 'position', 'status', 'price'];
+
+    // filter by filed
+    protected $filterable = ['status', 'position'];
+
+    public function scopeSearchTitle($query)
+    {
+        if (request()->search_title) {
+            $query->where('title', 'LIKE', '%' . request()->search_title . '%');
+        }
+
+        return $query;
+    }
 }

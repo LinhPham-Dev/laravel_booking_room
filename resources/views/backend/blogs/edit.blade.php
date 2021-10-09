@@ -53,6 +53,7 @@
                                 <label for="category">Blog Category: </label>
                                 <select class="form-control" name="blog_category_id" id="category">
                                     @foreach ($categories as $category)
+                                    
                                     <option
                                         {{ ( $blog_edit->category->id ?? request()->blog_category_id) == $category->id ? 'selected' : '' }}
                                         value="{{ $category->id }}">{{ $category->name }}</option>

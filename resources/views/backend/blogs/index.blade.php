@@ -16,16 +16,15 @@
                         <div class="row my-3">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Blog name ..." value="{{ request()->name }}">
+                                    <input type="text" class="form-control" name="search_title" id="name"
+                                        placeholder="Enter title ..." value="{{ request()->search_title }}">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <select name="category_id" class="form-control">
-                                        <option>Categories</option>
+                                    <select name="blog_category_id" class="form-control">
                                         @foreach ($blog_categories as $category)
-                                        <option {{ request()->status === 1 ? 'selected' : '' }}
+                                        <option {{ request()->blog_category_id === $category->id  ? 'selected' : '' }}
                                             value="{{ $category->id }}">
                                             {{ $category->name }}</option>
                                         @endforeach
@@ -35,7 +34,6 @@
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <select name="status" class="form-control">
-                                        <option>Status</option>
                                         <option {{ request()->status === 1 ? 'selected' : '' }} value="1">Show</option>
                                         <option {{ request()->status === 0 ? 'selected' : '' }} value="0">Hide</option>
                                     </select>
@@ -127,7 +125,7 @@
 
                                 <!-- Pagination -->
                                 <div class="row">
-                                    @if(count($blogs) >= 3)
+                                    {{-- @if(count($blogs) >= 3) --}}
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info my-2">
                                             <p>Showing {{ $blogs->firstItem() }} to {{ $blogs->lastItem() }} of
@@ -139,7 +137,7 @@
                                             {{ $blogs->withQueryString()->links() }}
                                         </div>
                                     </div>
-                                    @endif
+                                    {{-- @endif --}}
                                 </div>
                                 @endif
                             </div>

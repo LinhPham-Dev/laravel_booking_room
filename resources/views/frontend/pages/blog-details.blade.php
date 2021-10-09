@@ -63,7 +63,8 @@
                     </div>
                     <div class="comment-area">
                         <div class="reviews-head">
-                            <h3 class="tab-title comment-title">{{ $total_comments }} Comments</h3>
+                            <h3 class="tab-title comment-title">{{ $blog->comment()->latest()->get()->count() }}
+                                Comments</h3>
                             <div class="select-filter">
                                 <select name="filter" id="filter-comments">
                                     <option value="latest">Latest</option>
@@ -73,7 +74,7 @@
                         </div>
                         {{-- Comment --}}
                         <div class="comment-all">
-                            {{ showComments($comments) }}
+                            {{ showComments($blog->comment()->latest()->get()) }}
                         </div>
                     </div>
                     <div class="comment-form">

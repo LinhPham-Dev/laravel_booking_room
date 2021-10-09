@@ -27,11 +27,13 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $page = 'List Blogs';
 
-        $blogs = Blog::latest()->paginate(3);
+        $params = $request->all();
+
+        $blogs = Blog::latest()->searchTitle()->filter($params)->paginate(3);
 
         $blog_categories = $this->blog_categories->categoryActives();
 

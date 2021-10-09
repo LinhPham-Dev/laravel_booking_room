@@ -49,12 +49,9 @@
                         <div class="col-lg-6 px-3">
                             {{-- Blog Category --}}
                             <div class="form-group">
-                                <label for="blog_category_id">Blog Category: </label>
-                                <select class="form-control" name="blog_category_id" id="blog_category_id">
-                                    @foreach ($blog_categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="price">Price: </label>
+                                <input class="form-control @error('price') is-invalid @enderror" type="number" id="price" name="price"
+                                    value="{{ old('price') }}" placeholder="Price ...">
                             </div>
                             {{-- Status --}}
                             <div class="form-group">

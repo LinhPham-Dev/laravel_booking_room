@@ -66,19 +66,20 @@
                                 <h4 class="my-2">Services *</h4>
                             </div>
                             <div class="cart-body">
-                                @if (!count($order->orderServices) >= 0)
-                                <p class="service-item px-3">No any services here.</p>
-                                @else
-                                <ul class="bg-light px-3">
-                                    @foreach ($order->orderServices as $order_service)
-                                    <li class="py-3">
-                                        <p class="service-item">- {{ $order_service->service->title }}
-                                            <span class="ml-4">${{ moneyFormat($order_service->service->price) }}</span>
-                                        </p>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                                @endif
+                                @if (count($order->orderServices) <= 0) <p class="service-item px-3">No any services
+                                    here.</p>
+                                    @else
+                                    <ul class="bg-light px-3">
+                                        @foreach ($order->orderServices as $order_service)
+                                        <li class="py-3">
+                                            <p class="service-item">- {{ $order_service->service->title }}
+                                                <span
+                                                    class="ml-4">${{ moneyFormat($order_service->service->price) }}</span>
+                                            </p>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    @endif
                             </div>
                         </div>
                     </div>

@@ -16,8 +16,8 @@
                         <div class="row my-3">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter brand name ..." value="{{ request()->name }}">
+                                    <input type="text" class="form-control" name="search_name" id="name"
+                                        placeholder="Enter category name ..." value="{{ request()->search_name }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
@@ -166,7 +166,7 @@
                             </table>
                             <div class="col-md-12 my-3">
                                 <!-- Pagination -->
-                                @if(count($brands) >= 3)
+                                {{-- @if(count($brands) >= 3) --}}
                                 <!-- Pagination -->
                                 <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $brands->firstItem() }} to
@@ -176,7 +176,7 @@
                                 <div class="float-end">
                                     {{ $brands->withQueryString()->links() }}
                                 </div>
-                                @endif
+                                {{-- @endif --}}
                             </div>
                             <!-- /.card-body -->
                         </div>

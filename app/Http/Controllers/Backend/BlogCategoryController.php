@@ -29,7 +29,8 @@ class BlogCategoryController extends Controller
         $page = 'Blog Categories Management';
 
         $params = $request->all();
-        $categories = BlogCategory::latest()->filter($params)->paginate(3);
+
+        $categories = BlogCategory::latest()->searchName()->filter($params)->paginate(3);
 
         return view('backend.blog-categories.index', compact('page', 'categories'));
     }
@@ -95,7 +96,7 @@ class BlogCategoryController extends Controller
 
         $params = $request->all();
 
-        $categories = BlogCategory::latest()->filter($params)->paginate(3);
+        $categories = BlogCategory::latest()->searchName()->filter($params)->paginate(3);
 
 
         return view('backend.blog-categories.edit', compact('page', 'category_update', 'categories'));

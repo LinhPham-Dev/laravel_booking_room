@@ -16,7 +16,7 @@ class Blog extends Model
 
     protected $fillable = ['title', 'slug', 'blog_category_id', 'image', 'content', 'admin_id', 'status'];
 
-    protected $filterable = ['title'];
+    protected $filterable = ['blog_category_id', 'status'];
 
     public function scopeAddNewBlog($query, $request, $image)
     {
@@ -51,5 +51,14 @@ class Blog extends Model
     public function comment()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function scopeSearchTitle($query)
+    {
+        if (request()->search_title) {
+            $query->where('title', 'LIKE', '%' . request()->search_title . '%');
+        }
+
+        return $query;
     }
 }

@@ -108,7 +108,7 @@
                                         </div>
                                         <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
                                         </h4>
-                                        <p>{!! $room->description !!}</p>
+                                        <p>{!! Str::limit($room->description, 200, '...') !!}</p>
                                         <ul class="room-info list-inline">
                                             <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>
                                             <li><i class="far fa-bath"></i>{{ $room->bath }} Bath</li>

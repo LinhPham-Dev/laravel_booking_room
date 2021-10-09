@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Helper\CartHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\FeedbackRequest;
+use App\Http\Requests\Frontend\RatingRequest;
+use App\Models\Backend\Banner;
 use App\Models\Backend\Blog;
 use App\Models\Backend\BlogCategory;
 use App\Models\Backend\Brand;
@@ -44,7 +46,17 @@ class HomeController extends Controller
     {
         $rooms = Room::latest()->take(6)->get();
 
+        $banners = Banner::orderBy('position', 'asc')->take(3)->get();
+
         $all_rooms = Room::all();
+
+        $total_rooms = $all_rooms->count();
+
+        $total_rooms = $all_rooms->count();
+
+        $total_beds = Room::sum('bed');
+
+        $total_users = User::all()->count();
 
         $services = Service::take(6)->get();
 
@@ -52,7 +64,7 @@ class HomeController extends Controller
 
         $info = Information::get()->first();
 
-        return view('frontend.home', compact('rooms', 'all_rooms', 'services', 'feedbacks', 'info'));
+        return view('frontend.home', compact('rooms', 'all_rooms', 'services', 'feedbacks', 'info', 'banners', 'total_rooms', 'total_beds', 'total_users'));
     }
 
     public function category(Request $request)
@@ -116,7 +128,7 @@ class HomeController extends Controller
         return false;
     }
 
-    public function rating(Request $request)
+    public function rating(RatingRequest $request)
     {
 
         $orders = Order::where('user_id', $request->user_id)->get();
@@ -186,15 +198,17 @@ class HomeController extends Controller
 
         $blog = Blog::where('slug', $slug)->first();
 
-        $comments = $blog->comment()->latest()->get();
+        // $comments = $blog->comment()->latest()->get();
 
-        $total_comments = $comments->count();
+        // $total_comments = $comments->count();
 
         $new_blogs = Blog::latest()->take(3)->where('slug', '<>', $slug)->get();
 
         $new_blog_categories = BlogCategory::latest()->take(3)->get();
 
-        return view('frontend.pages.blog-details', compact('blog', 'new_blogs', 'new_blog_categories', 'comments', 'total_comments'));
+        // , 'comments', 'total_comments'
+
+        return view('frontend.pages.blog-details', compact('blog', 'new_blogs', 'new_blog_categories'));
     }
 
     // Comment method
@@ -290,7 +304,9 @@ class HomeController extends Controller
             $orders = Order::where('user_id', $user_id)->get();
             $check_used_one = $this->checkUsedOnlyOne($orders, $check_coupon_exits->id);
 
-            if ($check_coupon_exits->limit > 0 && $check_expiration_date && !$check_used_one && $check_status == 1 && $check_coupon_exits->min_price >= $total_amount) {
+            // $check_coupon_exits->limit > 0 && $check_expiration_date && !$check_used_one && $check_status == 1
+
+            if ($check_coupon_exits->limit > 0 && !$check_used_one && $check_status == 1) {
 
                 // Remove old session coupon
                 $request->session()->forget('coupon');
@@ -342,7 +358,11 @@ class HomeController extends Controller
 
     public function services()
     {
-        $services = Service::take(6)->orderBy('position', 'asc')->get();
+        // $services = Service::take(6)->orderBy('position', 'asc')->get();
+
+        $services = Service::orderBy('title', 'desc')->get();
+
+        // dd($services);
 
         $faqs = Faq::take(4)->orderBy('position', 'asc')->get();
 

@@ -253,6 +253,13 @@
                                                             <textarea name="message" id="message"
                                                                 placeholder="Write Review"></textarea>
                                                             <i class="far fa-pencil"></i>
+                                                            @error('message')
+                                                            <div class="text text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                            @if (Session::has('error'))
+                                                            <div class="text text-danger">{{ Session::get('error') }}
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                         <div class="input-wrap">
                                                             <button type="submit" class="btn btn-block">Submit</button>

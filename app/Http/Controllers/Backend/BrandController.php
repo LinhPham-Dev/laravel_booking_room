@@ -32,7 +32,7 @@ class BrandController extends Controller
 
         $params = $request->all();
 
-        $brands = Brand::latest()->filter($params)->paginate(3);
+        $brands = Brand::latest()->searchName()->filter($params)->paginate(3);
 
         return view('backend.brands.index', compact('page', 'brands'));
     }
@@ -64,10 +64,10 @@ class BrandController extends Controller
             // Method Upload
             $path = 'uploads/brands';
             $image_name = $this->uploadService->uploadImageHandler($file, $brand_name, $path);
-        }
 
-        // Merge field image -> request
-        $request->merge(['image' => $image_name]);
+            // Merge field image -> request
+            $request->merge(['image' => $image_name]);
+        }
 
         $result = Brand::create($request->all());
 
@@ -99,7 +99,7 @@ class BrandController extends Controller
 
         $params = $request->all();
 
-        $brands = Brand::latest()->filter($params)->paginate(3);
+        $brands = Brand::latest()->searchName()->filter($params)->paginate(3);
 
         return view('backend.brands.edit', compact('page', 'brand_update', 'brands'));
     }

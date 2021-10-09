@@ -12,7 +12,23 @@
 
 <main>
     <!-- Hero Section Start -->
-    @includeIf('frontend.layouts.banner')
+    {{-- @includeIf('frontend.layouts.banner') --}}
+    <section class="hero-section" id="heroSlideActive">
+        @foreach ($banners as $banner)
+        <div class="single-hero-slide bg-img-center d-flex align-items-center text-center"
+            style="background-image: url({{ asset("uploads/banners/$banner->image") }});">
+            <div class="container">
+                <div class="slider-text">
+                    <span class="small-text" data-animation="fadeInDown" data-delay=".3s">{{ $banner->content }}</span>
+                    <h1 data-animation="fadeInLeft" data-delay=".6s">{{ $banner->title }}</h1>
+                    <a class="btn filled-btn" href="#" data-animation="fadeInUp" data-delay=".9s">get started <i
+                            class="far fa-long-arrow-right"></i></a>
+                </div>
+            </div>
+            <h1 class="big-text">Avson</h1>
+        </div>
+        @endforeach
+    </section>
     <!-- End Hero Section -->
     <!-- Book Form Start -->
     <section class="booking-section">
@@ -130,7 +146,7 @@
                                 <div class="counter-box wow fadeInLeft animated" data-wow-duration="1500ms"
                                     data-wow-delay="400ms">
                                     <img src="{{ asset('assets/frontend') }}/img/icons/building.png" alt="">
-                                    <span class="counter-number">506</span>
+                                    <span class="counter-number">{{ $total_rooms }}</span>
                                     <p>Luxury Appartment</p>
                                 </div>
                             </div>
@@ -138,7 +154,7 @@
                                 <div class="counter-box wow fadeInUp animated" data-wow-duration="1500ms"
                                     data-wow-delay="600ms">
                                     <img src="{{ asset('assets/frontend') }}/img/icons/hostel.png" alt="">
-                                    <span class="counter-number">252</span>
+                                    <span class="counter-number">{{ $total_beds }}</span>
                                     <p>Modern Bedroom</p>
                                 </div>
                             </div>
@@ -146,8 +162,8 @@
                                 <div class="counter-box wow fadeInRight animated" data-wow-duration="1500ms"
                                     data-wow-delay="800ms">
                                     <img src="{{ asset('assets/frontend') }}/img/icons/trophy.png" alt="">
-                                    <span class="counter-number">420</span>
-                                    <p>Win Int Awards</p>
+                                    <span class="counter-number">{{ $total_users }}</span>
+                                    <p>Us users</p>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +207,7 @@
                                     <h4><a href="{{ route('user.room', $room->slug) }}">{{ $room->name }}</a>
                                     </h4>
                                     <p>
-                                        {!! $room->description !!}
+                                        {!! Str::limit($room->description, 140, '...') !!}
                                     </p>
                                     <ul class="room-info list-inline">
                                         <li><i class="far fa-bed"></i>{{ $room->bed }} Bed</li>

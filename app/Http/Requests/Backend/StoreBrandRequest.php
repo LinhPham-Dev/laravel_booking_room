@@ -25,7 +25,7 @@ class StoreBrandRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:brands,name|max: 255',
-            'brand_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'position' => 'required|numeric',
             'status' => 'required|numeric',
         ];

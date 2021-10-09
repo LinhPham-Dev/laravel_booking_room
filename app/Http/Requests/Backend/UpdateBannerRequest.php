@@ -27,7 +27,7 @@ class UpdateBannerRequest extends FormRequest
             'title' => 'required|string|max: 255',
             'position' => 'required|numeric',
             'content' => 'required',
-            'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'banner_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'status' => 'required|numeric',
         ];
     }

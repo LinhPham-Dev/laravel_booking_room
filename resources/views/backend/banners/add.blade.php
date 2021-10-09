@@ -69,7 +69,7 @@
                     </div>
                     <!-- /.card-body -->
                     <button type="submit" class="btn btn-info btn-lg mx-3">
-                        Add New Room !
+                        Add New Banner !
                     </button>
                 </div>
             </form>

@@ -57,6 +57,7 @@
                             <div class="form-group">
                                 <label for="parent_id">Parent: </label>
                                 <select class="form-control" name="parent_id" id="parent_id">
+                                    <option value="">None</option>
                                     {{ showCategories($select_category, $category_update->parent_id) }}
                                 </select>
                             </div>

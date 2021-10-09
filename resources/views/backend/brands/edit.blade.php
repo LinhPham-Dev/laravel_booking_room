@@ -16,8 +16,8 @@
                         <div class="row my-3">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter brand name ..." value="{{ request()->name }}">
+                                    <input type="text" class="form-control" name="search_name" id="name"
+                                        placeholder="Enter category name ..." value="{{ request()->search_name }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
@@ -46,6 +46,7 @@
                             @csrf
                             @method('put')
                             {{-- Name --}}
+                            <input type="hidden" name="id" value="{{ $brand_update->id }}">
                             <div class="form-group">
                                 <label for="name">Name :</label>
                                 <input class="form-control @error('name') is-invalid @enderror" type="text" id="name"
@@ -171,7 +172,8 @@
                             </table>
                             <div class="col-md-12 my-3">
                                 <!-- Pagination -->
-                                @if(count($brands) >= 3) <div class="dataTables_info d-inline-block my-2">
+                                {{-- @if(count($brands) >= 3)  --}}
+                                <div class="dataTables_info d-inline-block my-2">
                                     <p>Showing {{ $brands->firstItem() }} to
                                         {{ $brands->lastItem() }} of
                                         {{$brands->total()}} entries</p>
@@ -179,7 +181,7 @@
                                 <div class="float-end">
                                     {{ $brands->withQueryString()->links() }}
                                 </div>
-                                @endif
+                                {{-- @endif --}}
                             </div>
                             <!-- /.card-body -->
                         </div>

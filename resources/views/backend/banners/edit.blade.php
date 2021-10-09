@@ -44,11 +44,11 @@
                             <div class="form-group">
                                 <label for="position">Position: </label>
                                 <select class="form-control" name="position" id="position">
-                                    <option {{ (old('position') ?? $banner_edit->title) == 1 ? 'selected' : '' }}
+                                    <option {{ (old('position') ?? $banner_edit->position) == 1 ? 'selected' : '' }}
                                         value="1">1</option>
-                                    <option {{ (old('position') ?? $banner_edit->title) == 2 ? 'selected' : '' }}
+                                    <option {{ (old('position') ?? $banner_edit->position) == 2 ? 'selected' : '' }}
                                         value="2">2</option>
-                                    <option {{ (old('position') ?? $banner_edit->title) == 3 ? 'selected' : '' }}
+                                    <option {{ (old('position') ?? $banner_edit->position) == 3 ? 'selected' : '' }}
                                         value="3">3</option>
                                 </select>
                             </div>
@@ -57,14 +57,16 @@
                             <div class="form-group">
                                 <label for="status">Status: </label>
                                 <select class="form-control" name="status" id="status">
-                                    <option value="1">Show</option>
-                                    <option value="0">Hide</option>
+                                    <option {{ (old('status') ?? $banner_edit->status) == 1 ? 'selected' : '' }}
+                                        value="1">Show</option>
+                                    <option {{ (old('status') ?? $banner_edit->status) == 0 ? 'selected' : '' }}
+                                        value="0">Hide</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="content">Description: </label>
                                 <textarea style="height: 100px" class="form-control" name="content"
-                                    placeholder="Content ...">{{ $banner_edit->content }}
+                                    placeholder="Content ...">{{ old('content') ?? $banner_edit->content }}
                                 </textarea>
                                 @error('content')
                                 <span class="text-danger">{{ $message }}</span>
@@ -73,7 +75,7 @@
                         </div>
                     </div>
                     <!-- /.card-body -->
-                    <button type="submit" class="btn btn-warning btn-lg mx-3">
+                    <button type="submit" class="btn btn-warning btn-lg mx-2">
                         Update Banner !
                     </button>
                 </div>

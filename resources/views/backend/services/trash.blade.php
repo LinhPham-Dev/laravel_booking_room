@@ -69,7 +69,7 @@
                             <th>Image</th>
                             <th>Content</th>
                             <th>Position</th>
-                            <th width="16%">Blog Category</th>
+                            <th width="16%">Price</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -99,7 +99,7 @@
                                     <p>{{ Str::limit($service->content, 30, '...') }}</p>
                                 </td>
                                 <td>{{$service->position}}</td>
-                                <td>{{$service->blogCategory->name}}</td>
+                                <td>{{moneyFormat($service->price)}}</td>
                                 <td>
                                     @if($service->status == 1)
                                     <span class="badge bg-success">Show</span>

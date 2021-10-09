@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('image');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->nullable();
             $table->tinyInteger('status')->comment('1 is visible, 0 is hidden');
             $table->timestamps();
             $table->softDeletes();

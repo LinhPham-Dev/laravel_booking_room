@@ -54,11 +54,17 @@ class LoginUserController extends Controller
 
         $credentials = $request->only(['email', 'password']);
 
+        $check_status = User::where('email', $request->email)->first()->status;
+
+        if ($check_status == 0) {
+            return redirect()->back()->with('error', 'Your account was blocked !');
+        }
+
         if (Auth::attempt($credentials, $remember)) {
             return redirect()->route('home');
-        } else {
-            return redirect()->back()->with('error', 'Login failed !!!');
         }
+
+        return redirect()->back()->with('error', 'Login failed! Please try again !');
     }
 
     // Logout

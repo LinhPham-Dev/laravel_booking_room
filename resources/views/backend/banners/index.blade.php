@@ -124,7 +124,7 @@
 
                                 <!-- Pagination -->
                                 <div class="row">
-                                    @if(count($banners) >= 3)
+                                    {{-- @if(count($banners) >= 3) --}}
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info my-2">
                                             <p>Showing {{ $banners->firstItem() }} to {{ $banners->lastItem() }} of
@@ -136,7 +136,7 @@
                                             {{ $banners->withQueryString()->links() }}
                                         </div>
                                     </div>
-                                    @endif
+                                    {{-- @endif --}}
                                 </div>
                                 @endif
                             </div>

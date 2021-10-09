@@ -27,7 +27,7 @@ class UpdateServiceRequest extends FormRequest
             'title' => 'required|string|max: 255',
             'position' => 'required|numeric',
             'content' => 'required',
-            'blog_category_id' => 'required|numeric',
+            'price' => 'required|numeric',
             'service_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'status' => 'required|numeric',
         ];

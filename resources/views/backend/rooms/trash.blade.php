@@ -108,9 +108,11 @@
             </table>
             <div class="action text-left my-4">
                 {{-- Restore and Delete --}}
-                <button type="submit" name="action" value="restore" class="btn btn-success m-1">Restore
+                <button onclick="return confirm('Are you sure to take this action ?')" type="submit" name="action"
+                    value="restore" class="btn btn-success m-1">Restore
                     <i class="fa fa-undo mx-1"></i></button>
-                <button type="submit" name="action" value="delete" class="btn btn-danger m-1">Delete
+                <button onclick="return confirm('Are you sure to take this action ?')" type="submit" name="action"
+                    value="delete" class="btn btn-danger m-1">Delete
                     <i class="fa fa-trash m-1"></i></button>
                 </form>
             </div>

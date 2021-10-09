@@ -32,7 +32,8 @@ class ServiceController extends Controller
 
         $params = $request->all();
 
-        $services = Service::latest()->filter($params)->paginate(3);
+        $services = Service::latest()->searchTitle()->filter($params)->paginate(3);
+
 
         return view('backend.services.index', compact('page', 'services'));
     }
